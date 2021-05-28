@@ -22,6 +22,7 @@ const ZoneLayerGroup = {
         'l-feature-group': window.Vue2Leaflet.LFeatureGroup,
         'l-geo-json': window.Vue2Leaflet.LGeoJson,
         'dku-geo-json': DkuGeoJson,
+        'l-marker': window.Vue2Leaflet.LMarker
     },
     methods: {
         getIsochroneColor(isoName) {
@@ -33,6 +34,7 @@ const ZoneLayerGroup = {
     },
     template:`
         <l-feature-group ref="zoneLayerGroup" :key="componentKey">
+            <l-marker :lat-lng="zone.latLng"></l-marker>
             <dku-geo-json v-for="iso in getZoneActiveIsochrones(zone.name, moduleName)"
                 :key="iso.name"
                 :zoneName="zone.name"

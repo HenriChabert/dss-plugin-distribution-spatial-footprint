@@ -26,7 +26,7 @@ const CustomerPane = {
                 :key="customer.customer_id"
                 :lat-lng="[customer.latitude, customer.longitude]"
                 >
-                    <l-icon iconUrl="spatial-footprint-app/img/empty-img.png" className="customer-marker-icon"></l-icon>
+                    <l-icon iconUrl="../../resource/spatial-footprint-app/img/empty-img.png" className="customer-marker-icon"></l-icon>
                     <l-popup>Customer ID: {{ customer.customer_id }}</l-popup>
             </l-marker>
         `

@@ -34,8 +34,8 @@ const DkuGeoJson = {
             return `
             <div>
                 <ul class="iso-popup-list">
-                    <li><img src="spatial-footprint-app/img/custom-marker.png" alt="custom marker" /> ${this.zoneName}</li>
-                    <li><img src="spatial-footprint-app/img/iso-thumb.png" alt="Iso Thumbnail" /> ${this.iso.name}</li>
+                    <li><img src="../../resource/spatial-footprint-app/img/custom-marker.png" alt="custom marker" /> ${this.zoneName}</li>
+                    <li><img src="../../resource/spatial-footprint-app/img/iso-thumb.png" alt="Iso Thumbnail" /> ${this.iso.name}</li>
                     <hr>
                     <li>Total population: ${properties.total_pop }</li>
                     <li>Total customers: ${this.iso.customers.length}</li>
