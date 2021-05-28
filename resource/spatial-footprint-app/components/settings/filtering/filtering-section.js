@@ -1,5 +1,5 @@
 import { FilteringFeature } from './filtering-feature.js'
-import { UNIQUE_KEY } from "../../../dku-api.js";
+import { LOCATION_UNIQUE_KEY } from "../../../dku-api.js";
 
 
 
@@ -19,7 +19,7 @@ const FilteringSection = {
     methods: {
         initFilteringOptions() {
             for (const [featureName, featureItems] of Object.entries(this.getAvailableFilteringFeatures)) {
-                const filters = (featureName === UNIQUE_KEY && this.settingsModule === 'location') ? [featureItems[0]] : [];
+                const filters = (featureName === LOCATION_UNIQUE_KEY && this.settingsModule === 'location') ? [featureItems[0]] : [];
                 this.$store.commit(`${this.settingsModule}/settings/setFilteringFeature`, { featureName, filters });
             }
         },

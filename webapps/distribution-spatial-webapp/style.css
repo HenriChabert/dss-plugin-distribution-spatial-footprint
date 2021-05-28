@@ -114,8 +114,6 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .customer-marker-icon {
-    width: 12px !important;
-    height: 12px !important;
     background: rgba(64, 136, 243, 0.5);
     border: 1px solid #322F25;
     border-radius: 50%;

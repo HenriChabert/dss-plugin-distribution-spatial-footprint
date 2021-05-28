@@ -45,9 +45,8 @@ const DkuGeoJson = {
         },
         ...Vuex.mapGetters({
                 showCustomers: 'customers/showCustomers',
-                getIsoCustomers: 'customers/getIsoCustomers'
             }
-        )
+        ),
     },
     template: `
         <div>
@@ -56,9 +55,6 @@ const DkuGeoJson = {
                 :optionsStyle="optionsStyle"
                 :options="geoJsonOptions"
             ></l-geo-json>
-<!--            <customer-pane-->
-<!--                :customers="iso.customers"-->
-<!--                ></customer-pane>-->
         </div>
         `
 };

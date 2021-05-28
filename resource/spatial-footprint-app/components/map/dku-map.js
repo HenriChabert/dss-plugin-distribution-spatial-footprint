@@ -1,16 +1,19 @@
 import { DKUApi } from '../../dku-api.js'
 import { DkuGeoJson } from "./dku-geo-json.js";
 import { ZoneLayerGroup } from "./zone-layer-group.js";
+import {CustomerPane} from "./customer-pane.js";
 
 const DkuMap = {
     name: "dku-map",
     computed: {
         ...Vuex.mapGetters([
             'getZones',
-            'lastZoneCenter',
+            'getCustomers',
+            'getActiveIsochrones',
             'zoom',
             'tileLayerUrl',
-            'showCompetitor'
+            'showCompetitor',
+            'showCustomers'
         ]),
     },
     data() {
@@ -24,7 +27,8 @@ const DkuMap = {
         'l-control-zoom': window.Vue2Leaflet.LControlZoom,
         'l-feature-group': window.Vue2Leaflet.LFeatureGroup,
         'dku-geo-json': DkuGeoJson,
-        'zone-layer-group': ZoneLayerGroup
+        'zone-layer-group': ZoneLayerGroup,
+        'customer-pane': CustomerPane
     },
     methods: {
         updateZones(newZones) {
@@ -36,6 +40,7 @@ const DkuMap = {
             const matching_items = mutation.type.match(/(.*)\/settings\/(.*)/);
             if (matching_items) {
                 this.$store.dispatch('getFilteredZones', matching_items[1]);
+                this.$store.dispatch('getFilteredCustomers');
                 this.$nextTick(function () {
                     this.bounds = this.$refs.features.mapObject.getBounds();
                 })
@@ -59,6 +64,10 @@ const DkuMap = {
                     :key="zone.name + '_competitor'" 
                     :zone="zone"
                     moduleName="competitor"></zone-layer-group>
+                <customer-pane v-if="showCustomers"
+                    :customers="getCustomers"
+                    :activeIsochrones="getActiveIsochrones"
+                    ></customer-pane>
             </l-feature-group>
         </l-map>
     `,

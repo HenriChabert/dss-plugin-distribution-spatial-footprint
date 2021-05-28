@@ -12,13 +12,13 @@ const state = () => ({
         location: [],
         competitor: []
     },
+    customers: []
 })
 
 // getters
 const getters = {
-    lastZoneCenter: (state, getters) => getters.zonesCount ? state.zones['location'][getters.zonesCount - 1]?.latLng : state.center,
-    zonesCount: (state) => state.zones['location'].length,
     getZones: (state) => (moduleName) => state.zones[moduleName],
+    getCustomers: (state) => state.customers,
     tileLayerUrl: (state) => state.tileLayerUrl,
     zoom: (state) => state.zoom,
     getZone: (state) => (zoneName, moduleName) => state.zones[moduleName].find((zone) => zone.name === zoneName),
@@ -32,7 +32,7 @@ const getters = {
         return rootGetters['competitor/showCompetitor']
     },
     showCustomers: (state, getters, rootState, rootGetters) => {
-        return rootGetters['competitor/showCustomers']
+        return rootGetters['customer/showCustomers']
     }
 }
 
@@ -45,6 +45,15 @@ const actions = {
             settings.sampling
         );
         commit('updateZones', { newZones: filteredZones, moduleName });
+    },
+    getFilteredCustomers ({ commit, state, rootGetters, rootState }) {
+        const settings = rootState.generalSettings.customer.settings;
+        const filteredCustomers = DKUApi.getFilteredCustomers(
+            _.concat(state.zones.location, state.zones.competitor),
+            settings.filtering,
+            settings.sampling
+        );
+        commit('updateCustomers', { newCustomers: filteredCustomers });
     }
 }
 
@@ -52,6 +61,9 @@ const actions = {
 const mutations = {
     updateZones(state, { newZones, moduleName }) {
         state.zones[moduleName] = newZones;
+    },
+    updateCustomers(state, { newCustomers }) {
+        state.customers = newCustomers;
     },
 }
 
