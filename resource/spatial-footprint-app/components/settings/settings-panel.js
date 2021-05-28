@@ -36,8 +36,8 @@ const SettingsPanel = {
             <div class="settings-panel-header row mt-2" v-on:click="toggleSettingsPanel">
                 <h3 class="settings-panel-title col-md-10">Settings</h3>
                 <div class="col-md-2">
-                    <i v-if="!isDropped" class="fas fa-chevron-down"></i>
-                    <i v-else class="fas fa-chevron-up"></i>
+                    <i v-if="!isDropped" class="icon-chevron-down"></i>
+                    <i v-else class="icon-chevron-up"></i>
                 </div>
             </div>
             <div id="settings-panel" v-show="!isDropped"">
@@ -49,7 +49,11 @@ const SettingsPanel = {
                         @input="setActiveIsochrones($event)"
                         placeholder="Select an isochrone..."
                         :value="getActiveIsochrones"
-                        ></v-select>
+                        >
+                        <template slot="open-indicator">
+                            <span><i class="icon-sort-down"></i></span>
+                        </template>
+                    </v-select>
                 </div>
                 <hr>
                 <settings-form

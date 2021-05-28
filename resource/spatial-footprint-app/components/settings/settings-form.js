@@ -40,8 +40,8 @@ const SettingsForm = {
             <div class="settings-form-header" v-on:click="toggleSettingsForm">
                 <h4 class="d-flex align-items-center">
                     <div class="mr-2">
-                        <i v-if="!isDropped" class="fas fa-sort-down"></i>
-                        <i v-else class="fas fa-sort-up"></i>
+                        <i v-if="!isDropped" class="icon-sort-down"></i>
+                        <i v-else class="icon-sort-up"></i>
                     </div>
                     {{ moduleName }}
                 </h4>

@@ -34,8 +34,8 @@ const FilteringFeature = {
     template: `
         <div class="filter-select">
             <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature">
-                <i v-if="!isDropped" class="fas fa-sort-down"></i>
-                <i v-else class="fas fa-sort-up"></i>
+                <i v-if="!isDropped" class="icon-sort-down"></i>
+                <i v-else class="icon-sort-up"></i>
                 <span class="ml-3"><b>{{ name }}</b></span>
                 <span class="ml-auto mr-2">{{ filtersCount(name) }}/{{ itemsCount }}</span>
             </div>

@@ -15,7 +15,7 @@ const DkuMap = {
     },
     data() {
         return {
-            bounds: [[48.85, 48.86], [2.35, 2.36]]
+            bounds: this.bounds || [[46, 48], [2, 4]]
         }
     },
     components: {
@@ -37,7 +37,6 @@ const DkuMap = {
             if (matching_items) {
                 this.$store.dispatch('getFilteredZones', matching_items[1]);
                 this.$nextTick(function () {
-
                     this.bounds = this.$refs.features.mapObject.getBounds();
                 })
             }

@@ -20,11 +20,11 @@ const FeatureSelect = {
 
     },
     methods: {
-        isItemSelected(item) {
-            return this.getModuleGetter('settings/isItemSelected')(this.name, item);
-        },
         getModuleGetter(getter) {
             return this.$store.getters.getModuleGetter(this.settingsModule, getter);
+        },
+        isItemSelected(item) {
+            return this.getModuleGetter('settings/isItemSelected')(this.name, item);
         },
         updateFilters(newFilters) {
             this.$store.commit(
@@ -34,22 +34,32 @@ const FeatureSelect = {
                 }
             );
         },
-        updateAllFilters() {
-            const newFilters = [];
+        getAllSelectedFilters() {
+            const selectedFilters = [];
             const checkboxes = this.$refs.featureSelectContent.getElementsByTagName("input");
             for (let checkbox of checkboxes) {
                 if (checkbox.checked && checkbox.value !== "select-all") {
-                    newFilters.push(checkbox.value);
+                    selectedFilters.push(checkbox.value);
                 }
             }
-            this.updateFilters(newFilters);
+            return selectedFilters
+        },
+        updateAllFilters() {
+            this.updateFilters(this.getAllSelectedFilters());
+        },
+        addFilter(newFilter) {
+            const selectedFilters = this.getAllSelectedFilters();
+            if (!selectedFilters.includes(newFilter)) {
+                selectedFilters.push(newFilter);
+            }
+            this.updateFilters(selectedFilters);
         },
         selectOrDeselectAll() {
             const newSelectedItems = this.isAllSelected ? [] : _.cloneDeep(this.items);
             this.updateFilters(newSelectedItems);
         },
         shortLabel(label) {
-            return label.length >= MAX_LABEL_LENGTH ? `${label.slice(0, 20)}...` : label;
+            return label.length >= MAX_LABEL_LENGTH ? `${label.slice(0, 30)}...` : label;
         }
     },
     template: `
@@ -57,10 +67,14 @@ const FeatureSelect = {
             <v-select class="mb-2"
                 :options="items"
                 placeholder="Select an item..."
-                @input="updateSelectedItems($event)">
+                @input="addFilter($event)">
                 <template slot="open-indicator">
-                    <span><i class="fas fa-search"></i></span>
-                </template></v-select>
+                    <span><i class="icon-search"></i></span>
+                </template>
+                <template slot="selected-option" slot-scope="option">
+                    {{ shortLabel(option.label) }}
+                </template>
+            </v-select>
             <div class="feature-select-content" ref="featureSelectContent">
                 <div class="feature-select-item">
                     <input type="checkbox" value="select-all"

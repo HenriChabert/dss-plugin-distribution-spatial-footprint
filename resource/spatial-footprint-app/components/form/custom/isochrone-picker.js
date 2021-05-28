@@ -67,7 +67,7 @@ const IsochronePicker = {
                     :value="selectedIsochrones.find((iso) => iso.name === isochrone.value).color"
                     @change="changeIsochroneColor(isochrone.value, $event.target.value)"/>
                 <span class="ml-2">{{ isochrone.label }}</span>
-                <i class="fas fa-times ml-auto"
+                <i class="icon-times ml-auto"
                     @click="removeSelectedIsochrone(isochrone.value)"></i>
                 
             </div>

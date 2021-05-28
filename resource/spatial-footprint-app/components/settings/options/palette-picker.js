@@ -79,7 +79,7 @@ const PalettePicker = {
                     </ul>
                 </template>
                 <template slot="open-indicator">
-                    <span><i class="fas fa-search"></i></span>
+                    <span><i class="icon-search"></i></span>
                 </template>
             </v-select>
         </div>`
