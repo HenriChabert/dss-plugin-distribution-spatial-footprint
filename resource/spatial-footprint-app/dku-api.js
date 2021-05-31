@@ -1,6 +1,6 @@
 export const LOCATION_UNIQUE_KEY = "name";
 export const CUSTOMER_UNIQUE_KEY = "customer_id";
-axios.defaults.baseURL = 'http://127.0.0.1:5000/' // dataiku.getWebAppBackendUrl('');
+axios.defaults.baseURL = dataiku.getWebAppBackendUrl('');
 axios.interceptors.response.use((response) => {
     return response.data;
 }, (error) => {
