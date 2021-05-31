@@ -39,8 +39,6 @@ const CustomerPane = {
                             :iconSize="[12, 12]"
                             className="customer-marker-icon"></l-icon>
                     <info-popup
-                        :keyName="customerUniqueKey"
-                        :keyValue="customer[customerUniqueKey].toString()"
                         :filteringFeatures="customer.filteringFeatures">
                     </info-popup>
                 </l-marker>

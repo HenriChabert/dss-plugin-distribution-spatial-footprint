@@ -2,7 +2,7 @@ import json
 import os
 import pandas as pd
 
-# import dataiku
+import dataiku
 
 import distributionspatialfootprint.dku_constants as constants
 
@@ -14,9 +14,9 @@ class DataHandler:
         self.load_data()
 
     def load_data(self):
-        self.isochrones_df = pd.read_csv("/Users/hchabert/kittens/data_dirs/design_9.0.1/plugins/dev/distribution-spatial-footprint/python-lib/distributionspatialfootprint/samples/isochrones.csv") # dataiku.Dataset(constants.ISOCHRONES_DATASET_NAME).get_dataframe()
-        self.customers_df = pd.read_csv("/Users/hchabert/kittens/data_dirs/design_9.0.1/plugins/dev/distribution-spatial-footprint/python-lib/distributionspatialfootprint/samples/customers.csv") # dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe()
-        self.locations_df = pd.read_csv("/Users/hchabert/kittens/data_dirs/design_9.0.1/plugins/dev/distribution-spatial-footprint/python-lib/distributionspatialfootprint/samples/locations.csv") # dataiku.Dataset(constants.LOCATIONS_DATASET_NAME).get_dataframe()
+        self.isochrones_df = dataiku.Dataset(constants.ISOCHRONES_DATASET_NAME).get_dataframe()
+        self.customers_df = dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe()
+        self.locations_df = dataiku.Dataset(constants.LOCATIONS_DATASET_NAME).get_dataframe()
 
     def get_available_filtering_features(self, moduleName):
         available_filtering_features = {}
