@@ -1,5 +1,6 @@
-import {findByAttribute} from "../../utils.js"
 import {DkuGeoJson} from "./dku-geo-json.js";
+import { InfoPopup } from './info-popup.js'
+import { LOCATION_UNIQUE_KEY } from "../../dku-api.js";
 
 const ZoneLayerGroup = {
     name: "zone-layer-group",
@@ -10,6 +11,7 @@ const ZoneLayerGroup = {
     data() {
         return {
             componentKey: 0,
+            locationUniqueKey: LOCATION_UNIQUE_KEY
         }
     },
     computed: {
@@ -21,8 +23,9 @@ const ZoneLayerGroup = {
     components: {
         'l-feature-group': window.Vue2Leaflet.LFeatureGroup,
         'l-geo-json': window.Vue2Leaflet.LGeoJson,
+        'l-marker': window.Vue2Leaflet.LMarker,
+        'info-popup': InfoPopup,
         'dku-geo-json': DkuGeoJson,
-        'l-marker': window.Vue2Leaflet.LMarker
     },
     methods: {
         getIsochroneColor(isoName) {
@@ -34,7 +37,13 @@ const ZoneLayerGroup = {
     },
     template:`
         <l-feature-group ref="zoneLayerGroup" :key="componentKey">
-            <l-marker :lat-lng="zone.latLng"></l-marker>
+            <l-marker :lat-lng="zone.latLng">
+                <info-popup
+                        :keyName="locationUniqueKey"
+                        :keyValue="zone[locationUniqueKey].toString()"
+                        :filteringFeatures="zone.filteringFeatures">
+                </info-popup>
+            </l-marker>
             <dku-geo-json v-for="iso in getZoneActiveIsochrones(zone.name, moduleName)"
                 :key="iso.name"
                 :zoneName="zone.name"

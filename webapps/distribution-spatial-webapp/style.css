@@ -73,12 +73,12 @@ body {
     cursor: pointer;
 }
 
-.iso-popup-list {
+.popup-list {
     list-style-type: none;
     padding-inline-start: 0;
 }
 
-.iso-popup-list > li{
+.popup-list > li{
     margin: 5px 0;
 }
 

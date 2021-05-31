@@ -1,4 +1,6 @@
 import {MarkerCluster} from "./marker-cluster.js";
+import { InfoPopup } from './info-popup.js'
+import { CUSTOMER_UNIQUE_KEY } from "../../dku-api.js";
 
 const CustomerPane = {
     name: "customer-pane",
@@ -8,7 +10,8 @@ const CustomerPane = {
     },
     data() {
         return {
-            customerGroups: []
+            customerGroups: [],
+            customerUniqueKey: CUSTOMER_UNIQUE_KEY
         }
     },
     methods: {
@@ -17,9 +20,9 @@ const CustomerPane = {
         }
     },
     components: {
-        'l-popup': window.Vue2Leaflet.LPopup,
         'l-marker': window.Vue2Leaflet.LMarker,
         'l-icon': window.Vue2Leaflet.LIcon,
+        'info-popup': InfoPopup,
         'marker-cluster': MarkerCluster
     },
     template: `
@@ -35,7 +38,11 @@ const CustomerPane = {
                             :iconAnchor="[6, 12]"
                             :iconSize="[12, 12]"
                             className="customer-marker-icon"></l-icon>
-                    <l-popup>Customer ID: {{ customer.customer_id }}</l-popup>
+                    <info-popup
+                        :keyName="customerUniqueKey"
+                        :keyValue="customer[customerUniqueKey].toString()"
+                        :filteringFeatures="customer.filteringFeatures">
+                    </info-popup>
                 </l-marker>
             </marker-cluster>
         </div>

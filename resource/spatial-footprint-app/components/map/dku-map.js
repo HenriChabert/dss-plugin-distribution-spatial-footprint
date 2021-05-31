@@ -10,7 +10,6 @@ const DkuMap = {
             'getZones',
             'getCustomers',
             'getActiveIsochrones',
-            'zoom',
             'tileLayerUrl',
             'showCompetitor',
             'showCustomers'
@@ -26,6 +25,7 @@ const DkuMap = {
         'l-tile-layer': window.Vue2Leaflet.LTileLayer,
         'l-control-zoom': window.Vue2Leaflet.LControlZoom,
         'l-feature-group': window.Vue2Leaflet.LFeatureGroup,
+        'l-control': window.Vue2Leaflet.LControl,
         'dku-geo-json': DkuGeoJson,
         'zone-layer-group': ZoneLayerGroup,
         'customer-pane': CustomerPane
@@ -33,6 +33,10 @@ const DkuMap = {
     methods: {
         updateZones(newZones) {
             this.$store.commit('updateZones', newZones);
+        },
+        fitBounds() {
+            this.bounds = this.$refs.features.mapObject.getBounds();
+            this.$refs.map.mapObject.fitBounds(this.bounds);
         }
     },
     mounted() {
@@ -42,7 +46,7 @@ const DkuMap = {
                 this.$store.dispatch('getFilteredZones', matching_items[1]);
                 this.$store.dispatch('getFilteredCustomers');
                 this.$nextTick(function () {
-                    this.bounds = this.$refs.features.mapObject.getBounds();
+                    this.fitBounds()
                 })
             }
         });
@@ -54,6 +58,9 @@ const DkuMap = {
             :options="{zoomControl: false}">
             <l-tile-layer :url="tileLayerUrl"></l-tile-layer>
             <l-control-zoom position="bottomright"></l-control-zoom>
+            <l-control class="leaflet-control-zoom leaflet-bar leaflet-control" position="bottomright" >
+                <a href="#" title="Auto scale" role="button" aria-label="Auto scale"><i class="icon-move" @click="fitBounds"></i></a>
+            </l-control>
             <l-feature-group ref="features">
                 <zone-layer-group v-for="zone in getZones('location')"
                     :key="zone.name"

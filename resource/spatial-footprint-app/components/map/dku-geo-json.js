@@ -33,7 +33,7 @@ const DkuGeoJson = {
             const properties = this.iso.geoJson.properties;
             return `
             <div>
-                <ul class="iso-popup-list">
+                <ul class="popup-list">
                     <li><img src="../../resource/spatial-footprint-app/img/custom-marker.png" alt="custom marker" /> ${this.zoneName}</li>
                     <li><img src="../../resource/spatial-footprint-app/img/iso-thumb.png" alt="Iso Thumbnail" /> ${this.iso.name}</li>
                     <hr>
@@ -49,13 +49,7 @@ const DkuGeoJson = {
         ),
     },
     template: `
-        <div>
-            <l-geo-json
-                :geojson="iso.geoJson"
-                :optionsStyle="optionsStyle"
-                :options="geoJsonOptions"
-            ></l-geo-json>
-        </div>
+        <l-geo-json :geojson="iso.geoJson" :optionsStyle="optionsStyle" :options="geoJsonOptions"/>
         `
 };
 
