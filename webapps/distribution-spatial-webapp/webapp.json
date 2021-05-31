@@ -11,7 +11,7 @@
 
     "baseType": "STANDARD", // WARNING: do not change
     "enableJavascriptModules": "true",
-    "hasBackend": "false",
+    "hasBackend": "true",
     "noJSSecurity": "true",
     "standardWebAppLibraries": [
         "jquery",
