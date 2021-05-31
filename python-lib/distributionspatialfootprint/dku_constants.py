@@ -1,5 +1,5 @@
-ISOCHRONES_DATASET_NAME = "locations_isochrones"
-LOCATIONS_DATASET_NAME = "locations_isochrones_denormalized"
+ISOCHRONES_DATASET_NAME = "locations_isochrones_denormalized"
+LOCATIONS_DATASET_NAME = "locations_isochrones"
 CUSTOMERS_DATASET_NAME = "locations_customers"
 
 
