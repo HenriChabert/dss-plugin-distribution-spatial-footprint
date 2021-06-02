@@ -13,12 +13,8 @@ const FilteringSection = {
     },
     computed: {
         getAvailableFilteringFeatures() {
-            const { location_identifier, ...filters } = this.getModuleGetter('settings/getAvailableFilteringFeatures');
-            if (location_identifier) {
-                return { location_identifier, ...filters }
-            } else {
-                return filters
-            }
+            const { location_identifier, ...otherFilteringFeatures } = this.getModuleGetter('settings/getAvailableFilteringFeatures');
+            return location_identifier ? { location_identifier, ...otherFilteringFeatures } : otherFilteringFeatures;
 
         }
     },

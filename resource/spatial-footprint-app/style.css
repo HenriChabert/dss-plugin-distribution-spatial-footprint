@@ -298,3 +298,7 @@ hr {
 .filter-select:first-child .filter-select-header {
     font-weight: bold;
 }
+
+.popup-list li:first-child {
+    font-weight: bold;
+}
