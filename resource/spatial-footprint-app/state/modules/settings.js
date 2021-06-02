@@ -44,11 +44,9 @@ const mutations = {
 }
 
 const actions = {
-    fetchAvailableFilteringFeatures({ commit }, moduleName) {
-        const availableFilteringFeatures = DKUApi.getAvailableFilteringFeatures(moduleName);
-        // if (moduleName === 'location') {
-        //     debugger;
-        // }
+    async fetchAvailableFilteringFeatures({ commit }, moduleName) {
+        const moduleNameType = moduleName === "customer" ? "customer" : "location"
+        const availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures(moduleNameType);
         commit('setAvailableFilteringFeatures', { availableFilteringFeatures })
     },
 

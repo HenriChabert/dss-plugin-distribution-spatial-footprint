@@ -21,12 +21,12 @@ const getters = {
     getCustomers: (state) => state.customers,
     tileLayerUrl: (state) => state.tileLayerUrl,
     zoom: (state) => state.zoom,
-    getZone: (state) => (zoneName, moduleName) => state.zones[moduleName].find((zone) => zone.name === zoneName),
+    getZone: (state) => (zoneID, moduleName) => state.zones[moduleName].find((zone) => zone.location_id === zoneID),
     getZoneActiveIsochrones: (state, getters, rootState, rootGetters) => (zoneName, moduleName) => {
         const activeIsochronesTypes = rootGetters.getActiveIsochrones;
-        return getters.getZone(zoneName, moduleName).isochrones
+        return getters.getZone(zoneID, moduleName).isochrones
             .slice().reverse()
-            .filter((iso) => findByAttribute(activeIsochronesTypes, 'value', iso.name));
+            .filter((iso) => findByAttribute(activeIsochronesTypes, 'value', iso.isochrone_type));
     },
     showCompetitor: (state, getters, rootState, rootGetters) => {
         return rootGetters['competitor/showCompetitor']
@@ -38,18 +38,17 @@ const getters = {
 
 // actions
 const actions = {
-    getFilteredZones ({ commit, state, rootGetters, rootState }, moduleName) {
+    async getFilteredZones ({ commit, state, rootGetters, rootState }, moduleName) {
         const settings = rootState.generalSettings[moduleName].settings;
-        const filteredZones = DKUApi.getFilteredZones(
+        const filteredZones = await DKUApi.getFilteredZones(
             settings.filtering,
             settings.sampling
         );
         commit('updateZones', { newZones: filteredZones, moduleName });
     },
-    getFilteredCustomers ({ commit, state, rootGetters, rootState }) {
+    async getFilteredCustomers ({ commit, state, rootGetters, rootState }) {
         const settings = rootState.generalSettings.customer.settings;
-        const filteredCustomers = DKUApi.getFilteredCustomers(
-            _.concat(state.zones.location, state.zones.competitor),
+        const filteredCustomers = await DKUApi.getFilteredCustomers(
             settings.filtering,
             settings.sampling
         );

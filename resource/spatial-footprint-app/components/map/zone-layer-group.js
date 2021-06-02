@@ -37,18 +37,16 @@ const ZoneLayerGroup = {
     },
     template:`
         <l-feature-group ref="zoneLayerGroup" :key="componentKey">
-            <l-marker :lat-lng="zone.latLng">
+            <l-marker :lat-lng="[zone.latitude, zone.longitude]">
                 <info-popup
-                        :keyName="locationUniqueKey"
-                        :keyValue="zone[locationUniqueKey].toString()"
                         :filteringFeatures="zone.filteringFeatures">
                 </info-popup>
             </l-marker>
-            <dku-geo-json v-for="iso in getZoneActiveIsochrones(zone.name, moduleName)"
-                :key="iso.name"
-                :zoneName="zone.name"
+            <dku-geo-json v-for="iso in getZoneActiveIsochrones(zone.location_id, moduleName)"
+                :key="iso.isochrone_id"
+                :zoneName="zone.location_id.toString()"
                 :iso="iso"
-                :color="getIsochroneColor(iso.name)"
+                :color="getIsochroneColor(iso.isochrone_type)"
             >
             </dku-geo-json>
         </l-feature-group>

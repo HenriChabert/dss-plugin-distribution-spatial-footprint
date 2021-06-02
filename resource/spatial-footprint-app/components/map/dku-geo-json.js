@@ -30,16 +30,12 @@ const DkuGeoJson = {
             }
         },
         popupContent() {
-            const properties = this.iso.geoJson.properties;
+            const properties = this.iso.isochrone_data.properties;
             return `
             <div>
                 <ul class="popup-list">
                     <li><img src="../../resource/spatial-footprint-app/img/custom-marker.png" alt="custom marker" /> ${this.zoneName}</li>
-                    <li><img src="../../resource/spatial-footprint-app/img/iso-thumb.png" alt="Iso Thumbnail" /> ${this.iso.name}</li>
-                    <hr>
-                    <li>Total population: ${properties.total_pop }</li>
-                    <li>Total customers: ${this.iso.customers.length}</li>
-                    <li>reachfactor: ${properties.reachfactor}</li>
+                    <li><img src="../../resource/spatial-footprint-app/img/iso-thumb.png" alt="Iso Thumbnail" /> ${this.iso.isochrone_label}</li>
                 </ul>
             </div>`
         },
@@ -49,7 +45,7 @@ const DkuGeoJson = {
         ),
     },
     template: `
-        <l-geo-json :geojson="iso.geoJson" :optionsStyle="optionsStyle" :options="geoJsonOptions"/>
+        <l-geo-json :geojson="iso.isochrone_data" :optionsStyle="optionsStyle" :options="geoJsonOptions"/>
         `
 };
 

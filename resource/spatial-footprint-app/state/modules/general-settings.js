@@ -44,9 +44,10 @@ const mutations = {
 }
 
 const actions = {
-    fetchIsochronesTypes({ commit }) {
-        const isochronesTypes = DKUApi.getIsochronesTypes();
+    async fetchIsochronesTypes({ commit }) {
+        const isochronesTypes = await DKUApi.getIsochronesTypes();
         commit('setIsochronesTypes', { isochronesTypes })
+        commit('setActiveIsochrones', { activeIsochrones: isochronesTypes })
     },
 }
 
