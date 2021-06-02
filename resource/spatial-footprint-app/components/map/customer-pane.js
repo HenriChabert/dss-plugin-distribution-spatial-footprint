@@ -14,9 +14,16 @@ const CustomerPane = {
             customerUniqueKey: CUSTOMER_UNIQUE_KEY
         }
     },
+    computed: {
+        activeCustomers() {
+            return this.customers.filter(this.isCustomerActive);
+        }
+    },
     methods: {
         isCustomerActive(customer) {
-            return this.activeIsochrones.map((iso) => `isochrone_${iso.value}`).includes(customer.isochrone_type)
+            return parseInt(customer.isochrone_amplitude) <= Math.max(
+                ...this.activeIsochrones.map((iso) => parseInt(iso.value.isochrone_amplitude))
+            )
         }
     },
     components: {
@@ -29,8 +36,7 @@ const CustomerPane = {
         <div>
             <marker-cluster>
                 <l-marker
-                        v-for="customer in customers"
-                        v-if="isCustomerActive(customer)"
+                        v-for="customer in activeCustomers"
                         :key="customer.customer_id"
                         :lat-lng="[customer.latitude, customer.longitude]"
                 >

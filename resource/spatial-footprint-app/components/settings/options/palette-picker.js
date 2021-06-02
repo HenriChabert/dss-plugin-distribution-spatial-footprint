@@ -64,7 +64,7 @@ const PalettePicker = {
         }
     },
     mounted() {
-        this.updateColorsPalette(this.options[this.settingsModule === 'location' ? 0 : 1]);
+        this.updateColorsPalette(this.options[0]);
     },
     template: `
         <div id="palette-picker" class="d-flex align-items-center">

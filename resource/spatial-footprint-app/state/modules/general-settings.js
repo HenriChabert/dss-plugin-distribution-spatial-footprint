@@ -28,7 +28,7 @@ const getters = {
         const colorsPalette = getters.getModuleGetter(moduleName, 'getColorsPalette');
         const isoColorMapping = {};
         for (let i=0; i < state.isochronesTypes.length; i++) {
-            isoColorMapping[state.isochronesTypes[i].value] = colorsPalette.colors ? colorsPalette.colors[i] : "#ffffff"
+            isoColorMapping[state.isochronesTypes[i].value.isochrone_type] = colorsPalette.colors ? colorsPalette.colors[i] : "#ffffff"
         }
         return isoColorMapping;
     },

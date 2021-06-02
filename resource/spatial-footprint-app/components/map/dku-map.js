@@ -47,8 +47,10 @@ const DkuMap = {
         this.unsubscribe = this.$store.subscribe((mutation, state) => {
             const location_updated = mutation.type.match(/(location|competitor)\/settings\/(.*)/);
             if (location_updated) {
-                this.$store.dispatch('getFilteredZones', location_updated[1]);
-                this.$store.dispatch('getFilteredCustomers');
+                this.$store.dispatch('getFilteredZones', location_updated[1]).then(() => {
+                    this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
+                    this.$store.dispatch('getFilteredCustomers');
+                });
             }
 
             if (mutation.type.match(/customer\/settings\/(.*)/)) {
@@ -76,12 +78,12 @@ const DkuMap = {
             </l-control>
             <l-feature-group ref="features">
                 <zone-layer-group v-for="zone in getZones('location')"
-                    :key="zone.name"
+                    :key="zone.location_id"
                     :zone="zone"
                     moduleName="location"></zone-layer-group>
                 <zone-layer-group v-if="showCompetitor"
                     v-for="zone in getZones('competitor')"
-                    :key="zone.name + '_competitor'" 
+                    :key="zone.location_id + '_competitor'" 
                     :zone="zone"
                     moduleName="competitor"></zone-layer-group>
                 <customer-pane v-if="showCustomers"

@@ -24,9 +24,10 @@ CUSTOMERS_NO_FILTERING_COLUMNS = [
 
 CUSTOMER_COLUMNS_TO_SEND = [
     "customer_id_denormalized",
+    "isochrone_amplitude",
     "longitude",
     "latitude",
-    "filteringFeatures",
+    "filteringFeatures"
 ]
 
 LOCATIONS_NO_FILTERING_COLUMNS = [
