@@ -290,3 +290,7 @@ hr {
 .errors-container pre {
     font-size: 10px;
 }
+
+.auto-scale-btn {
+    padding-top: 9px;
+}
