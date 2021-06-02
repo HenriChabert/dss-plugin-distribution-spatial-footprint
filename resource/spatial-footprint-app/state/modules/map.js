@@ -22,11 +22,11 @@ const getters = {
     tileLayerUrl: (state) => state.tileLayerUrl,
     zoom: (state) => state.zoom,
     getZone: (state) => (zoneID, moduleName) => state.zones[moduleName].find((zone) => zone.location_id === zoneID),
-    getZoneActiveIsochrones: (state, getters, rootState, rootGetters) => (zoneName, moduleName) => {
+    getZoneActiveIsochrones: (state, getters, rootState, rootGetters) => (zoneID, moduleName) => {
         const activeIsochronesTypes = rootGetters.getActiveIsochrones;
         return getters.getZone(zoneID, moduleName).isochrones
             .slice().reverse()
-            .filter((iso) => findByAttribute(activeIsochronesTypes, 'value', iso.isochrone_type));
+            .filter((iso) => activeIsochronesTypes.find((acIso) => acIso.value.isochrone_type === iso.isochrone_type));
     },
     showCompetitor: (state, getters, rootState, rootGetters) => {
         return rootGetters['competitor/showCompetitor']
@@ -48,8 +48,10 @@ const actions = {
     },
     async getFilteredCustomers ({ commit, state, rootGetters, rootState }) {
         const settings = rootState.generalSettings.customer.settings;
+        const filtering = settings.filtering;
+        filtering.location_id = _.concat(state.zones.location, state.zones.competitor).map((z) => z.location_id)
         const filteredCustomers = await DKUApi.getFilteredCustomers(
-            settings.filtering,
+            filtering,
             settings.sampling
         );
         commit('updateCustomers', { newCustomers: filteredCustomers });

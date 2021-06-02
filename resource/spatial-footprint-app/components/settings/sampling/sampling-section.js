@@ -22,6 +22,7 @@ const SamplingSection = {
             <div class="sampling-form">
                 <input type="number"
                     id="sampling-input"
+                    min="0"
                     :value="getSampling.value"
                     @input="setSampling"
                     class="mr-2"

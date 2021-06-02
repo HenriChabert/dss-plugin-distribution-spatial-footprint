@@ -2,7 +2,9 @@ import { APIErrors } from "../dku-api.js";
 
 let ErrorsComponent = {
     data: function () {
-        return {errors: APIErrors}
+        return {
+            errors: APIErrors
+        }
     },
     methods: {
         clearAll: function () {

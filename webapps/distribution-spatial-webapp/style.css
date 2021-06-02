@@ -138,11 +138,11 @@ label {
     margin-bottom: 0;
 }
 
-.fa-sort-up {
+.icon-sort-up {
     padding-top: 7px;
 }
 
-.fa-sort-down {
+.icon-sort-down {
     padding-top: 1px;
 }
 
@@ -249,4 +249,47 @@ input[type="number"] {
 
 hr {
     margin: 5px
+}
+
+.errors {
+    text-align: left;
+    width: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    padding: 10px;
+    border: 1px solid #d1d1d1;
+    background-color: white;
+}
+
+.errors-background {
+    background-color: #d1d1d1;
+    opacity: 0.8;
+}
+
+.errors-background, .errors-main-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+}
+
+.errors--close {
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    top: 10px;
+}
+
+.error-name {
+    font-weight: 600;
+    font-size: 20px;
+    padding-left: 0;
+    word-break: break-word
+}
+
+.errors-container pre {
+    font-size: 10px;
 }
