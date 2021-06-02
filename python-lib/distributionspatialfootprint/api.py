@@ -16,6 +16,10 @@ def define_endpoints(app):
             code = e.code
         return jsonify(error=str(e), trace=traceback.format_exc()), code
 
+    @app.route('project-variables', methods=['GET'])
+    def get_project_variables():
+        return jsonify(data_handler.get_project_variables())
+
     @app.route('/available-filtering-features/<moduleName>', methods=['POST'])
     def get_available_filtering_features(moduleName):
         req_data = request.get_json()
@@ -30,7 +34,3 @@ def define_endpoints(app):
     @app.route('/available-isochrone-types', methods=['GET'])
     def get_available_isochrone_types():
         return jsonify(data_handler.get_available_isochrone_types())
-
-    @app.route('/', methods=['GET'])
-    def is_backend_running():
-        return jsonify({"msg": "Backend is running !"})

@@ -18,6 +18,7 @@ class DataHandler:
         self.customers_df = self.preprocess_customers_df(dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe())\
             .applymap(str)
         self.locations_df = dataiku.Dataset(constants.LOCATIONS_DATASET_NAME).get_dataframe().applymap(str)
+        self.project_variables = dataiku.api_client().get_default_project().get_variables()
 
     def preprocess_customers_df(self, customers_df):
         return customers_df.loc[
@@ -25,6 +26,9 @@ class DataHandler:
                     .groupby(['location_id', 'included_customer_id'])
                     .isochrone_amplitude.idxmin()
                 ]
+
+    def get_project_variables(self):
+        return self.project_variables
 
     def get_available_filtering_features(self, moduleName, settings):
         available_filtering_features = {}

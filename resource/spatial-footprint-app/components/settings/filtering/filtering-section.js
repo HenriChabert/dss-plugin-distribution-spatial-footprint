@@ -13,7 +13,8 @@ const FilteringSection = {
     },
     computed: {
         getAvailableFilteringFeatures() {
-            return this.getModuleGetter('settings/getAvailableFilteringFeatures');
+            const { location_identifier, ...filters } = this.getModuleGetter('settings/getAvailableFilteringFeatures');
+            return { location_identifier, ...filters }
         }
     },
     methods: {
@@ -33,11 +34,14 @@ const FilteringSection = {
     template: `
         <div id="filtering-section">
             <h5>Filtering</h5>
-            <filtering-feature v-for="(featureItems, featureName) in getAvailableFilteringFeatures" :key="featureName"
-                :name="featureName"
-                :items="featureItems"
-                :settingsModule="settingsModule"
-                ></filtering-feature>
+            <div class="filtering-features">
+                <filtering-feature v-for="(featureItems, featureName) in getAvailableFilteringFeatures" :key="featureName"
+                    :name="featureName"
+                    :items="featureItems"
+                    :settingsModule="settingsModule"
+                    ></filtering-feature>
+            </div>
+            
         </div>`
 };
 

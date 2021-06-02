@@ -20,16 +20,20 @@ axios.interceptors.response.use((response) => {
 export let APIErrors = [];
 export let DKUApi = {
     getFilteredZones: (filters, sampling) => {
-        return axios.post('filtered-data/location', {filtering: filters, sampling})
+        return axios.post('filtered-data/location', {filtering: filters, sampling});
     },
     getFilteredCustomers: (filters, sampling) => {
-        return axios.post('filtered-data/customer', {filtering: filters, sampling})
+        return axios.post('filtered-data/customer', {filtering: filters, sampling});
     },
     getAvailableFilteringFeatures: (moduleName, preFilters) => {
-        return axios.post(`available-filtering-features/${moduleName}`, { pre_filters: preFilters})
+        return axios.post(`available-filtering-features/${moduleName}`, { pre_filters: preFilters});
     },
     getIsochronesTypes: () => {
-        return axios.get('available-isochrone-types')
+        return axios.get('available-isochrone-types');
     },
+    getProjectVariables: () => {
+        return axios.get('project-variables');
+}
+
 
 };

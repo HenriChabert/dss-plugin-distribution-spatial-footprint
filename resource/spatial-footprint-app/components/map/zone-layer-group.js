@@ -44,7 +44,7 @@ const ZoneLayerGroup = {
             </l-marker>
             <dku-geo-json v-for="iso in getZoneActiveIsochrones(zone.location_id, moduleName)"
                 :key="iso.isochrone_id"
-                :zoneName="zone.location_id.toString()"
+                :zoneName="zone.filteringFeatures.location_identifier.toString()"
                 :iso="iso"
                 :color="getIsochroneColor(iso.isochrone_type)"
             >

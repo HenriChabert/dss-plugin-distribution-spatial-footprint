@@ -294,3 +294,7 @@ hr {
 .auto-scale-btn {
     padding-top: 9px;
 }
+
+.filter-select:first-child .filter-select-header {
+    font-weight: bold;
+}
