@@ -14,7 +14,12 @@ const FilteringSection = {
     computed: {
         getAvailableFilteringFeatures() {
             const { location_identifier, ...filters } = this.getModuleGetter('settings/getAvailableFilteringFeatures');
-            return { location_identifier, ...filters }
+            if (location_identifier) {
+                return { location_identifier, ...filters }
+            } else {
+                return filters
+            }
+
         }
     },
     methods: {
