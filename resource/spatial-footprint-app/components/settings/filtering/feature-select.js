@@ -81,14 +81,14 @@ const FeatureSelect = {
                     :checked="isAllSelected"
                     id="select-all"
                     @click="selectOrDeselectAll()">
-                    <label for="select-all">All</label>
+                    <span>All</span>
                 </div>
                 <div class="feature-select-item" v-for="it in items" :key="it">
                     <input type="checkbox"
                     :value="it"
                     :checked="isItemSelected(it)"
                     @change="updateAllFilters()">
-                    <label for="select-all"><span :title="it">{{ shortLabel(it) }}</span></label>
+                    <span :title="it">{{ shortLabel(it) }}</span>
                 </div>
             </div>
         </div>`

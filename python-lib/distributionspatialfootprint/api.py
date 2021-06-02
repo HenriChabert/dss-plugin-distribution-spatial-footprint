@@ -3,9 +3,7 @@ import traceback
 from flask import request, jsonify
 from werkzeug.exceptions import HTTPException
 
-# import dataiku
 from .data_handler import DataHandler
-import sys
 
 data_handler = DataHandler()
 

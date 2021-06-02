@@ -4,7 +4,7 @@ axios.defaults.baseURL = dataiku.getWebAppBackendUrl('')
 axios.interceptors.response.use((response) => {
     return response.data;
 }, (error) => {
-    if (error.message === "Network Error") {
+    if (!error.response) {
         error.response = {
             statusText: "Backend not running",
             data: {
@@ -20,12 +20,10 @@ axios.interceptors.response.use((response) => {
 export let APIErrors = [];
 export let DKUApi = {
     getFilteredZones: (filters, sampling) => {
-        const data = axios.post('filtered-data/location', { filtering: filters, sampling })
-        return data
+        return axios.post('filtered-data/location', {filtering: filters, sampling})
     },
     getFilteredCustomers: (filters, sampling) => {
-        const data = axios.post('filtered-data/customer', { filtering: filters, sampling })
-        return data
+        return axios.post('filtered-data/customer', {filtering: filters, sampling})
     },
     getAvailableFilteringFeatures: (moduleName, preFilters) => {
         return axios.post(`available-filtering-features/${moduleName}`, { pre_filters: preFilters})
@@ -33,8 +31,5 @@ export let DKUApi = {
     getIsochronesTypes: () => {
         return axios.get('available-isochrone-types')
     },
-    isServerRunning: () => {
-        return axios.get('/')
-    }
 
 };

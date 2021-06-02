@@ -1,5 +1,4 @@
 import json
-import os
 import pandas as pd
 import ast
 
@@ -79,8 +78,8 @@ class DataHandler:
             filtering_columns = set(df_to_send.columns).difference(constants.LOCATIONS_NO_FILTERING_COLUMNS)
             columns_to_send = set(df_to_send.columns).intersection(constants.LOCATION_COLUMNS_TO_SEND)
 
-        filtering_features = df_to_send[filtering_columns].to_dict(orient="records")
-        dict_to_send = df_to_send[columns_to_send].to_dict(orient="records")
+        filtering_features = df_to_send[list(filtering_columns)].to_dict(orient="records")
+        dict_to_send = df_to_send[list(columns_to_send)].to_dict(orient="records")
         for i, rec in enumerate(dict_to_send):
             rec["filteringFeatures"] = filtering_features[i]
 
@@ -106,7 +105,7 @@ class DataHandler:
     def get_available_isochrone_types(self):
         isochrones_df_unique = self.isochrones_df.drop_duplicates(subset=["isochrone_amplitude"])
         available_isochrones = [{
-            'label': isochrone['isochrone_label'],
+            'label': f"{isochrone['isochrone_amplitude']} min",
             'value': {
                 'isochrone_type': isochrone['isochrone_type'],
                 'isochrone_amplitude': int(isochrone['isochrone_amplitude'])

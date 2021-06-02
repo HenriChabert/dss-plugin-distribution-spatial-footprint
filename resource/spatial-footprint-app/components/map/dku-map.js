@@ -59,7 +59,6 @@ const DkuMap = {
 
             if (mutation.type.match(/(updateZones|updateCustomers)/)) {
                 this.$nextTick(function () {
-                    debugger;
                     this.fitBounds()
                 })
             }
