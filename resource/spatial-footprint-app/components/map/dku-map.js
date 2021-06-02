@@ -3,6 +3,8 @@ import { DkuGeoJson } from "./dku-geo-json.js";
 import { ZoneLayerGroup } from "./zone-layer-group.js";
 import {CustomerPane} from "./customer-pane.js";
 
+const DEFAULT_BOUNDS = [[20.63698621180491, -52.20703125000001], [65.80461669092902, 74.35546875000001]]
+
 const DkuMap = {
     name: "dku-map",
     computed: {
@@ -17,7 +19,7 @@ const DkuMap = {
     },
     data() {
         return {
-            bounds: this.bounds || [[46, 48], [2, 4]]
+            bounds: DEFAULT_BOUNDS
         }
     },
     components: {
@@ -35,20 +37,31 @@ const DkuMap = {
             this.$store.commit('updateZones', newZones);
         },
         fitBounds() {
-            this.bounds = this.$refs.features.mapObject.getBounds();
-            this.$refs.map.mapObject.fitBounds(this.bounds);
+            if (this.$refs.features.mapObject.getLayers().length) {
+                this.bounds = this.$refs.features.mapObject.getBounds();
+                this.$refs.map.mapObject.fitBounds(this.bounds);
+            }
         }
     },
     mounted() {
         this.unsubscribe = this.$store.subscribe((mutation, state) => {
-            const matching_items = mutation.type.match(/(.*)\/settings\/(.*)/);
-            if (matching_items) {
-                this.$store.dispatch('getFilteredZones', matching_items[1]);
+            const location_updated = mutation.type.match(/(location|competitor)\/settings\/(.*)/);
+            if (location_updated) {
+                this.$store.dispatch('getFilteredZones', location_updated[1]);
                 this.$store.dispatch('getFilteredCustomers');
+            }
+
+            if (mutation.type.match(/customer\/settings\/(.*)/)) {
+                this.$store.dispatch('getFilteredCustomers');
+            }
+
+            if (mutation.type.match(/(updateZones|updateCustomers)/)) {
                 this.$nextTick(function () {
+                    debugger;
                     this.fitBounds()
                 })
             }
+
         });
     },
     template:`
