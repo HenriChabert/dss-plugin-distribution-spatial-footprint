@@ -18,11 +18,18 @@ const ZoneLayerGroup = {
         ...Vuex.mapGetters([
             'getZoneActiveIsochrones',
             'getIsochronesColorMapping'
-        ])
+        ]),
+        markerUrl() {
+            const baseUrl = "../../resource/spatial-footprint-app/libs/leaflet/images";
+            const pin = `${baseUrl}/${this.moduleName === "competitor" ? "red" : "blue"}-marker-icon-2x.png`;
+            const shadow = `${baseUrl}/marker-shadow.png`;
+            return { pin, shadow }
+        },
     },
     components: {
         'l-feature-group': window.Vue2Leaflet.LFeatureGroup,
         'l-geo-json': window.Vue2Leaflet.LGeoJson,
+        'l-icon': window.Vue2Leaflet.LIcon,
         'l-marker': window.Vue2Leaflet.LMarker,
         'info-popup': InfoPopup,
         'dku-geo-json': DkuGeoJson,
@@ -38,6 +45,10 @@ const ZoneLayerGroup = {
     template:`
         <l-feature-group ref="zoneLayerGroup" :key="componentKey">
             <l-marker :lat-lng="[zone.latitude, zone.longitude]">
+                <l-icon
+                    :icon-url="markerUrl.pin"
+                    :shadow-url="markerUrl.shadow"
+                />
                 <info-popup
                         :filteringFeatures="zone.filteringFeatures">
                 </info-popup>
