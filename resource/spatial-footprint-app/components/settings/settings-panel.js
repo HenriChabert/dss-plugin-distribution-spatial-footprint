@@ -63,7 +63,7 @@ const SettingsPanel = {
                 <hr>
                 <settings-form
                     settingsModule="competitor"
-                    moduleName="Competitor Network Analysis">
+                    moduleName="Comparative Network Analysis">
                 </settings-form>
                 <hr>
                 <settings-form
