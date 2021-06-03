@@ -20,7 +20,7 @@ const ZoneLayerGroup = {
             'getIsochronesColorMapping'
         ]),
         markerUrl() {
-            const baseUrl = "../../resource/spatial-footprint-app/libs/leaflet/images";
+            const baseUrl = "../../resource/spatial-footprint-app/img/";
             const pin = `${baseUrl}/marker-icon-${this.moduleName === "competitor" ? "red" : "blue"}-2x.png`;
             const shadow = `${baseUrl}/marker-shadow.png`;
             return { pin, shadow }
