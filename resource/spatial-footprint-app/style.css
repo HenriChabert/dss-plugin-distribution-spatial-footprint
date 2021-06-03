@@ -32,21 +32,22 @@ body {
     cursor: pointer;
 }
 
-#settings-panel-container {
+.settings-panel-container {
     background-color: white;
     position: absolute;
-    top: 38px;
-    left: 27px;
+    top: 13px;
+    left: 13px;
     z-index: 1024;
     border: 1px solid #CCCCCC;
     box-sizing: border-box;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     width: 350px;
+    max-height: 80%;
+    padding-bottom: 15px;
 }
 
-#settings-panel {
-    height: 600px;
+.settings-panel {
     overflow-x: hidden;
     overflow-y: auto;
 }

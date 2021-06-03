@@ -34,14 +34,16 @@ const FilteringSection = {
     },
     template: `
         <div id="filtering-section">
+        <div class="d-flex justify-content-between">
             <h5>Filtering</h5>
-            <div class="filtering-features">
-                <filtering-feature v-for="(featureItems, featureName) in getAvailableFilteringFeatures" :key="featureName"
-                    :name="featureName"
-                    :items="featureItems"
-                    :settingsModule="settingsModule"
-                    ></filtering-feature>
-            </div>
+        </div>
+        <div class="filtering-features">
+            <filtering-feature v-for="(featureItems, featureName) in getAvailableFilteringFeatures" :key="featureName"
+                :name="featureName"
+                :items="featureItems"
+                :settingsModule="settingsModule"
+                ></filtering-feature>
+        </div>
             
         </div>`
 };

@@ -37,7 +37,7 @@ const SettingsForm = {
     },
     template: `
         <div id="settings-form">
-            <div class="settings-form-header" v-on:click="toggleSettingsForm">
+            <div class="settings-form-header mb-3" v-on:click="toggleSettingsForm">
                 <h4 class="d-flex align-items-center">
                     <div class="mr-2">
                         <i v-if="!isDropped" class="icon-sort-down"></i>
@@ -47,11 +47,14 @@ const SettingsForm = {
                 </h4>
             </div>
             <div class="settings-form-body container" v-show="!isDropped">
-                <options-section :settingsModule="settingsModule"></options-section>
+                <options-section :settingsModule="settingsModule"
+                class="mb-3"></options-section>
                 <filtering-section v-show="getOptions.isActivated"
-                :settingsModule="settingsModule"></filtering-section>
+                :settingsModule="settingsModule"
+                class="mb-3"></filtering-section>
                 <sampling-section v-show="getOptions.isActivated"
-                :settingsModule="settingsModule"></sampling-section>
+                :settingsModule="settingsModule"
+                class="mb-3"></sampling-section>
             </div>
         </div>`,
 };

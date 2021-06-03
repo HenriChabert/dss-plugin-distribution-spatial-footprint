@@ -32,15 +32,15 @@ const SettingsPanel = {
         this.$store.dispatch('fetchIsochronesTypes');
     },
     template: `
-        <div id="settings-panel-container" class="container">
-            <div class="settings-panel-header row mt-2" v-on:click="toggleSettingsPanel">
-                <h3 class="settings-panel-title col-md-10">Settings</h3>
-                <div class="col-md-2">
+        <div class="settings-panel-container container d-flex flex-column">
+            <div class="settings-panel-header mt-2 d-flex justify-content-between" v-on:click="toggleSettingsPanel">
+                <h3 class="settings-panel-title">Settings</h3>
+                <div>
                     <i v-if="!isDropped" class="icon-chevron-down"></i>
                     <i v-else class="icon-chevron-up"></i>
                 </div>
             </div>
-            <div id="settings-panel" v-show="!isDropped"">
+            <div class="settings-panel" v-show="!isDropped"">
                 <div class="mb-2">
                     <span>Isochrone(s) to focus on:</span>
                     <v-select v-if="getIsochronesTypes"
