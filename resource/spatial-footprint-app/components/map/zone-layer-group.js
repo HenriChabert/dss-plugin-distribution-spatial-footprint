@@ -21,7 +21,7 @@ const ZoneLayerGroup = {
         ]),
         markerUrl() {
             const baseUrl = "../../resource/spatial-footprint-app/libs/leaflet/images";
-            const pin = `${baseUrl}/${this.moduleName === "competitor" ? "red" : "blue"}-marker-icon-2x.png`;
+            const pin = `${baseUrl}/marker-icon-${this.moduleName === "competitor" ? "red" : "blue"}-2x.png`;
             const shadow = `${baseUrl}/marker-shadow.png`;
             return { pin, shadow }
         },
