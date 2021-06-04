@@ -7,7 +7,7 @@ const DEFAULT_ZOOM = 12;
 const state = () => ({
     zoom: DEFAULT_ZOOM,
     center: DEFAULT_CENTER,
-    tileLayerUrl: 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+    tileLayerUrl: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
     zones: {
         location: [],
         competitor: []
