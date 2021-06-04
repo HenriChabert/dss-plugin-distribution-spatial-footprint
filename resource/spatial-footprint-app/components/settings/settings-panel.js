@@ -109,7 +109,7 @@ const SettingsPanel = {
                             :settingsModule="module.name"
                             :moduleName="module.label"
                             :isVisible="isModuleVisible(module.name)"
-                            v-on:update:moduleVisibility="toggleModuleVisibility(module.name)">
+                            v-on:update:moduleVisibility="focusOnModule(module.name)">
                         </settings-form>
                     </div>
                 </div>
