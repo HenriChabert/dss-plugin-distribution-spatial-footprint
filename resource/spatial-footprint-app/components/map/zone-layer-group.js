@@ -1,6 +1,5 @@
 import {DkuGeoJson} from "./dku-geo-json.js";
 import { InfoPopup } from './info-popup.js'
-import { LOCATION_UNIQUE_KEY } from "../../dku-api.js";
 
 const ZoneLayerGroup = {
     name: "zone-layer-group",
@@ -10,8 +9,7 @@ const ZoneLayerGroup = {
     },
     data() {
         return {
-            componentKey: 0,
-            locationUniqueKey: LOCATION_UNIQUE_KEY
+            componentKey: 0
         }
     },
     computed: {
@@ -22,7 +20,7 @@ const ZoneLayerGroup = {
         markerUrl() {
             const baseUrl = "../../resource/spatial-footprint-app/img/";
             const pin = `${baseUrl}/marker-icon-${this.moduleName === "competitor" ? "red" : "blue"}-2x.png`;
-            const shadow = `${baseUrl}/marker-shadow.png`;
+            const shadow = "../../resource/spatial-footprint-app/libs/leaflet/images/marker-shadow.png";
             return { pin, shadow }
         },
     },

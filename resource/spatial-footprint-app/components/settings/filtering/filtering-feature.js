@@ -5,12 +5,9 @@ const FilteringFeature = {
     props: {
         name: String,
         items: Array,
-        settingsModule: String
-    },
-    data() {
-        return {
-            isDropped: true
-        };
+        settingsModule: String,
+        selectable: Boolean,
+        isVisible: Boolean
     },
     computed: {
         filtersCount() {
@@ -22,7 +19,7 @@ const FilteringFeature = {
     },
     methods: {
         toggleFilteringFeature() {
-            this.isDropped = !this.isDropped;
+            this.$emit("update:featureVisibility");
         },
         getModuleGetter(getter) {
             return this.$store.getters.getModuleGetter(this.settingsModule, getter);
@@ -34,15 +31,16 @@ const FilteringFeature = {
     template: `
         <div class="filter-select">
             <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature">
-                <i v-if="!isDropped" class="icon-sort-down"></i>
+                <i v-if="isVisible" class="icon-sort-down"></i>
                 <i v-else class="icon-sort-up"></i>
                 <span class="ml-3">{{ name }}</span>
                 <span class="ml-auto mr-2">{{ filtersCount(name) }}/{{ itemsCount }}</span>
             </div>
-            <feature-select class="container mb-4 mt-1" v-show="!isDropped"
+            <feature-select class="container mb-4 mt-1" v-show="isVisible"
                 :items="items"
                 :name="name"
-                :settingsModule="settingsModule"></feature-select>
+                :settingsModule="settingsModule"
+                :selectable="selectable"></feature-select>
             <hr>
         </div>`
 };
