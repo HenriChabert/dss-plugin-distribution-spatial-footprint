@@ -88,7 +88,7 @@ const SettingsPanel = {
                 <div v-if="showFilteringPanel" key="filtering-panel">
                         <filtering-panel :settingsModule="getFilteringPanelModule"></filtering-panel>
                 </div>
-                <div v-else key="common-settings">
+                <div v-show="!showFilteringPanel" key="common-settings">
                     <div class="mb-2">
                         <span>Isochrone(s) to focus on:</span>
                         <v-select v-if="getIsochronesTypes"
