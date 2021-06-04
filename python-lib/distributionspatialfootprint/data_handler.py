@@ -1,9 +1,8 @@
 import json
-import os
 import pandas as pd
 import ast
 
-# import dataiku
+import dataiku
 
 import distributionspatialfootprint.dku_constants as constants
 
@@ -15,16 +14,11 @@ class DataHandler:
         self.load_data()
 
     def load_data(self):
-        self.isochrones_df = pd.read_csv(
-            "/Users/hchabert/kittens/data_dirs/design_9.0.1/plugins/dev/distribution-spatial-footprint/python-lib/distributionspatialfootprint/samples/isochrones.csv").applymap(
-            str)  # dataiku.Dataset(constants.ISOCHRONES_DATASET_NAME).get_dataframe()
-        self.customers_df = self.preprocess_customers_df(pd.read_csv(
-            "/Users/hchabert/kittens/data_dirs/design_9.0.1/plugins/dev/distribution-spatial-footprint/python-lib/distributionspatialfootprint/samples/customers.csv")).applymap(
-            str)  # dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe()
-
-        self.locations_df = pd.read_csv(
-            "/Users/hchabert/kittens/data_dirs/design_9.0.1/plugins/dev/distribution-spatial-footprint/python-lib/distributionspatialfootprint/samples/locations.csv").applymap(
-            str)  # dataiku.Dataset(constants.LOCATIONS_DATASET_NAME).get_dataframe()
+        self.isochrones_df = dataiku.Dataset(constants.ISOCHRONES_DATASET_NAME).get_dataframe().applymap(str)
+        self.customers_df = self.preprocess_customers_df(dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe())\
+            .applymap(str)
+        self.locations_df = dataiku.Dataset(constants.LOCATIONS_DATASET_NAME).get_dataframe().applymap(str)
+        self.project_variables = dataiku.api_client().get_default_project().get_variables()
 
     def preprocess_customers_df(self, customers_df):
         return customers_df.loc[
@@ -32,6 +26,9 @@ class DataHandler:
                     .groupby(['location_id', 'included_customer_id'])
                     .isochrone_amplitude.idxmin()
                 ]
+
+    def get_project_variables(self):
+        return self.project_variables
 
     def get_available_filtering_features(self, moduleName, settings):
         available_filtering_features = {}
@@ -85,8 +82,8 @@ class DataHandler:
             filtering_columns = set(df_to_send.columns).difference(constants.LOCATIONS_NO_FILTERING_COLUMNS)
             columns_to_send = set(df_to_send.columns).intersection(constants.LOCATION_COLUMNS_TO_SEND)
 
-        filtering_features = df_to_send[filtering_columns].to_dict(orient="records")
-        dict_to_send = df_to_send[columns_to_send].to_dict(orient="records")
+        filtering_features = df_to_send[list(filtering_columns)].to_dict(orient="records")
+        dict_to_send = df_to_send[list(columns_to_send)].to_dict(orient="records")
         for i, rec in enumerate(dict_to_send):
             rec["filteringFeatures"] = filtering_features[i]
 
@@ -112,7 +109,7 @@ class DataHandler:
     def get_available_isochrone_types(self):
         isochrones_df_unique = self.isochrones_df.drop_duplicates(subset=["isochrone_amplitude"])
         available_isochrones = [{
-            'label': isochrone['isochrone_label'],
+            'label': f"{isochrone['isochrone_amplitude']} min",
             'value': {
                 'isochrone_type': isochrone['isochrone_type'],
                 'isochrone_amplitude': int(isochrone['isochrone_amplitude'])

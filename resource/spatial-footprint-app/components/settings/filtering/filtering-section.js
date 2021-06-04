@@ -13,7 +13,9 @@ const FilteringSection = {
     },
     computed: {
         getAvailableFilteringFeatures() {
-            return this.getModuleGetter('settings/getAvailableFilteringFeatures');
+            const { location_identifier, ...otherFilteringFeatures } = this.getModuleGetter('settings/getAvailableFilteringFeatures');
+            return location_identifier ? { location_identifier, ...otherFilteringFeatures } : otherFilteringFeatures;
+
         }
     },
     methods: {
@@ -32,12 +34,17 @@ const FilteringSection = {
     },
     template: `
         <div id="filtering-section">
+        <div class="d-flex justify-content-between">
             <h5>Filtering</h5>
+        </div>
+        <div class="filtering-features">
             <filtering-feature v-for="(featureItems, featureName) in getAvailableFilteringFeatures" :key="featureName"
                 :name="featureName"
                 :items="featureItems"
                 :settingsModule="settingsModule"
                 ></filtering-feature>
+        </div>
+            
         </div>`
 };
 

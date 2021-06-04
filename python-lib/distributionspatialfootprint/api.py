@@ -3,9 +3,7 @@ import traceback
 from flask import request, jsonify
 from werkzeug.exceptions import HTTPException
 
-# import dataiku
 from .data_handler import DataHandler
-import sys
 
 data_handler = DataHandler()
 
@@ -17,6 +15,10 @@ def define_endpoints(app):
         if isinstance(e, HTTPException):
             code = e.code
         return jsonify(error=str(e), trace=traceback.format_exc()), code
+
+    @app.route('project-variables', methods=['GET'])
+    def get_project_variables():
+        return jsonify(data_handler.get_project_variables())
 
     @app.route('/available-filtering-features/<moduleName>', methods=['POST'])
     def get_available_filtering_features(moduleName):
@@ -32,7 +34,3 @@ def define_endpoints(app):
     @app.route('/available-isochrone-types', methods=['GET'])
     def get_available_isochrone_types():
         return jsonify(data_handler.get_available_isochrone_types())
-
-    @app.route('/', methods=['GET'])
-    def is_backend_running():
-        return jsonify({"msg": "Backend is running !"})

@@ -73,7 +73,7 @@ const DkuMap = {
             <l-tile-layer :url="tileLayerUrl"></l-tile-layer>
             <l-control-zoom position="bottomright"></l-control-zoom>
             <l-control class="leaflet-control-zoom leaflet-bar leaflet-control" position="bottomright" >
-                <a href="#" title="Auto scale" role="button" aria-label="Auto scale"><i class="icon-move" @click="fitBounds"></i></a>
+                <a href="javascript:void(0);" class="auto-scale-btn" title="Auto scale" role="button" aria-label="Auto scale" @click="fitBounds"><i class="icon-move"></i></a>
             </l-control>
             <l-feature-group ref="features">
                 <zone-layer-group v-for="zone in getZones('location')"

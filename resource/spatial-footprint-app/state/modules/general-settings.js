@@ -6,6 +6,7 @@ import competitor from './competitor.js'
 
 const state = () => ({
     webapp: {},
+    projectVariables: {},
     isochronesTypes: [],
     activeIsochrones: []
 })
@@ -41,6 +42,9 @@ const mutations = {
     setActiveIsochrones(state, { activeIsochrones }) {
         state.activeIsochrones = activeIsochrones;
     },
+    setProjectVariables(state, { projectVariables }) {
+        state.projectVariables = projectVariables;
+    },
 }
 
 const actions = {
@@ -48,6 +52,10 @@ const actions = {
         const isochronesTypes = await DKUApi.getIsochronesTypes();
         commit('setIsochronesTypes', { isochronesTypes })
         commit('setActiveIsochrones', { activeIsochrones: isochronesTypes })
+    },
+    async fetchProjectVariables({ commit }) {
+        const projectVariables = await DKUApi.getProjectVariables();
+        commit('setProjectVariables', { projectVariables })
     },
 }
 

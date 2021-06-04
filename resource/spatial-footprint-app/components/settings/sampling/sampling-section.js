@@ -6,6 +6,9 @@ const SamplingSection = {
     computed: {
         getSampling() {
             return this.getModuleGetter('settings/getSampling');
+        },
+        samplingLabel() {
+            return this.settingsModule === "customer" ? "samples/location" : "samples";
         }
     },
     methods: {
@@ -28,7 +31,7 @@ const SamplingSection = {
                     class="mr-2"
                     
                     >
-                <label for="sampling-input">Rows</label>
+                <label for="sampling-input">{{ samplingLabel }}</label>
             </div>
         </div>`
 };

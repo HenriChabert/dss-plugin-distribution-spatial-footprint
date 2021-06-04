@@ -26,7 +26,7 @@ const OptionsSection = {
     },
     template: `
         <div id="options-section">
-            <div v-if="settingsModule === 'customer'" class="d-flex">
+            <div v-if="settingsModule === 'customer'" class="d-flex mb-3">
                 <label for="showCustomerCheckbox">Show customers</label>
                 <v-toggle
                     id="addCompetitorToggle"
@@ -35,7 +35,7 @@ const OptionsSection = {
                     class="ml-3"></v-toggle>
             </div>
             
-            <div v-if="settingsModule === 'competitor'" class="d-flex">
+            <div v-if="settingsModule === 'competitor'" class="d-flex mb-3">
                 <label for="addCompetitorToggle">Add competitor</label>
                 <v-toggle
                     id="addCompetitorToggle"

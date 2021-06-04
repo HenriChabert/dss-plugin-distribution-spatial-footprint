@@ -1,10 +1,10 @@
 export const LOCATION_UNIQUE_KEY = "name";
-export const CUSTOMER_UNIQUE_KEY = "customer_id";
-axios.defaults.baseURL = 'http://127.0.0.1:5000/' // dataiku.getWebAppBackendUrl('');
+export const CUSTOMER_UNIQUE_KEY = "customer_id"
+axios.defaults.baseURL = dataiku.getWebAppBackendUrl('')
 axios.interceptors.response.use((response) => {
     return response.data;
 }, (error) => {
-    if (error.message === "Network Error") {
+    if (!error.response) {
         error.response = {
             statusText: "Backend not running",
             data: {
@@ -20,21 +20,20 @@ axios.interceptors.response.use((response) => {
 export let APIErrors = [];
 export let DKUApi = {
     getFilteredZones: (filters, sampling) => {
-        const data = axios.post('filtered-data/location', { filtering: filters, sampling })
-        return data
+        return axios.post('filtered-data/location', {filtering: filters, sampling});
     },
     getFilteredCustomers: (filters, sampling) => {
-        const data = axios.post('filtered-data/customer', { filtering: filters, sampling })
-        return data
+        return axios.post('filtered-data/customer', {filtering: filters, sampling});
     },
     getAvailableFilteringFeatures: (moduleName, preFilters) => {
-        return axios.post(`available-filtering-features/${moduleName}`, { pre_filters: preFilters})
+        return axios.post(`available-filtering-features/${moduleName}`, { pre_filters: preFilters});
     },
     getIsochronesTypes: () => {
-        return axios.get('available-isochrone-types')
+        return axios.get('available-isochrone-types');
     },
-    isServerRunning: () => {
-        return axios.get('/')
-    }
+    getProjectVariables: () => {
+        return axios.get('project-variables');
+}
+
 
 };

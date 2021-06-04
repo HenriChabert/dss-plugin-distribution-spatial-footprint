@@ -56,6 +56,13 @@ const actions = {
             availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("location");
         }
         commit('setAvailableFilteringFeatures', { availableFilteringFeatures })
+
+        if (moduleName === "location") {
+            commit('setFilteringFeature', {
+                featureName: 'location_identifier',
+                filters: [availableFilteringFeatures.location_identifier[0]]
+            })
+        }
     },
 
 }
