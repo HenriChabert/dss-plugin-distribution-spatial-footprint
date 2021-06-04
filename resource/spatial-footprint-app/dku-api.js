@@ -1,4 +1,3 @@
-export const LOCATION_UNIQUE_KEY = "name";
 export const CUSTOMER_UNIQUE_KEY = "customer_id"
 axios.defaults.baseURL = dataiku.getWebAppBackendUrl('')
 axios.interceptors.response.use((response) => {

@@ -5,18 +5,14 @@ import {SamplingSection} from "./sampling/sampling-section.js";
 
 const SettingsForm = {
     name: "settings-form",
-    data() {
-        return {
-            isDropped: this.settingsModule !== 'location'
-        };
-    },
     props: {
         moduleName: String,
-        settingsModule: String
+        settingsModule: String,
+        isVisible: Boolean
     },
     methods: {
         toggleSettingsForm() {
-            this.isDropped = !this.isDropped;
+            this.$emit("update:moduleVisibility");
         },
         getModuleGetter(getter) {
             return this.$store.getters.getModuleGetter(this.settingsModule, getter);
@@ -40,13 +36,13 @@ const SettingsForm = {
             <div class="settings-form-header mb-3" v-on:click="toggleSettingsForm">
                 <h4 class="d-flex align-items-center">
                     <div class="mr-2">
-                        <i v-if="!isDropped" class="icon-sort-down"></i>
+                        <i v-if="isVisible" class="icon-sort-down"></i>
                         <i v-else class="icon-sort-up"></i>
                     </div>
                     {{ moduleName }}
                 </h4>
             </div>
-            <div class="settings-form-body container" v-show="!isDropped">
+            <div class="settings-form-body container" v-show="isVisible">
                 <options-section :settingsModule="settingsModule"
                 class="mb-3"></options-section>
                 <filtering-section v-show="getOptions.isActivated"

@@ -127,6 +127,10 @@ input[type="color"]::-webkit-color-swatch {
     margin: 0;
 }
 
+#filtering-section,.filtering-features hr{
+    margin: 0;
+}
+
 .filter-select-header {
     cursor: pointer;
 }
@@ -302,4 +306,17 @@ hr {
 
 .popup-list li:first-child {
     font-weight: bold;
+}
+
+.filters-multi-list input{
+    cursor: default;
+}
+
+.filters-multi-list .vs__dropdown-toggle{
+    cursor: default;
+}
+
+.go-back-btn {
+    cursor: pointer;
+    margin-bottom: 5px;
 }

@@ -5,19 +5,22 @@ const FeatureSelect = {
     props: {
         name: String,
         items: Array,
-        settingsModule: String
+        settingsModule: String,
+        selectable: Boolean
     },
     components: {
         'v-select': VueSelect.VueSelect
     },
     computed: {
         isAllSelected() {
-            return _.isEqual(this.getFiltering[this.name], this.items);
+            return _.isEqual(this.getFiltering, this.items);
         },
         getFiltering() {
-            return this.getModuleGetter('settings/getFiltering');
+            return this.getModuleGetter('settings/getFiltering')[this.name];
+        },
+        getShortFiltering() {
+            return this.getFiltering?.map((v) => this.shortLabel(v)) || [];
         }
-
     },
     methods: {
         getModuleGetter(getter) {
@@ -62,34 +65,46 @@ const FeatureSelect = {
             return label.length >= MAX_LABEL_LENGTH ? `${label.slice(0, 30)}...` : label;
         }
     },
+    // language=HTML
     template: `
         <div class="feature-select">
-            <v-select class="mb-2"
-                :options="items"
-                placeholder="Select an item..."
-                @input="addFilter($event)">
-                <template slot="open-indicator">
-                    <span><i class="icon-search"></i></span>
-                </template>
-                <template slot="selected-option" slot-scope="option">
-                    {{ shortLabel(option.label) }}
-                </template>
-            </v-select>
-            <div class="feature-select-content" ref="featureSelectContent">
-                <div class="feature-select-item">
-                    <input type="checkbox" value="select-all"
-                    :checked="isAllSelected"
-                    id="select-all"
-                    @click="selectOrDeselectAll()">
-                    <span>All</span>
+            <div v-if="selectable">
+                <v-select class="mb-2"
+                    :options="items"
+                    placeholder="Select an item..."
+                    @input="addFilter($event)">
+                    <template slot="open-indicator">
+                        <span><i class="icon-search"></i></span>
+                    </template>
+                    <template slot="selected-option" slot-scope="option">
+                        {{ shortLabel(option.label) }}
+                    </template>
+                </v-select>
+                <div class="feature-select-content" ref="featureSelectContent">
+                    <div class="feature-select-item">
+                        <input type="checkbox" value="select-all"
+                        :checked="isAllSelected"
+                        id="select-all"
+                        @click="selectOrDeselectAll()">
+                        <span>All</span>
+                    </div>
+                    <div class="feature-select-item" v-for="it in items" :key="it">
+                        <input type="checkbox"
+                        :value="it"
+                        :checked="isItemSelected(it)"
+                        @change="updateAllFilters()">
+                        <span :title="it">{{ shortLabel(it) }}</span>
+                    </div>
                 </div>
-                <div class="feature-select-item" v-for="it in items" :key="it">
-                    <input type="checkbox"
-                    :value="it"
-                    :checked="isItemSelected(it)"
-                    @change="updateAllFilters()">
-                    <span :title="it">{{ shortLabel(it) }}</span>
-                </div>
+            </div>
+            <div v-else>
+                <v-select multiple class="filters-multi-list mb-2"
+                    placeholder="No filters selected"
+                    :value="getShortFiltering"
+                    @input="updateFilters($event)"
+                    :noDrop="true"
+                    :searchable="false">
+                </v-select>
             </div>
         </div>`
 };
