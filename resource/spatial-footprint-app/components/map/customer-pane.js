@@ -1,6 +1,5 @@
 import {MarkerCluster} from "./marker-cluster.js";
 import { InfoPopup } from './info-popup.js'
-import { CUSTOMER_UNIQUE_KEY } from "../../dku-api.js";
 
 const CustomerPane = {
     name: "customer-pane",
@@ -10,8 +9,7 @@ const CustomerPane = {
     },
     data() {
         return {
-            customerGroups: [],
-            customerUniqueKey: CUSTOMER_UNIQUE_KEY
+            customerGroups: []
         }
     },
     computed: {
