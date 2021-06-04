@@ -16,7 +16,7 @@ def define_endpoints(app):
             code = e.code
         return jsonify(error=str(e), trace=traceback.format_exc()), code
 
-    @app.route('project-variables', methods=['GET'])
+    @app.route('/project-variables', methods=['GET'])
     def get_project_variables():
         return jsonify(data_handler.get_project_variables())
 

@@ -97,7 +97,7 @@ class DataHandler:
             locations_isochrones = self.isochrones_df[self.isochrones_df["location_id"] == location["location_id"]] \
                 .to_dict(orient="records")
             for iso in locations_isochrones:
-                iso["isochrone_data"] = ast.literal_eval(iso["isochrone_data"])
+                iso["isochrone_data"] = json.loads(iso["isochrone_data"])
             location["isochrones"] = locations_isochrones
 
     def filter_zones(self, moduleName, settings):
