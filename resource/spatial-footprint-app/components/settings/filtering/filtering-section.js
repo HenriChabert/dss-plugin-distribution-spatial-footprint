@@ -4,7 +4,11 @@ const FilteringSection = {
     name: "filtering-section",
     props: {
         settingsModule: String,
-        selectable: Boolean
+        selectable: Boolean,
+        focusOn: {
+            type: String,
+            default: null
+        }
     },
     data() {
         return {
@@ -17,7 +21,13 @@ const FilteringSection = {
     },
     computed: {
         getAvailableFilteringFeatures() {
-            const { location_identifier, ...otherFilteringFeatures } = this.getModuleGetter('settings/getAvailableFilteringFeatures');
+            const availableFilteringFeatures = this.getModuleGetter('settings/getAvailableFilteringFeatures');
+            if (this.focusOn !== null && availableFilteringFeatures[this.focusOn]) {
+                const result = {};
+                result[this.focusOn] = availableFilteringFeatures[this.focusOn];
+                return result;
+            }
+            const { location_identifier, ...otherFilteringFeatures } = availableFilteringFeatures
             return location_identifier ? { location_identifier, ...otherFilteringFeatures } : otherFilteringFeatures;
         },
         hasFilters() {
@@ -53,6 +63,11 @@ const FilteringSection = {
             } else {
                 this.visibleFeatures.push(featureName);
             }
+        }
+    },
+    mounted() {
+        if (this.focusOn !== null) {
+            this.focusOnFeature(this.focusOn);
         }
     },
     template: `

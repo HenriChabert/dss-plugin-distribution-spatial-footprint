@@ -7,6 +7,7 @@ import competitor from './competitor.js'
 const state = () => ({
     webapp: {},
     filteringPanelModule: null,
+    filteringPanelFocus: null,
     projectVariables: {},
     isochronesTypes: [],
     activeIsochrones: []
@@ -35,7 +36,8 @@ const getters = {
         return isoColorMapping;
     },
     showFilteringPanel: state => state.filteringPanelModule !== null,
-    getFilteringPanelModule: state => state.filteringPanelModule
+    getFilteringPanelModule: state => state.filteringPanelModule,
+    getFilteringPanelFocus: state => state.filteringPanelFocus
 }
 
 const mutations = {
@@ -50,10 +52,15 @@ const mutations = {
     },
     showFilteringPanel(state, { moduleName }) {
         state.filteringPanelModule = moduleName;
+        state.filteringPanelFocus = null;
+    },
+    showFilteringPanelAndFocus(state, { moduleName, focusFeature }) {
+        state.filteringPanelModule = moduleName;
+        state.filteringPanelFocus = focusFeature;
     },
     hideFilteringPanel(state) {
         state.filteringPanelModule = null;
-    },
+    }
 }
 
 const actions = {
