@@ -63,7 +63,10 @@ const FeatureSelect = {
         },
         shortLabel(label) {
             return label.length >= MAX_LABEL_LENGTH ? `${label.slice(0, 30)}...` : label;
-        }
+        },
+        showFilteringPanel(e) {
+            this.$store.commit('showFilteringPanel', { moduleName: this.settingsModule });
+        },
     },
     // language=HTML
     template: `
@@ -102,6 +105,7 @@ const FeatureSelect = {
                     placeholder="No filters selected"
                     :value="getShortFiltering"
                     @input="updateFilters($event)"
+                    v-on:search:focus="showFilteringPanel($event)"
                     :noDrop="true"
                     :searchable="false">
                 </v-select>
