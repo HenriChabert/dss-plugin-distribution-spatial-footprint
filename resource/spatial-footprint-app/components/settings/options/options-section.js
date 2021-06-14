@@ -36,7 +36,7 @@ const OptionsSection = {
             </div>
             
             <div v-if="settingsModule === 'competitor'" class="d-flex mb-3">
-                <label for="addCompetitorToggle">Add competitor</label>
+                <label for="addCompetitorToggle">Add competitor / other</label>
                 <v-toggle
                     id="addCompetitorToggle"
                     :value="getOptions.isActivated"

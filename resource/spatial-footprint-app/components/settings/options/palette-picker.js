@@ -3,9 +3,9 @@ import {DKUApi} from '../../../dku-api.js'
 const BUILT_IN_PALETTES = {
     location: [
         {
-            value: "grey_to_brown",
-            label: "Grey to brown",
-            colors: ["#E0D5D5", "#E0D5D5", "#8C807F", "#6E6867", "#67544D", "#43211E"]
+            value: "blue_to_violet",
+            label: "Blue to violet",
+            colors: ["#BCF8D1", "#69D8C5", "#7AC0EB", "#3B91D5", "#0354F5", "#1E375C"]
         },
         {
             value: "grey_to_green",
@@ -15,9 +15,9 @@ const BUILT_IN_PALETTES = {
     ],
     competitor: [
         {
-            value: "blue_to_violet",
-            label: "Blue to violet",
-            colors: ["#FFFFFF", "#9DA4B2", "#18274C", "#18274C", "#4C0F3D", "#403D65"]
+            value: "grey_to_brown",
+            label: "Grey to brown",
+            colors: ["#F9C532", "#EF623A", "#B9233A", "#871D3F", "#531C45", "#381F32"]
         },
         {
             value: "shades_of_blue",
