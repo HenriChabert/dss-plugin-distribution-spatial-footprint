@@ -1,4 +1,4 @@
-ISOCHRONES_DATASET_NAME = "webapp_iscohrones"
+ISOCHRONES_DATASET_NAME = "webapp_isochrones"
 LOCATIONS_DATASET_NAME = "webapp_locations"
 CUSTOMERS_DATASET_NAME = "webapp_customers"
 
