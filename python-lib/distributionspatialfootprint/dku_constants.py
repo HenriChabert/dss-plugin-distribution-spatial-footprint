@@ -1,6 +1,6 @@
-ISOCHRONES_DATASET_NAME = "locations_isochrones_denormalized"
-LOCATIONS_DATASET_NAME = "locations_isochrones"
-CUSTOMERS_DATASET_NAME = "locations_customers"
+ISOCHRONES_DATASET_NAME = "webapp_iscohrones"
+LOCATIONS_DATASET_NAME = "webapp_locations"
+CUSTOMERS_DATASET_NAME = "webapp_customers"
 
 
 CUSTOMERS_NO_FILTERING_COLUMNS = [
