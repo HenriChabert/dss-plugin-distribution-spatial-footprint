@@ -15,8 +15,7 @@ class DataHandler:
 
     def load_data(self):
         self.isochrones_df = dataiku.Dataset(constants.ISOCHRONES_DATASET_NAME).get_dataframe().applymap(str)
-        self.customers_df = self.preprocess_customers_df(dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe())\
-            .applymap(str)
+        self.customers_df = dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe().applymap(str)
         self.locations_df = dataiku.Dataset(constants.LOCATIONS_DATASET_NAME).get_dataframe().applymap(str)
         self.project_variables = dataiku.api_client().get_default_project().get_variables()
 
