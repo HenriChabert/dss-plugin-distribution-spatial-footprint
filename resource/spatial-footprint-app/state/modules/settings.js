@@ -44,25 +44,17 @@ const mutations = {
 }
 
 const actions = {
-    async fetchAvailableFilteringFeatures({ commit, rootState }, moduleName) {
+    async fetchAvailableFilteringFeatures({ commit, rootGetters }, moduleName) {
         let availableFilteringFeatures;
         if (moduleName === "customer") {
-            const zones = rootState.map.zones;
             const preFilters = {
-                location_id: _.concat(zones.location, zones.competitor).map((z) => z.location_id)
+                location_id: rootGetters.getAllLocations.map((l) => l.location_id)
             }
             availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("customer", preFilters);
         } else {
             availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("location");
         }
         commit('setAvailableFilteringFeatures', { availableFilteringFeatures })
-
-        if (moduleName === "location") {
-            commit('setFilteringFeature', {
-                featureName: 'location_identifier',
-                filters: [availableFilteringFeatures.location_identifier[0]]
-            })
-        }
     },
 
 }

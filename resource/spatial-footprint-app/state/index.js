@@ -19,8 +19,10 @@ const modules = {
 
 const getters = {
     getLocations: (state) => (moduleName) => state.locations[moduleName],
+    getLocationsIdentifier: (state) => (moduleName) => state.locations[moduleName].map((l) => l.location_identifier),
     getAllLocations: (state) => _.concat(state.locations.basic, state.locations.competitor),
     getCustomers: (state) => state.customers,
+    getCustomersIdentifier: (state) => state.customers.map((c) => c.included_customer_id),
     getLocation: (state) => (locID, moduleName) => state.locations[moduleName].find((loc) => loc.location_id === locID),
     getLocationActiveIsochrones: (state, getters, rootState, rootGetters) => (locID, moduleName) => {
         const locationIsochrones = getters.getLocation(locID, moduleName).isochrones;

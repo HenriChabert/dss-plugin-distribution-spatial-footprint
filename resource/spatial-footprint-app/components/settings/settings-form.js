@@ -70,9 +70,9 @@ const SettingsForm = {
                     <filtering-feature
                         name="location_identifier"
                         :items
-                        :settingsModule
-                        :selectable
-                        :isVisible>
+                        :settingsModule="settingsModule"
+                        :selectable="false"
+                        :isVisible="true">
                     
                     </filtering-feature>
                     <filtering-section

@@ -7,8 +7,10 @@ import competitor from './competitor.js'
 const state = () => ({
     webapp: {},
     projectVariables: {},
-    filteringPanelModule: null,
-    filteringPanelFocus: null,
+    filteringPanel: {
+        module: null,
+        focusFeature: null
+    },
     isochronesTypes: [],
     activeIsochrones: []
 })
@@ -38,9 +40,9 @@ const getters = {
     isIsochroneActive: (state, getters) => (isochroneType) => {
         return getters.getActiveIsochrones.find((iso) => iso.value.isochrone_type === isochroneType);
     },
-    showFilteringPanel: state => state.filteringPanelModule !== null,
-    getFilteringPanelModule: state => state.filteringPanelModule,
-    getFilteringPanelFocus: state => state.filteringPanelFocus
+    showFilteringPanel: state => state.filteringPanel.module !== null,
+    getFilteringPanelModule: state => state.filteringPanel.module,
+    getFilteringPanelFocus: state => state.filteringPanel.focusFeature
 }
 
 const mutations = {
@@ -54,15 +56,15 @@ const mutations = {
         state.projectVariables = projectVariables;
     },
     showFilteringPanel(state, { moduleName }) {
-        state.filteringPanelModule = moduleName;
-        state.filteringPanelFocus = null;
+        state.filteringPanel.module = moduleName;
+        state.filteringPanel.focusFeature = null;
     },
     showFilteringPanelAndFocus(state, { moduleName, focusFeature }) {
-        state.filteringPanelModule = moduleName;
-        state.filteringPanelFocus = focusFeature;
+        state.filteringPanel.module = moduleName;
+        state.filteringPanel.focusFeature = focusFeature;
     },
     hideFilteringPanel(state) {
-        state.filteringPanelModule = null;
+        state.filteringPanel.module = null;
     }
 }
 
