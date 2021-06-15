@@ -1,4 +1,3 @@
-import { DKUApi } from '../../../dku-api.js'
 import { PalettePicker } from "./palette-picker.js";
 import { VToggle } from "../../form/v-toggle.js";
 
@@ -10,6 +9,15 @@ const OptionsSection = {
     computed: {
         getOptions() {
             return this.getModuleGetter('getOptions');
+        },
+        toggleLabel() {
+            return this.settingsModule === 'competitor' ? "Add competitor / other" : "Show customers";
+        },
+        showToggle() {
+            return this.settingsModule !== "location";
+        },
+        showColorsPalette() {
+            return this.settingsModule === 'location' || (this.settingsModule === 'competitor' && this.getOptions.isActivated)
         }
     },
     components: {
@@ -26,24 +34,14 @@ const OptionsSection = {
     },
     template: `
         <div id="options-section">
-            <div v-if="settingsModule === 'customer'" class="d-flex mb-3">
-                <label for="showCustomerCheckbox">Show customers</label>
+            <div v-if="showToggle" class="d-flex mb-3">
+                <label>{{ toggleLabel }}</label>
                 <v-toggle
-                    id="addCompetitorToggle"
                     :value="getOptions.isActivated"
                     @input="setOption('isActivated', $event)"
                     class="ml-3"></v-toggle>
             </div>
-            
-            <div v-if="settingsModule === 'competitor'" class="d-flex mb-3">
-                <label for="addCompetitorToggle">Add competitor / other</label>
-                <v-toggle
-                    id="addCompetitorToggle"
-                    :value="getOptions.isActivated"
-                    @input="setOption('isActivated', $event)"
-                    class="ml-3"></v-toggle>
-            </div>
-            <div v-if="settingsModule === 'location' || (settingsModule === 'competitor' && getOptions.isActivated)">
+            <div v-if="showColorsPalette">
                 <palette-picker :settingsModule="settingsModule"></palette-picker>
             </div>
         </div>`

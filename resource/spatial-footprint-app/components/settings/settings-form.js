@@ -1,6 +1,5 @@
 import { FilteringSection } from './filtering/filtering-section.js'
 import { OptionsSection } from "./options/options-section.js";
-import { DKUApi } from '../../dku-api.js'
 import {SamplingSection} from "./sampling/sampling-section.js";
 
 const SettingsForm = {
