@@ -1,6 +1,7 @@
 import { FilteringSection } from './filtering/filtering-section.js'
-import { OptionsSection } from "./options/options-section.js";
 import {SamplingSection} from "./sampling/sampling-section.js";
+import {PalettePicker} from "./options/palette-picker.js";
+import {VToggle} from "../form/v-toggle.js";
 
 const SettingsForm = {
     name: "settings-form",
@@ -9,23 +10,39 @@ const SettingsForm = {
         settingsModule: String,
         isVisible: Boolean
     },
-    methods: {
-        toggleSettingsForm() {
-            this.$emit("update:moduleVisibility");
-        },
-        getModuleGetter(getter) {
-            return this.$store.getters.getModuleGetter(this.settingsModule, getter);
-        },
-    },
     computed: {
         getOptions() {
             return this.getModuleGetter('getOptions');
+        },
+        activationToggleLabel() {
+            return this.settingsModule === 'competitor' ? "Add competitor / other" : "Show customers";
+        },
+        showActivationToggle() {
+            return this.settingsModule !== "location";
+        },
+        showColorsPalette() {
+            return this.settingsModule !== "customer";
+        },
+        identifierLabel() {
+            return this.settingsModule === 'location' ? "Point of sales" : "Customer ID";
         }
+    },
+    methods: {
+        getModuleGetter(getter) {
+            return this.$store.getters.getModuleGetter(this.settingsModule, getter);
+        },
+        toggleSettingsForm() {
+            this.$emit("update:moduleVisibility");
+        },
+        setOption (optionName, e) {
+            this.$store.commit(`${this.settingsModule}/setOption`, {optionName, optionValue: e});
+        },
     },
     components: {
         'filtering-section': FilteringSection,
         'sampling-section': SamplingSection,
-        'options-section': OptionsSection,
+        'palette-picker': PalettePicker,
+        'v-toggle': VToggle
     },
     created () {
         this.$store.dispatch(`${this.settingsModule}/settings/fetchAvailableFilteringFeatures`, this.settingsModule);
@@ -42,14 +59,35 @@ const SettingsForm = {
                 </h4>
             </div>
             <div class="settings-form-body container" v-show="isVisible">
-                <options-section :settingsModule="settingsModule"
-                class="mb-3"></options-section>
-                <filtering-section v-show="getOptions.isActivated"
-                :settingsModule="settingsModule"
-                class="mb-3"></filtering-section>
-                <sampling-section v-show="getOptions.isActivated"
-                :settingsModule="settingsModule"
-                class="mb-3"></sampling-section>
+                <div v-if="showActivationToggle" class="d-flex mb-3">
+                    <label>{{ activationToggleLabel }}</label>
+                    <v-toggle
+                        :value="getOptions.isActivated"
+                        @input="setOption('isActivated', $event)"
+                        class="ml-3"></v-toggle>
+                </div>
+                <div v-show="getOptions.isActivated">
+                    <filtering-feature
+                        name="location_identifier"
+                        :items
+                        :settingsModule
+                        :selectable
+                        :isVisible>
+                    
+                    </filtering-feature>
+                    <filtering-section
+                        :settingsModule="settingsModule"
+                        class="mb-3">
+                    </filtering-section>
+                    <sampling-section
+                        :settingsModule="settingsModule"
+                        class="mb-3">
+                    </sampling-section>
+                    <div v-if="showColorsPalette">
+                        <palette-picker :settingsModule="settingsModule"></palette-picker>
+                    </div>
+                </div>
+                
             </div>
         </div>`,
 };

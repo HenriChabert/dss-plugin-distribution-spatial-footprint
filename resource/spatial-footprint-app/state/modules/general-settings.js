@@ -6,9 +6,9 @@ import competitor from './competitor.js'
 
 const state = () => ({
     webapp: {},
+    projectVariables: {},
     filteringPanelModule: null,
     filteringPanelFocus: null,
-    projectVariables: {},
     isochronesTypes: [],
     activeIsochrones: []
 })
@@ -34,6 +34,9 @@ const getters = {
             isoColorMapping[state.isochronesTypes[i].value.isochrone_type] = colorsPalette.colors ? colorsPalette.colors[i] : "#ffffff"
         }
         return isoColorMapping;
+    },
+    isIsochroneActive: (state, getters) => (isochroneType) => {
+        return getters.getActiveIsochrones.find((iso) => iso.value.isochrone_type === isochroneType);
     },
     showFilteringPanel: state => state.filteringPanelModule !== null,
     getFilteringPanelModule: state => state.filteringPanelModule,

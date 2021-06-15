@@ -164,7 +164,7 @@ label {
     transform: none;
 }
 
-#options-section .v-select {
+#palette-picker .v-select {
     flex-grow: 4;
 }
 

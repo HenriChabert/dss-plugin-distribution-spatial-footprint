@@ -1,4 +1,4 @@
-import BUILT_IN_PALETTES from '../../../assets/colors-palettes'
+import BUILT_IN_PALETTES from '../../../assets/colors-palettes.js'
 
 const PalettePicker = {
     name: "palette-picker",
