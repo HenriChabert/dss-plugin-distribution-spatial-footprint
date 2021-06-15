@@ -32,6 +32,7 @@ CUSTOMER_COLUMNS_TO_SEND = [
 
 LOCATIONS_NO_FILTERING_COLUMNS = [
     'address',
+    'location_identifier',
     'latitude',
     'longitude',
     'geo_point',
@@ -65,6 +66,7 @@ LOCATIONS_NO_FILTERING_COLUMNS = [
 
 LOCATION_COLUMNS_TO_SEND = [
     "location_id",
+    'location_identifier',
     "longitude",
     "latitude",
     "filteringFeatures",

@@ -14,12 +14,10 @@ const SettingsPanel = {
             'getActiveIsochrones',
             'getFilteringPanelModule',
             'showFilteringPanel',
+            'getFilteringPanelFocus'
         ]),
         panelTitle() {
-            return this.showFilteringPanel ? "Filters" : "Settings"
-        },
-        getAvailableFilters() {
-            return Object.keys(this.getModuleGetter('settings/getAvailableFilteringFeatures', this.getFilteringPanelModule))
+            return this.showFilteringPanel ? _.capitalize(this.getFilteringPanelFocus) : "Settings"
         }
     },
     data() {
@@ -55,17 +53,8 @@ const SettingsPanel = {
             return this.visibleModules.includes(moduleName);
         },
         focusOnModule(moduleName) {
-            if (!this.isModuleVisible(moduleName)) {
-                this.visibleModules = [moduleName];
-            }
+            this.visibleModules = this.isModuleVisible(moduleName) ? [] : [moduleName];
         },
-        toggleModuleVisibility(moduleName) {
-            if (this.isModuleVisible(moduleName)) {
-                this.visibleModules = this.visibleModules.filter(el => el !== moduleName);
-            } else {
-                this.visibleModules.push(moduleName);
-            }
-        }
     },
     mounted() {
         this.setActiveIsochrones(this.getIsochronesTypes)
