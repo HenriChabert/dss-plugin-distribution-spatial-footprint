@@ -18,13 +18,13 @@ const SettingsForm = {
             return this.settingsModule === 'competitor' ? "Add competitor / other" : "Show customers";
         },
         showActivationToggle() {
-            return this.settingsModule !== "location";
+            return this.settingsModule !== "basic";
         },
         showColorsPalette() {
             return this.settingsModule !== "customer";
         },
         identifierLabel() {
-            return this.settingsModule === 'location' ? "Point of sales" : "Customer ID";
+            return this.settingsModule === "basic" ? "Point of sales" : "Customer ID";
         }
     },
     methods: {
@@ -67,14 +67,14 @@ const SettingsForm = {
                         class="ml-3"></v-toggle>
                 </div>
                 <div v-show="getOptions.isActivated">
-                    <filtering-feature
-                        name="location_identifier"
-                        :items
-                        :settingsModule="settingsModule"
-                        :selectable="false"
-                        :isVisible="true">
-                    
-                    </filtering-feature>
+<!--                    <filtering-feature-->
+<!--                        name="location_identifier"-->
+<!--                        :items-->
+<!--                        :settingsModule="settingsModule"-->
+<!--                        :selectable="false"-->
+<!--                        :isVisible="true">-->
+<!--                    -->
+<!--                    </filtering-feature>-->
                     <filtering-section
                         :settingsModule="settingsModule"
                         class="mb-3">

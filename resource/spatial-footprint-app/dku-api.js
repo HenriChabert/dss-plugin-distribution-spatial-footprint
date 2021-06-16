@@ -17,7 +17,7 @@ axios.interceptors.response.use((response) => {
 
 export let APIErrors = [];
 export let DKUApi = {
-    getFilteredZones: (filters, sampling) => {
+    getFilteredLocations: (filters, sampling) => {
         return axios.post('filtered-data/location', {filtering: filters, sampling});
     },
     getFilteredCustomers: (filters, sampling) => {

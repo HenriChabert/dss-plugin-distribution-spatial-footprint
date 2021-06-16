@@ -23,9 +23,9 @@ const SettingsPanel = {
     data() {
         return {
             isDropped: false,
-            visibleModules: ["location"],
+            visibleModules: ["basic"],
             modules: [{
-                name: "location",
+                name: "basic",
                 label: "Network Analysis"
             }, {
                 name: "competitor",

@@ -6,7 +6,7 @@ const ISOCHRONE_WEIGHT = 6;
 const DkuGeoJson = {
     name: "dku-geo-json",
     props: {
-        zoneName: String,
+        locationName: String,
         iso: Object,
         color: String
     },
@@ -34,7 +34,7 @@ const DkuGeoJson = {
             return `
             <div>
                 <ul class="popup-list">
-                    <li><img src="../../resource/spatial-footprint-app/img/custom-marker.png" alt="custom marker" /> ${this.zoneName}</li>
+                    <li><img src="../../resource/spatial-footprint-app/img/custom-marker.png" alt="custom marker" /> ${this.locationName}</li>
                     <li><img src="../../resource/spatial-footprint-app/img/iso-thumb.png" alt="Iso Thumbnail" /> ${this.iso.isochrone_label}</li>
                 </ul>
             </div>`

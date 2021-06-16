@@ -62,7 +62,7 @@ class DataHandler:
             if not settings["value"] or settings["value"] < 0:
                 settings["value"] = 0
             sampling_val = int(settings["value"])
-            if moduleName == "location":
+            if moduleName == "basic":
                 if sampling_val > len(df_to_sample):
                     return df_to_sample
                 return df_to_sample.sample(int(settings["value"]))
@@ -86,7 +86,7 @@ class DataHandler:
         for i, rec in enumerate(dict_to_send):
             rec["filteringFeatures"] = filtering_features[i]
 
-        if moduleName == 'location':
+        if moduleName == "basic":
             self.add_isochrones_to_locations(dict_to_send)
 
         return dict_to_send
@@ -99,7 +99,7 @@ class DataHandler:
                 iso["isochrone_data"] = json.loads(iso["isochrone_data"])
             location["isochrones"] = locations_isochrones
 
-    def filter_zones(self, moduleName, settings):
+    def filter_locations(self, moduleName, settings):
         df_to_handle = self.customers_df if moduleName == "customer" else self.locations_df
         filtered_df = self.apply_filtering(df_to_handle, settings["filtering"])
         sampled_df = self.apply_sampling(moduleName, filtered_df, settings["sampling"])
@@ -123,6 +123,6 @@ if __name__ == "__main__":
     settings = {"filtering": {"location_id": ["0"]}, "sampling": {"type": "nRows", "value": 100}}
 
     data_handler = DataHandler()
-    isos = data_handler.filter_zones("customer", settings)
+    isos = data_handler.filter_locations("customer", settings)
     print(isos)
     print(len(isos))

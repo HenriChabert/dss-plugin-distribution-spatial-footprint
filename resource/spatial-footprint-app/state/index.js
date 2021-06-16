@@ -1,6 +1,6 @@
 import generalSettings from './modules/general-settings.js'
 import map from './modules/map.js'
-import {DKUApi} from "../dku-api";
+import {DKUApi} from "../dku-api.js";
 
 Vue.use(Vuex)
 
@@ -27,7 +27,7 @@ const getters = {
     getLocationActiveIsochrones: (state, getters, rootState, rootGetters) => (locID, moduleName) => {
         const locationIsochrones = getters.getLocation(locID, moduleName).isochrones;
         const activeLocationIsochrones = locationIsochrones
-            .filter((iso) => rootGetters.isIsochroneActive(iso.isochrome_type))
+            .filter((iso) => rootGetters.isIsochroneActive(iso.isochrone_type))
         activeLocationIsochrones.sort((a, b) => b.isochrone_amplitude - a.isochrone_amplitude)
         return activeLocationIsochrones
     },
@@ -60,7 +60,7 @@ const actions = {
     async getFilteredCustomers ({ commit, state, getters }) {
         const settings = state.generalSettings.customer.settings;
         const filtering = settings.filtering;
-        filtering.location_id = getters.map((loc) => loc.location_id)
+        filtering.location_id = getters.getAllLocations.map((loc) => loc.location_id)
         const filteredCustomers = await DKUApi.getFilteredCustomers(
             filtering,
             settings.sampling

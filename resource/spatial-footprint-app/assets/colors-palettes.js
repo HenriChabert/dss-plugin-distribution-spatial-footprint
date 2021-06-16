@@ -1,5 +1,5 @@
 const BUILT_IN_PALETTES = {
-    location: [
+    basic: [
         {
             value: "blue_to_violet",
             label: "Blue to violet",

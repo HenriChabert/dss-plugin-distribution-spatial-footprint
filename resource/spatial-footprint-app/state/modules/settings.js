@@ -52,7 +52,7 @@ const actions = {
             }
             availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("customer", preFilters);
         } else {
-            availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("location");
+            availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("basic");
         }
         commit('setAvailableFilteringFeatures', { availableFilteringFeatures })
     },

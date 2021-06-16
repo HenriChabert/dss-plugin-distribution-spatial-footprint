@@ -1,6 +1,6 @@
 import { DKUApi } from '../../dku-api.js'
 
-import location from './location.js'
+import basic from './basic.js'
 import customer from './customer.js'
 import competitor from './competitor.js'
 
@@ -16,7 +16,7 @@ const state = () => ({
 })
 
 const modules = {
-    location,
+    basic,
     customer,
     competitor
 }
@@ -38,7 +38,7 @@ const getters = {
         return isoColorMapping;
     },
     isIsochroneActive: (state, getters) => (isochroneType) => {
-        return getters.getActiveIsochrones.find((iso) => iso.value.isochrone_type === isochroneType);
+        return !!getters.getActiveIsochrones.find((iso) => iso.value.isochrone_type === isochroneType);
     },
     showFilteringPanel: state => state.filteringPanel.module !== null,
     getFilteringPanelModule: state => state.filteringPanel.module,
