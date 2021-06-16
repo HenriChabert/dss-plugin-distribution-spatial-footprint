@@ -331,3 +331,16 @@ hr {
     color: #333333;
     border: 1px solid #cccccc;
 }
+
+.tabs-header .tab-activated {
+    border-bottom: solid black 2px;
+}
+
+.tabs-header span {
+    text-transform: uppercase !important;
+    font-weight: bold;
+}
+
+.tabs-header .tab-option {
+    cursor: pointer;
+}

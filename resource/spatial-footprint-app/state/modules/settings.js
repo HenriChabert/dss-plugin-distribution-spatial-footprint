@@ -2,6 +2,7 @@ import {DKUApi} from "../../dku-api.js";
 
 const state = () => ({
     availableFilteringFeatures: {},
+    availableIdentifiers: [],
     filtering: {},
     sampling: {
         type: "nRows",
@@ -18,6 +19,9 @@ const getters = {
     },
     getAvailableFilteringFeatures: (state) => {
         return state.availableFilteringFeatures;
+    },
+    getAvailableIdentifiers: (state) => {
+        return state.availableIdentifiers;
     },
     filtersCount: (state, getters) => (featureName) => {
         return getters.getFeatureFilters(featureName).length
@@ -41,6 +45,9 @@ const mutations = {
     setAvailableFilteringFeatures(state, { availableFilteringFeatures }) {
         state.availableFilteringFeatures = availableFilteringFeatures;
     },
+    setAvailableIdentifiers(state, { availableIdentifiers }) {
+        state.availableIdentifiers = availableIdentifiers;
+    },
 }
 
 const actions = {
@@ -48,13 +55,17 @@ const actions = {
         let availableFilteringFeatures;
         if (moduleName === "customer") {
             const preFilters = {
-                location_id: rootGetters.getAllLocations.map((l) => l.location_id)
+                location_uuid: rootGetters.getAllLocations.map((l) => l.location_uuid)
             }
             availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("customer", preFilters);
         } else {
-            availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("basic");
+            availableFilteringFeatures = await DKUApi.getAvailableFilteringFeatures("location");
         }
         commit('setAvailableFilteringFeatures', { availableFilteringFeatures })
+    },
+    async fetchAvailableIdentifiers({ commit, rootGetters }, moduleName) {
+        let availableIdentifiers = await DKUApi.getAvailableIdentifiers(moduleName === "customer" ? "customer" : "location");
+        commit('setAvailableIdentifiers', { availableIdentifiers })
     },
 
 }

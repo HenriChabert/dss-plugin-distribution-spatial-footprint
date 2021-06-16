@@ -4,6 +4,10 @@ const FilteringFeature = {
     name: "filtering-feature",
     props: {
         name: String,
+        label: {
+            type: String,
+            default: null
+        },
         items: Array,
         settingsModule: String,
         selectable: Boolean,
@@ -33,7 +37,7 @@ const FilteringFeature = {
             <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature">
                 <i v-if="isVisible" class="icon-sort-down"></i>
                 <i v-else class="icon-sort-up"></i>
-                <span class="ml-3">{{ name }}</span>
+                <span class="ml-3">{{ label || name }}</span>
                 <span class="ml-auto mr-2">{{ filtersCount(name) }}/{{ itemsCount }}</span>
             </div>
             <feature-select class="container mb-4 mt-1" v-show="isVisible"

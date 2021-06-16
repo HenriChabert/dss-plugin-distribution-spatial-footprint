@@ -47,6 +47,7 @@ const DkuMap = {
             const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(.*)/);
             if (location_updated) {
                 this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
+                    this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
                     this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
                     this.$store.dispatch('getFilteredCustomers');
                 });
@@ -76,12 +77,12 @@ const DkuMap = {
             </l-control>
             <l-feature-group ref="features">
                 <location-layer-group v-for="location in getLocations('basic')"
-                    :key="location.location_id"
+                    :key="location.uuid"
                     :location="location"
                     moduleName="basic"></location-layer-group>
                 <location-layer-group v-if="showCompetitor"
                     v-for="location in getLocations('competitor')"
-                    :key="location.location_id + '_competitor'" 
+                    :key="location.uuid + '_competitor'" 
                     :location="location"
                     moduleName="competitor"></location-layer-group>
                 <customer-pane v-if="showCustomers"

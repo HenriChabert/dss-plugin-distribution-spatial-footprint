@@ -5,6 +5,7 @@ const FilteringSection = {
     props: {
         settingsModule: String,
         selectable: Boolean,
+        featuresToShow: Array,
         focusOn: {
             type: String,
             default: null
@@ -27,8 +28,7 @@ const FilteringSection = {
                 result[this.focusOn] = availableFilteringFeatures[this.focusOn];
                 return result;
             }
-            const { location_identifier, ...otherFilteringFeatures } = availableFilteringFeatures
-            return location_identifier ? { location_identifier, ...otherFilteringFeatures } : otherFilteringFeatures;
+            return availableFilteringFeatures
         },
         hasFilters() {
             return !_.isEmpty(this.getModuleGetter('settings/getFiltering'));

@@ -26,6 +26,9 @@ export let DKUApi = {
     getAvailableFilteringFeatures: (moduleName, preFilters) => {
         return axios.post(`available-filtering-features/${moduleName}`, { pre_filters: preFilters});
     },
+    getAvailableIdentifiers: (moduleName) => {
+        return axios.get(`available-identifiers/${moduleName}`);
+    },
     getIsochronesTypes: () => {
         return axios.get('available-isochrone-types');
     },

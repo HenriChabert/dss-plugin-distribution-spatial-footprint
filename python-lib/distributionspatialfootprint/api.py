@@ -25,6 +25,10 @@ def define_endpoints(app):
         req_data = request.get_json()
         return jsonify(data_handler.get_available_filtering_features(moduleName, req_data))
 
+    @app.route('/available-identifiers/<moduleName>', methods=['GET'])
+    def get_available_identifiers(moduleName):
+        return jsonify(data_handler.get_available_identifiers(moduleName))
+
     @app.route('/filtered-data/<moduleName>', methods=['POST'])
     def get_filtered_locations(moduleName):
         req_data = request.get_json()

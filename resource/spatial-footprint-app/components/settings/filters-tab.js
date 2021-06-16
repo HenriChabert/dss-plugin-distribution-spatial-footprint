@@ -5,8 +5,8 @@ import {PalettePicker} from "./options/palette-picker.js";
 import {VToggle} from "../form/v-toggle.js";
 import {PointsOfSalesTab} from "./points-of-sales-tab.js";
 
-const SettingsForm = {
-    name: "settings-form",
+const FiltersTab = {
+    name: "filters-tab",
     props: {
         moduleName: String,
         settingsModule: String,
@@ -54,8 +54,8 @@ const SettingsForm = {
         'points-of-sales-tab': PointsOfSalesTab
     },
     created () {
-        this.$store.dispatch(`${this.settingsModule}/settings/fetchAvailableFilteringFeatures`, this.settingsModule);
         this.$store.dispatch(`${this.settingsModule}/settings/fetchAvailableIdentifiers`, this.settingsModule);
+        this.$store.dispatch(`${this.settingsModule}/settings/fetchAvailableFilteringFeatures`, this.settingsModule);
     },
     template: `
         <div id="settings-form">
@@ -77,15 +77,6 @@ const SettingsForm = {
                         class="ml-3"></v-toggle>
                 </div>
                 <div v-show="getOptions.isActivated">
-                    
-<!--                    <filtering-feature-->
-<!--                        name="location_identifier"-->
-<!--                        :items-->
-<!--                        :settingsModule="settingsModule"-->
-<!--                        :selectable="false"-->
-<!--                        :isVisible="true">-->
-<!--                    -->
-<!--                    </filtering-feature>-->
                     <tabs-header :activatedTab.sync="activatedTab"></tabs-header>
                     <points-of-sales-tab v-show="activatedTab === 'points_of_sales'"
                         :settingsModule="settingsModule"></points-of-sales-tab>
@@ -106,4 +97,4 @@ const SettingsForm = {
         </div>`,
 };
 
-export {SettingsForm}
+export {FiltersTab}

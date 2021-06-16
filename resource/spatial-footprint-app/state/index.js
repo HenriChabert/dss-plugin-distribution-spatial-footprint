@@ -19,11 +19,11 @@ const modules = {
 
 const getters = {
     getLocations: (state) => (moduleName) => state.locations[moduleName],
-    getLocationsIdentifier: (state) => (moduleName) => state.locations[moduleName].map((l) => l.location_identifier),
+    getLocationsIdentifier: (state) => (moduleName) => state.locations[moduleName].map((l) => l.id),
     getAllLocations: (state) => _.concat(state.locations.basic, state.locations.competitor),
     getCustomers: (state) => state.customers,
-    getCustomersIdentifier: (state) => state.customers.map((c) => c.included_customer_id),
-    getLocation: (state) => (locID, moduleName) => state.locations[moduleName].find((loc) => loc.location_id === locID),
+    getCustomersIdentifier: (state) => state.customers.map((c) => c.id),
+    getLocation: (state) => (locUUID, moduleName) => state.locations[moduleName].find((loc) => loc.location_uuid === locUUID),
     getLocationActiveIsochrones: (state, getters, rootState, rootGetters) => (locID, moduleName) => {
         const locationIsochrones = getters.getLocation(locID, moduleName).isochrones;
         const activeLocationIsochrones = locationIsochrones
@@ -60,7 +60,7 @@ const actions = {
     async getFilteredCustomers ({ commit, state, getters }) {
         const settings = state.generalSettings.customer.settings;
         const filtering = settings.filtering;
-        filtering.location_id = getters.getAllLocations.map((loc) => loc.location_id)
+        filtering.location_uuid = getters.getAllLocations.map((loc) => loc.location_uuid)
         const filteredCustomers = await DKUApi.getFilteredCustomers(
             filtering,
             settings.sampling
