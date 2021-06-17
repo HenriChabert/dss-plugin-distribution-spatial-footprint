@@ -18,7 +18,7 @@ const FiltersTab = {
             return this.getModuleGetter('settings/getAvailableFilteringFeatures');
         },
         getValidFilters() {
-            const a = _.pickBy(this.getModuleGetter('settings/getFiltering'), (f) => !_.isEmpty(f));
+            const a = _.pickBy(this.getModuleGetter('settings/getFiltering'), (f, fk) => !_.isEmpty(f) && fk !== "id");
             return a
         },
         hasFilters() {
