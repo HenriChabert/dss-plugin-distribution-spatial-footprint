@@ -59,7 +59,7 @@ class DataHandler:
             if not settings["value"] or settings["value"] < 0:
                 settings["value"] = 0
             sampling_val = int(settings["value"])
-            if moduleName == "basic":
+            if moduleName == "location":
                 if sampling_val > len(df_to_sample):
                     return df_to_sample
                 return df_to_sample.sample(int(settings["value"]))
@@ -83,7 +83,7 @@ class DataHandler:
         for i, rec in enumerate(dict_to_send):
             rec["filteringFeatures"] = filtering_features[i]
 
-        if moduleName == "basic":
+        if moduleName == "location":
             self.add_isochrones_to_locations(dict_to_send)
 
         return dict_to_send

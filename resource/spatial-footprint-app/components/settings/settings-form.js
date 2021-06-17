@@ -4,6 +4,7 @@ import {SamplingSection} from "./sampling/sampling-section.js";
 import {PalettePicker} from "./options/palette-picker.js";
 import {VToggle} from "../form/v-toggle.js";
 import {PointsOfSalesTab} from "./points-of-sales-tab.js";
+import {FiltersTab} from "./filters-tab.js";
 
 const SettingsForm = {
     name: "settings-form",
@@ -51,7 +52,8 @@ const SettingsForm = {
         'palette-picker': PalettePicker,
         'v-toggle': VToggle,
         'tabs-header': TabsHeader,
-        'points-of-sales-tab': PointsOfSalesTab
+        'points-of-sales-tab': PointsOfSalesTab,
+        'filters-tab': FiltersTab
     },
     created () {
         this.$store.dispatch(`${this.settingsModule}/settings/fetchAvailableFilteringFeatures`, this.settingsModule);
@@ -89,10 +91,12 @@ const SettingsForm = {
                     <tabs-header :activatedTab.sync="activatedTab"></tabs-header>
                     <points-of-sales-tab v-show="activatedTab === 'points_of_sales'"
                         :settingsModule="settingsModule"></points-of-sales-tab>
-                    <filtering-section
-                        :settingsModule="settingsModule"
-                        class="mb-3">
-                    </filtering-section>
+                    <filters-tab v-show="activatedTab === 'filters'"
+                        :settingsModule="settingsModule"></filters-tab>
+<!--                    <filtering-section-->
+<!--                        :settingsModule="settingsModule"-->
+<!--                        class="mb-3">-->
+<!--                    </filtering-section>-->
                     <sampling-section
                         :settingsModule="settingsModule"
                         class="mb-3">

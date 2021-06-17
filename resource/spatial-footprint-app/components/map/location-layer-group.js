@@ -51,7 +51,7 @@ const LocationLayerGroup = {
                         :filteringFeatures="location.filteringFeatures">
                 </info-popup>
             </l-marker>
-            <dku-geo-json v-for="iso in getLocationActiveIsochrones(location.location_UUid, moduleName)"
+            <dku-geo-json v-for="iso in getLocationActiveIsochrones(location.location_uuid, moduleName)"
                 :key="iso.isochrone_id"
                 :locationName="location.id.toString()"
                 :iso="iso"

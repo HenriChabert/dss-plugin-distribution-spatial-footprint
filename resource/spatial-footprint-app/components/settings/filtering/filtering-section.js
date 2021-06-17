@@ -5,15 +5,12 @@ const FilteringSection = {
     props: {
         settingsModule: String,
         selectable: Boolean,
-        featuresToShow: Array,
-        focusOn: {
-            type: String,
-            default: null
-        }
+        features: Array,
+        showNames: Boolean
     },
     data() {
         return {
-            visibleFeatures: []
+            visibleFeatures: this.features.slice(0, 1)
         }
     },
     components: {
@@ -21,41 +18,38 @@ const FilteringSection = {
         'v-select': VueSelect.VueSelect
     },
     computed: {
-        getAvailableFilteringFeatures() {
-            const availableFilteringFeatures = this.getModuleGetter('settings/getAvailableFilteringFeatures');
-            if (this.focusOn !== null && availableFilteringFeatures[this.focusOn]) {
-                const result = {};
-                result[this.focusOn] = availableFilteringFeatures[this.focusOn];
-                return result;
-            }
-            return availableFilteringFeatures
+        // hasFilters() {
+        //     return !_.isEmpty(this.getModuleGetter('settings/getFiltering'));
+        // },
+        hasFeatures() {
+            return !_.isEmpty(this.features);
         },
-        hasFilters() {
-            return !_.isEmpty(this.getModuleGetter('settings/getFiltering'));
-        },
-        hasAvailableFilters() {
-            return !_.isEmpty(this.getModuleGetter('settings/getAvailableFilteringFeatures'));
+        featuresAndItems() {
+            const featuresAndItems = {};
+            this.features.forEach((f) => {
+                featuresAndItems[f] = this.featureAvailableItems(f);
+            })
+            return featuresAndItems
         }
     },
     methods: {
-        initFilteringOptions() {
-            for (const [featureName, featureItems] of Object.entries(this.getAvailableFilteringFeatures)) {
-                this.$store.commit(`${this.settingsModule}/settings/setFilteringFeature`, { featureName, filters: [] });
+        featureAvailableItems(featureName) {
+            let availableItems;
+            if (featureName === "id") {
+                availableItems = this.getModuleGetter("settings/getAvailableIdentifiers");
+            } else {
+                availableItems = this.getModuleGetter("settings/getAvailableFilteringFeatures")[featureName];
             }
+            return availableItems || [];
         },
         getModuleGetter(getter) {
-            return this.$store.getters.getModuleGetter(this.settingsModule, getter);
+            return this.$store.getters.getModuleGetter(this.settingsModule, getter)
         },
-        showFilteringPanel() {
-            this.$store.commit('showFilteringPanel', { moduleName: this.settingsModule });
-        },
+        // showFilteringPanel() {
+        //     this.$store.commit('showFilteringPanel', { moduleName: this.settingsModule });
+        // },
         isFeatureVisible(featureName) {
             return this.visibleFeatures.includes(featureName);
-        },
-        focusOnFeature(featureName) {
-            if (!this.isFeatureVisible(featureName)) {
-                this.visibleFeatures = [featureName];
-            }
         },
         toggleFeatureVisibility(featureName) {
             if (this.isFeatureVisible(featureName)) {
@@ -65,39 +59,16 @@ const FilteringSection = {
             }
         }
     },
-    mounted() {
-        if (this.focusOn !== null) {
-            this.focusOnFeature(this.focusOn);
-        }
-    },
     template: `
         <div id="filtering-section">
-            <div class="d-flex align-items-center" v-if="!selectable">
-                <h5 class="mr-auto">Filtering</h5>
-                <a href="javascript:void(0);" class="filter-action-btn" @click="initFilteringOptions" v-if="hasFilters">CLEAR FILTERS</a>
-                <a href="javascript:void(0);" class="filter-action-btn ml-3" @click="showFilteringPanel">EDIT FILTERS</a>
-            </div>
-            
-            <div class="mb-2" v-if="selectable">
-                <v-select
-                    :options="Object.keys(getAvailableFilteringFeatures)"
-                    @input="focusOnFeature($event)"
-                    placeholder="Enter a filter name..."
-                    >
-                    <template slot="open-indicator">
-                        <span><i class="icon-search"></i></span>
-                    </template>
-                </v-select>
-                <hr>
-            </div>
-            
-            <div class="filtering-features" v-if="hasAvailableFilters">
-                <filtering-feature v-for="(featureItems, featureName) in getAvailableFilteringFeatures" :key="featureName"
+            <div class="filtering-features" v-if="hasFeatures">
+                <filtering-feature v-for="(featureItems, featureName) in featuresAndItems" :key="featureName"
                     :name="featureName"
                     :items="featureItems"
                     :settingsModule="settingsModule"
                     :selectable="selectable"
                     :isVisible="isFeatureVisible(featureName)"
+                    :showName="showNames"
                     v-on:update:featureVisibility="toggleFeatureVisibility(featureName)"
                     ></filtering-feature>
             </div>

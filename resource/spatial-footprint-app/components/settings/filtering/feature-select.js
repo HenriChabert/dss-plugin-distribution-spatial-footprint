@@ -4,6 +4,7 @@ const FeatureSelect = {
     name: "feature-select",
     props: {
         name: String,
+        label: String,
         items: Array,
         settingsModule: String,
         selectable: Boolean
@@ -65,7 +66,11 @@ const FeatureSelect = {
             return label.length >= MAX_LABEL_LENGTH ? `${label.slice(0, 30)}...` : label;
         },
         showFilteringPanelAndFocus(e) {
-            this.$store.commit('showFilteringPanelAndFocus', { moduleName: this.settingsModule, focusFeature: this.name });
+            this.$store.commit('showFilteringPanelAndFocus', {
+                moduleName: this.settingsModule,
+                focusFeatureName: this.name,
+                focusFeatureLabel: this.label
+            });
         },
     },
     // language=HTML
@@ -100,7 +105,7 @@ const FeatureSelect = {
                     </div>
                 </div>
             </div>
-            <div v-else>
+            <div class="d-flex align-items-center" v-else>
                 <v-select multiple class="filters-multi-list mb-2"
                     placeholder="No filters selected"
                     :value="getShortFiltering"
@@ -109,6 +114,7 @@ const FeatureSelect = {
                     :noDrop="true"
                     :searchable="false">
                 </v-select>
+                <a href="#"><i class="icon-trash"></i></a>
             </div>
         </div>`
 };

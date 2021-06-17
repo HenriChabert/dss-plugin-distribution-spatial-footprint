@@ -9,10 +9,14 @@ const PointsOfSalesTab = {
         identifierLabel() {
             return this.settingsModule === "customer" ? "Customer ID" : "Point of sales";
         },
-        getAvailableIdentifiers: () => this.getModuleGetter('settings/getAvailableIdentifiers') || []
+        getAvailableIdentifiers() {
+            return this.getModuleGetter('settings/getAvailableIdentifiers') || [];
+        }
     },
     methods: {
-        getModuleGetter: (getter) => this.$store.getters.getModuleGetter(this.settingsModule, getter)
+        getModuleGetter(getter) {
+            return this.$store.getters.getModuleGetter(this.settingsModule, getter);
+        }
     },
     components: {
         'filtering-feature': FilteringFeature,

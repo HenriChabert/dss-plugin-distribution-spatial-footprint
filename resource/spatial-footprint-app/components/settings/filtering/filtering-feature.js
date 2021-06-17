@@ -11,7 +11,8 @@ const FilteringFeature = {
         items: Array,
         settingsModule: String,
         selectable: Boolean,
-        isVisible: Boolean
+        isVisible: Boolean,
+        showName: Boolean
     },
     computed: {
         filtersCount() {
@@ -34,7 +35,7 @@ const FilteringFeature = {
     },
     template: `
         <div class="filter-select">
-            <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature">
+            <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature" v-if="showName">
                 <i v-if="isVisible" class="icon-sort-down"></i>
                 <i v-else class="icon-sort-up"></i>
                 <span class="ml-3">{{ label || name }}</span>
@@ -43,6 +44,7 @@ const FilteringFeature = {
             <feature-select class="container mb-4 mt-1" v-show="isVisible"
                 :items="items"
                 :name="name"
+                :label="label"
                 :settingsModule="settingsModule"
                 :selectable="selectable"></feature-select>
             <hr>

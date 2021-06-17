@@ -9,7 +9,8 @@ const state = () => ({
     projectVariables: {},
     filteringPanel: {
         module: null,
-        focusFeature: null
+        focusFeature: null,
+        focusFeatureLabel: "filters"
     },
     isochronesTypes: [],
     activeIsochrones: []
@@ -42,7 +43,8 @@ const getters = {
     },
     showFilteringPanel: state => state.filteringPanel.module !== null,
     getFilteringPanelModule: state => state.filteringPanel.module,
-    getFilteringPanelFocus: state => state.filteringPanel.focusFeature
+    getFilteringPanelFocus: state => state.filteringPanel.focusFeature,
+    getFilteringPanelTitle: state => state.filteringPanel.focusFeatureLabel
 }
 
 const mutations = {
@@ -58,10 +60,12 @@ const mutations = {
     showFilteringPanel(state, { moduleName }) {
         state.filteringPanel.module = moduleName;
         state.filteringPanel.focusFeature = null;
+        state.filteringPanel.focusFeatureLabel = "filters";
     },
-    showFilteringPanelAndFocus(state, { moduleName, focusFeature }) {
+    showFilteringPanelAndFocus(state, { moduleName, focusFeatureName, focusFeatureLabel }) {
         state.filteringPanel.module = moduleName;
-        state.filteringPanel.focusFeature = focusFeature;
+        state.filteringPanel.focusFeature = focusFeatureName;
+        state.filteringPanel.focusFeatureLabel = focusFeatureLabel;
     },
     hideFilteringPanel(state) {
         state.filteringPanel.module = null;

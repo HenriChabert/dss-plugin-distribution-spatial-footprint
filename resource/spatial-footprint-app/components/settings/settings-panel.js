@@ -14,10 +14,10 @@ const SettingsPanel = {
             'getActiveIsochrones',
             'getFilteringPanelModule',
             'showFilteringPanel',
-            'getFilteringPanelFocus'
+            'getFilteringPanelTitle'
         ]),
         panelTitle() {
-            return this.showFilteringPanel ? _.capitalize(this.getFilteringPanelFocus) : "Settings"
+            return this.showFilteringPanel ? _.capitalize(this.getFilteringPanelTitle) : "Settings";
         }
     },
     data() {

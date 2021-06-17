@@ -344,3 +344,23 @@ hr {
 .tabs-header .tab-option {
     cursor: pointer;
 }
+
+.btn-primary {
+    text-transform: uppercase;
+    font-size: inherit;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-top: 11px;
+    padding: 3px 8px;
+    line-height: 1.4;
+    background-color: #ffffff;
+    color: #3B99FC;
+    border: 1px solid #3B99FC;
+    border-radius: 0 !important;
+}
+
+.filter-action-btn,.filter-action-btn:hover {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #3B99FC
+}
