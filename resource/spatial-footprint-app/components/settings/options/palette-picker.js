@@ -34,7 +34,7 @@ const PalettePicker = {
     },
     template: `
         <div id="palette-picker" class="d-flex align-items-center">
-            <span class="mr-2">Color palette</span>
+            <span class="me-2">Color palette</span>
             <v-select
             :options="options"
             @input="updateColorsPalette($event)"

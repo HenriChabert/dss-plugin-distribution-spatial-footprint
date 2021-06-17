@@ -9,6 +9,11 @@ const FeatureSelect = {
         settingsModule: String,
         selectable: Boolean
     },
+    data() {
+        return {
+            searchString: ""
+        }
+    },
     components: {
         'v-select': VueSelect.VueSelect
     },
@@ -58,6 +63,9 @@ const FeatureSelect = {
             }
             this.updateFilters(selectedFilters);
         },
+        clearFilter() {
+            this.updateFilters([]);
+        },
         selectOrDeselectAll() {
             const newSelectedItems = this.isAllSelected ? [] : _.cloneDeep(this.items);
             this.updateFilters(newSelectedItems);
@@ -72,6 +80,9 @@ const FeatureSelect = {
                 focusFeatureLabel: this.label
             });
         },
+        isItemValid(item) {
+            return item.match(`(.*)${this.searchString}(.*)`)
+        }
     },
     // language=HTML
     template: `
@@ -80,7 +91,9 @@ const FeatureSelect = {
                 <v-select class="mb-2"
                     :options="items"
                     placeholder="Select an item..."
-                    @input="addFilter($event)">
+                    :noDrop="true"
+                    @input="addFilter($event)"
+                    v-on:>
                     <template slot="open-indicator">
                         <span><i class="icon-search"></i></span>
                     </template>
@@ -96,7 +109,7 @@ const FeatureSelect = {
                         @click="selectOrDeselectAll()">
                         <span>All</span>
                     </div>
-                    <div class="feature-select-item" v-for="it in items" :key="it">
+                    <div class="feature-select-item" v-for="it in items" v-if="isItemValid" :key="it">
                         <input type="checkbox"
                         :value="it"
                         :checked="isItemSelected(it)"
@@ -106,15 +119,21 @@ const FeatureSelect = {
                 </div>
             </div>
             <div class="d-flex align-items-center" v-else>
-                <v-select multiple class="filters-multi-list mb-2"
+                <v-select multiple class="filters-multi-list mb-2 flex-grow-1"
                     placeholder="No filters selected"
                     :value="getShortFiltering"
                     @input="updateFilters($event)"
                     v-on:search:focus="showFilteringPanelAndFocus($event)"
                     :noDrop="true"
                     :searchable="false">
+                    
+                    <template slot="open-indicator">
+                        <span><i class="plus-sign"></i></span>
+                    </template>
                 </v-select>
-                <a href="#"><i class="icon-trash"></i></a>
+                <a href="javascript:void(0);" class="ms-2" v-on:click="clearFilter">
+                    <i class="icon-trash"></i>
+                </a>
             </div>
         </div>`
 };

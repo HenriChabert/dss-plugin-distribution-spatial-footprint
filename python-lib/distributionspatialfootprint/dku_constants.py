@@ -5,6 +5,7 @@ CUSTOMERS_DATASET_NAME = "webapp_customers"
 
 CUSTOMERS_NO_FILTERING_COLUMNS = [
     'id',
+    'customer_uuid',
     'location_uuid',
     'isochrone_type',
     'distance_customer_location',

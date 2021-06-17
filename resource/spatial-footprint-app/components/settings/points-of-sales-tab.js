@@ -27,6 +27,7 @@ const PointsOfSalesTab = {
                 name="id"
                 :items="getAvailableIdentifiers"
                 :label="identifierLabel"
+                :showName="true"
                 :settingsModule="settingsModule"
                 :selectable="false"
                 :isVisible="true">

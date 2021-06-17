@@ -44,14 +44,14 @@ const FiltersTab = {
         <div class="filters-tab">
             <div class="empty-filters-placeholder d-flex align-items-center justify-content-center" v-if="!hasFilters">
                 <button class="btn btn-primary" v-on:click="showFilteringPanel">
-                    <i class="icon-filter mr-1"></i>
+                    <i class="icon-filter me-1"></i>
                     <span>create filters</span>
                 </button>
             </div>
             <div class="filters-section" v-if="hasFilters">
                 <div class="filters-actions d-flex align-items-center justify-content-end">
                     <a href="javascript:void(0);" class="filter-action-btn" @click="clearFilters">clear filters</a>
-                    <a href="javascript:void(0);" class="filter-action-btn ml-3" @click="showFilteringPanel">add filters</a>
+                    <a href="javascript:void(0);" class="filter-action-btn ms-3" @click="showFilteringPanel">add filters</a>
                 </div>
                 <filtering-section
                     :settingsModule="settingsModule"

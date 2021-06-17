@@ -2,18 +2,26 @@
     font-family: Source Sans Pro;
     src: url(../../resource/spatial-footprint-app/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf);
 }
+/*@font-face {*/
+/*    font-family: Source Sans Pro;*/
+/*    src: url(../../resource/spatial-footprint-app/fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf);*/
+/*    font-weight: bold;*/
+/*}*/
 @font-face {
     font-family: Source Sans Pro;
-    src: url(../../resource/spatial-footprint-app/fonts/Source_Sans_Pro/SourceSansPro-Bold.ttf);
+    src: url(../../resource/spatial-footprint-app/fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf);
     font-weight: bold;
 }
 
 body {
-    font-family: Source Sans Pro;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
     line-height: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Source Sans Pro !important;
 }
 
 #dku-map {
@@ -40,11 +48,11 @@ body {
     z-index: 1024;
     border: 1px solid #CCCCCC;
     box-sizing: border-box;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     width: 350px;
     max-height: 80%;
-    padding-bottom: 15px;
+    padding: 11px;
 }
 
 .settings-panel {
@@ -250,7 +258,7 @@ input[type="number"] {
 }
 
 hr {
-    margin: 5px
+    margin: 5px 0;
 }
 
 .errors {
@@ -298,10 +306,6 @@ hr {
 
 .auto-scale-btn {
     padding-top: 9px;
-}
-
-.filter-select:first-child .filter-select-header {
-    font-weight: bold;
 }
 
 .popup-list li:first-child {
@@ -367,9 +371,14 @@ hr {
 
 .icon-trash {
     text-decoration: none;
-    color: inherit;
+    color: black;
 }
 
 .icon-trash:hover {
-    color: red;
+    color: #ce1228;
+}
+
+.n-items-indicator-text {
+    color: #666666;
+    font-size: 10px;
 }

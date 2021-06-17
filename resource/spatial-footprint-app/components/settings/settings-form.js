@@ -19,8 +19,15 @@ const SettingsForm = {
         }
     },
     computed: {
+        ...Vuex.mapGetters([
+            'getLocations',
+            'getCustomers'
+        ]),
         getOptions() {
             return this.getModuleGetter('getOptions');
+        },
+        isCustomerModule() {
+            return this.settingsModule === "customer";
         },
         activationToggleLabel() {
             return this.settingsModule === 'competitor' ? "Add competitor / other" : "Show customers";
@@ -29,10 +36,16 @@ const SettingsForm = {
             return this.settingsModule !== "basic";
         },
         showColorsPalette() {
-            return this.settingsModule !== "customer";
+            return !this.isCustomerModule;
         },
         identifierLabel() {
-            return this.settingsModule === "basic" ? "Point of sales" : "Customer ID";
+            return this.isCustomerModule ? "Customers" : "Point of sales";
+        },
+        getNumberItemsShowed() {
+            return (this.isCustomerModule ? this.getCustomers : this.getLocations(this.settingsModule)).length;
+        },
+        getNumberItemsTotal() {
+            return this.getModuleGetter("settings/getAvailableIdentifiers").length;
         }
     },
     methods: {
@@ -61,14 +74,17 @@ const SettingsForm = {
     },
     template: `
         <div id="settings-form">
-            <div class="settings-form-header mb-3" v-on:click="toggleSettingsForm">
+            <div class="settings-form-header d-flex justify-content-between" v-on:click="toggleSettingsForm">
                 <h4 class="d-flex align-items-center">
-                    <div class="mr-2">
+                    <div class="me-2">
                         <i v-if="isVisible" class="icon-sort-down"></i>
                         <i v-else class="icon-sort-up"></i>
                     </div>
                     {{ moduleName }}
                 </h4>
+                <span class="n-items-indicator-text" v-if="getOptions.isActivated">
+                    {{ getNumberItemsShowed }}/{{ getNumberItemsTotal }} {{ identifierLabel }}
+                </span>
             </div>
             <div class="settings-form-body container" v-show="isVisible">
                 <div v-if="showActivationToggle" class="d-flex mb-3">
@@ -76,34 +92,21 @@ const SettingsForm = {
                     <v-toggle
                         :value="getOptions.isActivated"
                         @input="setOption('isActivated', $event)"
-                        class="ml-3"></v-toggle>
+                        class="ms-3"></v-toggle>
                 </div>
                 <div v-show="getOptions.isActivated">
-                    
-<!--                    <filtering-feature-->
-<!--                        name="location_identifier"-->
-<!--                        :items-->
-<!--                        :settingsModule="settingsModule"-->
-<!--                        :selectable="false"-->
-<!--                        :isVisible="true">-->
-<!--                    -->
-<!--                    </filtering-feature>-->
-                    <tabs-header :activatedTab.sync="activatedTab"></tabs-header>
+                    <div v-if="showColorsPalette" class="mb-3">
+                        <palette-picker :settingsModule="settingsModule"></palette-picker>
+                    </div>
+                    <tabs-header :activatedTab.sync="activatedTab" class="mb-3"></tabs-header>
                     <points-of-sales-tab v-show="activatedTab === 'points_of_sales'"
                         :settingsModule="settingsModule"></points-of-sales-tab>
                     <filters-tab v-show="activatedTab === 'filters'"
                         :settingsModule="settingsModule"></filters-tab>
-<!--                    <filtering-section-->
-<!--                        :settingsModule="settingsModule"-->
-<!--                        class="mb-3">-->
-<!--                    </filtering-section>-->
                     <sampling-section
                         :settingsModule="settingsModule"
                         class="mb-3">
                     </sampling-section>
-                    <div v-if="showColorsPalette">
-                        <palette-picker :settingsModule="settingsModule"></palette-picker>
-                    </div>
                 </div>
                 
             </div>

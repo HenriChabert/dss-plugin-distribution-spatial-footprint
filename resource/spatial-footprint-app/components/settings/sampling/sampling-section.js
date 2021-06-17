@@ -28,7 +28,7 @@ const SamplingSection = {
                     min="0"
                     :value="getSampling.value"
                     @input="setSampling"
-                    class="mr-2"
+                    class="me-2"
                     
                     >
                 <label for="sampling-input">{{ samplingLabel }}</label>

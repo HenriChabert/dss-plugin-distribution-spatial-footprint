@@ -66,9 +66,9 @@ const SettingsPanel = {
     template: `
         <div :class="['container', 'settings-panel-container', 'd-flex', 'flex-column', showFilteringPanel ? 'filtering-panel-showed' : 'no-filtering-panel']">
             <div class="settings-panel-header mt-2 d-flex align-items-center">
-                <div class="go-back-arrow mr-3" @click="hideFilteringPanel" v-if="showFilteringPanel"><i class="icon-arrow-left"></i></div>
+                <div class="go-back-arrow me-3" @click="hideFilteringPanel" v-if="showFilteringPanel"><i class="icon-arrow-left"></i></div>
                 <h3 class="settings-panel-title">{{ panelTitle }}</h3>
-                <div class="ml-auto" v-on:click="toggleSettingsPanel">
+                <div class="ms-auto" v-on:click="toggleSettingsPanel">
                     <i v-if="!isDropped" class="icon-chevron-down"></i>
                     <i v-else class="icon-chevron-up"></i>
                 </div>
@@ -76,10 +76,10 @@ const SettingsPanel = {
             <div class="settings-panel" v-show="!isDropped"">
                 <div v-if="showFilteringPanel" key="filtering-panel">
                     <filtering-panel :settingsModule="getFilteringPanelModule"></filtering-panel>
-                    <button class="go-back-btn mr-3" @click="hideFilteringPanel" v-if="showFilteringPanel"><i class="icon-arrow-left"></i> BACK</button>
+                    <button class="go-back-btn me-3" @click="hideFilteringPanel" v-if="showFilteringPanel"><i class="icon-arrow-left"></i> BACK</button>
                 </div>
                 <div v-show="!showFilteringPanel" key="common-settings">
-                    <div class="mb-2">
+                    <div class="mb-3">
                         <span>Isochrone(s) to focus on:</span>
                         <v-select v-if="getIsochronesTypes"
                             :options="getIsochronesTypes"
@@ -93,7 +93,7 @@ const SettingsPanel = {
                             </template>
                         </v-select>
                     </div>
-                    <div v-for="module in modules" :key="module.name">
+                    <div class="mt-3" v-for="module in modules" :key="module.name">
                         <hr>
                         <settings-form
                             :settingsModule="module.name"
