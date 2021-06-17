@@ -364,3 +364,12 @@ hr {
     text-transform: uppercase;
     color: #3B99FC
 }
+
+.icon-trash {
+    text-decoration: none;
+    color: inherit;
+}
+
+.icon-trash:hover {
+    color: red;
+}
