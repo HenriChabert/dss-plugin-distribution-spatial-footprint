@@ -94,19 +94,21 @@ const SettingsForm = {
                         @input="setOption('isActivated', $event)"
                         class="ms-3"></v-toggle>
                 </div>
-                <div v-show="getOptions.isActivated">
-                    <div v-if="showColorsPalette" class="mb-3">
-                        <palette-picker :settingsModule="settingsModule"></palette-picker>
+                <div v-show="getOptions.isActivated" class="p-4">
+                    <div class="tabs-section">
+                        <tabs-header :activatedTab.sync="activatedTab" class="mb-3"></tabs-header>
+                        <points-of-sales-tab v-show="activatedTab === 'points_of_sales'"
+                            :settingsModule="settingsModule"></points-of-sales-tab>
+                        <filters-tab v-show="activatedTab === 'filters'"
+                            :settingsModule="settingsModule"></filters-tab>
                     </div>
-                    <tabs-header :activatedTab.sync="activatedTab" class="mb-3"></tabs-header>
-                    <points-of-sales-tab v-show="activatedTab === 'points_of_sales'"
-                        :settingsModule="settingsModule"></points-of-sales-tab>
-                    <filters-tab v-show="activatedTab === 'filters'"
-                        :settingsModule="settingsModule"></filters-tab>
                     <sampling-section
                         :settingsModule="settingsModule"
                         class="mb-3">
                     </sampling-section>
+                    <div v-if="showColorsPalette" class="mb-3">
+                        <palette-picker :settingsModule="settingsModule"></palette-picker>
+                    </div>
                 </div>
                 
             </div>

@@ -27,6 +27,10 @@ const PalettePicker = {
     computed: {
         getColorsPalette() {
             return this.$store.getters[`${this.settingsModule}/getOptions`].colorsPalette;
+        },
+        getSelectableColorPalettes() {
+            const colorPalettes = BUILT_IN_PALETTES[this.settingsModule];
+            return colorPalettes.filter((cp) => cp.value !== this.getColorsPalette.value)
         }
     },
     mounted() {
@@ -34,22 +38,27 @@ const PalettePicker = {
     },
     template: `
         <div id="palette-picker" class="d-flex align-items-center">
-            <span class="me-2">Color palette</span>
+            <span class="me-2">Color </span>
             <v-select
-            :options="options"
+            :options="getSelectableColorPalettes"
             @input="updateColorsPalette($event)"
             :searchable="false"
             :clearable="false"
-            placeholder="Select a palette..."
-            :value="getColorsPalette">
+            placeholder="Select a x palette..."
+            :value="getColorsPalette"
+            :closeOnSelect="false">
                 <template slot="option" slot-scope="option">
-                    {{ option.label }}
+                    <ul class="palette-picker-sample">
+                        <li v-for="color in getFirstColors(option.colors)" :key="color" :style="{backgroundColor: color}"></li>
+                    </ul>
+                </template>
+                <template #selected-option-container="{ option }">
                     <ul class="palette-picker-sample">
                         <li v-for="color in getFirstColors(option.colors)" :key="color" :style="{backgroundColor: color}"></li>
                     </ul>
                 </template>
                 <template slot="open-indicator">
-                    <span><i class="icon-search"></i></span>
+                    <span class="open-icon-container"><i class="icon-sort-down"></i></span>
                 </template>
             </v-select>
         </div>`

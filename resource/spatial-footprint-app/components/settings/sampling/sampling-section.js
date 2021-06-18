@@ -21,15 +21,14 @@ const SamplingSection = {
     },
     template: `
         <div id="sampling-section">
-            <h5>Sampling</h5>
             <div class="sampling-form">
+                <span>Show </span>
                 <input type="number"
                     id="sampling-input"
                     min="0"
                     :value="getSampling.value"
                     @input="setSampling"
                     class="me-2"
-                    
                     >
                 <label for="sampling-input">{{ samplingLabel }}</label>
             </div>

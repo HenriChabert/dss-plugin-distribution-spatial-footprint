@@ -1,6 +1,7 @@
 @font-face {
     font-family: Source Sans Pro;
-    src: url(../../resource/spatial-footprint-app/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf);
+    src: url(../../resource/spatial-footprint-app/fonts/Source_Sans_Pro/SourceSansPro-Light.ttf);
+    font-weight: normal;
 }
 /*@font-face {*/
 /*    font-family: Source Sans Pro;*/
@@ -14,6 +15,7 @@
 }
 
 body {
+    font-family: Source Sans Pro !important;
     font-style: normal;
     font-weight: normal;
     font-size: 13px;
@@ -52,7 +54,11 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 6px;
     width: 350px;
     max-height: 80%;
-    padding: 11px;
+    padding-top: 14px;
+}
+
+.settings-padded {
+    padding: 0 17px;
 }
 
 .settings-panel {
@@ -157,14 +163,14 @@ label {
 }
 
 .palette-picker-sample {
-    float: right;
-    margin: 0 0 0 0;
     display: inline-block;
+    padding: 0;
+    margin: 0;
 }
 
 .palette-picker-sample > li{
-    width: 8px;
-    height: 19px;
+    width: 13px;
+    height: 10px;
     display: inline-block;
 }
 
@@ -172,12 +178,14 @@ label {
     transform: none;
 }
 
-#palette-picker .v-select {
-    flex-grow: 4;
+#palette-picker .vs__dropdown-toggle {
+    border-radius: 0;
+    border: none;
+    padding: 0;
 }
 
-.vs__dropdown-toggle {
-    border-radius: 0;
+#palette-picker .vs__selected-options {
+    align-items: center;
 }
 
 h3 {
@@ -199,8 +207,8 @@ input[type="number"] {
 }
 
 #sampling-section input {
-    text-align: right;
-    max-width: 80px;
+    text-align: center;
+    max-width: 50px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -255,6 +263,22 @@ input[type="number"] {
     border-radius: 9999px;
     box-shadow:  0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform .4s ease;
+}
+
+#palette-picker .vs__dropdown-menu {
+    border: none;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+#palette-picker .vs__dropdown-option {
+    padding-left: 2px;
+    padding-bottom: 5px;
+}
+
+#palette-picker .vs__dropdown-option.vs__dropdown-option--highlight {
+    background: none;
 }
 
 hr {
@@ -318,6 +342,8 @@ hr {
 
 .filters-multi-list .vs__dropdown-toggle{
     cursor: pointer;
+    border-radius: 0;
+
 }
 
 .go-back-arrow {
@@ -336,17 +362,29 @@ hr {
     border: 1px solid #cccccc;
 }
 
-.tabs-header .tab-activated {
-    border-bottom: solid black 2px;
+.tabs-header .tab-option.tab-activated {
+    border-bottom: 3px solid #666666;
+    font-weight: bold;
 }
 
 .tabs-header span {
-    text-transform: uppercase !important;
     font-weight: bold;
 }
 
 .tabs-header .tab-option {
     cursor: pointer;
+    border-bottom: 1px solid #CCCCCC;
+    color: #666666;
+}
+
+.tabs-header .tab-option.tab-left {
+    padding-right: 35px;
+    padding-left: 25px
+}
+
+.tabs-header .tab-option.tab-right {
+    padding-left: 35px;
+    padding-right: 25px
 }
 
 .btn-primary {
@@ -381,4 +419,16 @@ hr {
 .n-items-indicator-text {
     color: #666666;
     font-size: 10px;
+}
+
+.vs__selected {
+    border: none;
+    border-radius: 3px;
+    min-width: 90px;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.open-icon-container {
+    margin-top: -10px;
 }
