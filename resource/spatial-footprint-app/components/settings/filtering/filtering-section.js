@@ -10,7 +10,7 @@ const FilteringSection = {
     },
     data() {
         return {
-            visibleFeatures: this.features.slice(0, 1)
+            visibleFeatures: this.features.length === 1 ? [this.features[0]] : []
         }
     },
     components: {
@@ -18,9 +18,6 @@ const FilteringSection = {
         'v-select': VueSelect.VueSelect
     },
     computed: {
-        // hasFilters() {
-        //     return !_.isEmpty(this.getModuleGetter('settings/getFiltering'));
-        // },
         hasFeatures() {
             return !_.isEmpty(this.features);
         },

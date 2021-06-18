@@ -81,7 +81,7 @@ const FeatureSelect = {
             });
         },
         isItemValid(item) {
-            return item.match(`(.*)${this.searchString}(.*)`)
+            return item.match(new RegExp(`(.*)${this.searchString}(.*)`, "i"))
         }
     },
     // language=HTML
@@ -92,8 +92,9 @@ const FeatureSelect = {
                     :options="items"
                     placeholder="Select an item..."
                     :noDrop="true"
+                    :clearSearchOnBlur="() => false"
                     @input="addFilter($event)"
-                    v-on:>
+                    v-on:search="test($event)">
                     <template slot="open-indicator">
                         <span><i class="icon-search"></i></span>
                     </template>
@@ -109,7 +110,7 @@ const FeatureSelect = {
                         @click="selectOrDeselectAll()">
                         <span>All</span>
                     </div>
-                    <div class="feature-select-item" v-for="it in items" v-if="isItemValid" :key="it">
+                    <div class="feature-select-item" v-for="it in items" v-if="isItemValid(it)" :key="it">
                         <input type="checkbox"
                         :value="it"
                         :checked="isItemSelected(it)"

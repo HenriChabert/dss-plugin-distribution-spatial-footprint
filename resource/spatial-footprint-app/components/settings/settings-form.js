@@ -13,11 +13,6 @@ const SettingsForm = {
         settingsModule: String,
         isVisible: Boolean
     },
-    data() {
-        return {
-            activatedTab: 'points_of_sales'
-        }
-    },
     computed: {
         ...Vuex.mapGetters([
             'getLocations',
@@ -25,6 +20,9 @@ const SettingsForm = {
         ]),
         getOptions() {
             return this.getModuleGetter('getOptions');
+        },
+        getActivatedTab() {
+            return this.getModuleGetter("settings/getActivatedTab");
         },
         isCustomerModule() {
             return this.settingsModule === "customer";
@@ -58,6 +56,9 @@ const SettingsForm = {
         setOption (optionName, e) {
             this.$store.commit(`${this.settingsModule}/setOption`, {optionName, optionValue: e});
         },
+        setActivatedTab(newActivatedTab) {
+            this.$store.commit(`${this.settingsModule}/settings/setActivatedTab`, {newActivatedTab});
+        }
     },
     components: {
         'filtering-section': FilteringSection,
@@ -96,15 +97,18 @@ const SettingsForm = {
                 </div>
                 <div v-show="getOptions.isActivated" class="p-4">
                     <div class="tabs-section">
-                        <tabs-header :activatedTab.sync="activatedTab" class="mb-3"></tabs-header>
-                        <points-of-sales-tab v-show="activatedTab === 'points_of_sales'"
+                        <tabs-header
+                            :settingsModule="settingsModule"
+                            :activatedTab="getActivatedTab"
+                            v-on:update:activatedTab="setActivatedTab($event)" class="mb-3"></tabs-header>
+                        <points-of-sales-tab v-show="getActivatedTab === 'points_of_sales'"
                             :settingsModule="settingsModule"></points-of-sales-tab>
-                        <filters-tab v-show="activatedTab === 'filters'"
+                        <filters-tab v-show="getActivatedTab === 'filters'"
                             :settingsModule="settingsModule"></filters-tab>
                     </div>
                     <sampling-section
                         :settingsModule="settingsModule"
-                        class="mb-3">
+                        class="my-3">
                     </sampling-section>
                     <div v-if="showColorsPalette" class="mb-3">
                         <palette-picker :settingsModule="settingsModule"></palette-picker>

@@ -38,7 +38,7 @@ const FilteringFeature = {
             <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature" v-if="showName">
                 <i v-if="isVisible" class="icon-sort-down"></i>
                 <i v-else class="icon-sort-up"></i>
-                <span class="ms-3">{{ label || name }}</span>
+                <span class="ms-3"><b>{{ label || name }}</b></span>
                 <span class="ms-2 n-items-indicator-text">{{ filtersCount(name) }}/{{ itemsCount }}</span>
             </div>
             <feature-select class="container mb-4 mt-1" v-show="isVisible"

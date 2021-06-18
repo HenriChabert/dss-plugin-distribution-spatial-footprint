@@ -3,6 +3,7 @@ import {DKUApi} from "../../dku-api.js";
 const state = () => ({
     availableFilteringFeatures: {},
     availableIdentifiers: [],
+    activatedTab: "points_of_sales",
     filtering: {},
     sampling: {
         type: "nRows",
@@ -28,6 +29,9 @@ const getters = {
     },
     isItemSelected: (state, getters) => (featureName, item) => {
         return getters.getFeatureFilters(featureName).includes(item)
+    },
+    getActivatedTab: (state) => {
+        return state.activatedTab
     }
 }
 
@@ -47,6 +51,9 @@ const mutations = {
     },
     setAvailableIdentifiers(state, { availableIdentifiers }) {
         state.availableIdentifiers = availableIdentifiers;
+    },
+    setActivatedTab(state, { newActivatedTab }) {
+        state.activatedTab = newActivatedTab;
     },
 }
 

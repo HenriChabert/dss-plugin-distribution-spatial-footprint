@@ -51,8 +51,14 @@ const mutations = {
 const actions = {
     async getFilteredLocations ({ commit, state }, moduleName) {
         const settings = state.generalSettings[moduleName].settings;
+        let filtering;
+        if (settings.activatedTab === "points_of_sales") {
+            filtering = _.pick(settings.filtering, ["id"])
+        } else {
+            filtering = _.pick(settings.filtering, Object.keys(settings.filtering).filter((el) => el !== "id"))
+        }
         const filteredLocations = await DKUApi.getFilteredLocations(
-            settings.filtering,
+            filtering,
             settings.sampling
         );
         commit('updateLocations', { newLocations: filteredLocations, moduleName });

@@ -31,7 +31,7 @@ const FilteringPanel = {
             :settingsModule="settingsModule"
             :selectable="true"
             :features="getFeaturesToShow"
-            :showNames="getFeaturesToShow.length > 1">
+            :showNames="true">
         </filtering-section>`
 };
 

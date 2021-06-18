@@ -377,12 +377,12 @@ hr {
 }
 
 .tabs-header .tab-option.tab-left {
-    padding-right: 35px;
+    padding-right: 30px;
     padding-left: 25px
 }
 
 .tabs-header .tab-option.tab-right {
-    padding-left: 35px;
+    padding-left: 30px;
     padding-right: 25px
 }
 
