@@ -45,7 +45,7 @@ const FilteringFeature = {
             <feature-select class="container mb-4 mt-1" v-show="isVisible"
                 :items="items"
                 :name="name"
-                :label="label"
+                :label="label || name"
                 :settingsModule="settingsModule"
                 :selectable="selectable"></feature-select>
             <hr v-if="!isLastItem">

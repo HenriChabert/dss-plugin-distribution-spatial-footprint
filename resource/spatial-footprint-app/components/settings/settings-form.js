@@ -51,7 +51,9 @@ const SettingsForm = {
             return this.$store.getters.getModuleGetter(this.settingsModule, getter);
         },
         toggleSettingsForm() {
+            if (this.getOptions.isActivated) {
             this.$emit("update:moduleVisibility");
+            }
         },
         setOption (optionName, e) {
             this.$store.commit(`${this.settingsModule}/setOption`, {optionName, optionValue: e});
