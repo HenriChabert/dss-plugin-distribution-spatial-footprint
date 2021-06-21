@@ -8,8 +8,6 @@ import distributionspatialfootprint.dku_constants as constants
 
 
 class DataHandler:
-    isochrone_dataset: pd.DataFrame
-
     def __init__(self):
         self.load_data()
 
