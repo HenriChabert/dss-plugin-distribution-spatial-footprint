@@ -38,8 +38,12 @@ class DataHandler:
             available_filtering_features[column] = df_to_handle[column].unique().tolist()
         return available_filtering_features
 
-    def get_available_identifiers(self, moduleName):
+    def get_available_identifiers(self, moduleName, settings):
         df_to_handle = self.customers_df if moduleName == 'customer' else self.locations_df
+
+        if 'pre_filters' in settings:
+            df_to_handle = self.apply_filtering(df_to_handle, settings["pre_filters"])
+
         return df_to_handle["id"].unique().tolist()
 
     def apply_filtering(self, df_to_filter, settings):
@@ -49,7 +53,7 @@ class DataHandler:
                 feature_values = list(map(str, feature_values))
                 filtering_query = filtering_query & df_to_filter[feature_column].isin(feature_values)
         if filtering_query is True:
-            return pd.DataFrame()  # Return nothing if no filters have been set
+            return pd.DataFrame(columns=df_to_filter.columns)  # Return nothing if no filters have been set
         return df_to_filter[filtering_query]
 
     def apply_sampling(self, moduleName, df_to_sample, settings):

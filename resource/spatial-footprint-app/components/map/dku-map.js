@@ -49,8 +49,18 @@ const DkuMap = {
                 this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
                     this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
                     this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
-                    this.$store.dispatch('getFilteredCustomers');
+                    if (this.showCustomers) {
+                        this.$store.dispatch('getFilteredCustomers');
+                    }
                 });
+            }
+
+            if (mutation.type === "setActiveIsochrones") {
+                this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
+                this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
+                if (this.showCustomers) {
+                    this.$store.dispatch('getFilteredCustomers');
+                }
             }
 
             if (mutation.type.match(/customer\/settings\/(.*)/)) {

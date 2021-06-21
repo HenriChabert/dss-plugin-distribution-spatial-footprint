@@ -42,9 +42,6 @@ const FilteringSection = {
         getModuleGetter(getter) {
             return this.$store.getters.getModuleGetter(this.settingsModule, getter)
         },
-        // showFilteringPanel() {
-        //     this.$store.commit('showFilteringPanel', { moduleName: this.settingsModule });
-        // },
         isFeatureVisible(featureName) {
             return this.visibleFeatures.includes(featureName);
         },
@@ -54,6 +51,9 @@ const FilteringSection = {
             } else {
                 this.visibleFeatures.push(featureName);
             }
+        },
+        isLastItem(item) {
+            return item === Object.keys(this.featuresAndItems).slice(-1)[0]
         }
     },
     template: `
@@ -66,6 +66,7 @@ const FilteringSection = {
                     :selectable="selectable"
                     :isVisible="isFeatureVisible(featureName)"
                     :showName="showNames"
+                    :isLastItem="isLastItem(featureName)"
                     v-on:update:featureVisibility="toggleFeatureVisibility(featureName)"
                     ></filtering-feature>
             </div>

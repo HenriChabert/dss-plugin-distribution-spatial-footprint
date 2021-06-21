@@ -107,7 +107,7 @@ const SettingsForm = {
                             :settingsModule="settingsModule"
                             :activatedTab="getActivatedTab"
                             v-on:update:activatedTab="setActivatedTab($event)" class="mb-3"></tabs-header>
-                        <points-of-sales-tab v-show="getActivatedTab === 'points_of_sales'"
+                        <points-of-sales-tab v-show="getActivatedTab === 'individuals'"
                             :settingsModule="settingsModule"></points-of-sales-tab>
                         <filters-tab v-show="getActivatedTab === 'filters'"
                             :settingsModule="settingsModule"></filters-tab>

@@ -81,7 +81,7 @@ const SettingsPanel = {
                     <filtering-panel :settingsModule="getFilteringPanelModule"></filtering-panel>
                 </div>
                 <div v-show="!showFilteringPanel" key="common-settings">
-                    <div class="settings-padded mb-3">
+                    <div class="isochrones-section settings-padded mb-3">
                         <span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="14" viewBox="0 0 10 14" fill="none">
                                 <path :d="getTransportationIconSVG" fill="black"/>
@@ -93,6 +93,8 @@ const SettingsPanel = {
                             @input="setActiveIsochrones($event)"
                             placeholder="Select an isochrone..."
                             :value="getActiveIsochrones"
+                            :searchable="false"
+                            :filterable="false"
                             class="mt-1 mb-5"
                             >
                             

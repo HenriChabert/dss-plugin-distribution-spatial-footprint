@@ -51,12 +51,7 @@ const mutations = {
 const actions = {
     async getFilteredLocations ({ commit, state }, moduleName) {
         const settings = state.generalSettings[moduleName].settings;
-        let filtering;
-        if (settings.activatedTab === "points_of_sales") {
-            filtering = _.pick(settings.filtering, ["id"])
-        } else {
-            filtering = _.pick(settings.filtering, Object.keys(settings.filtering).filter((el) => el !== "id"))
-        }
+        let filtering = settings.filtering[settings.activatedTab];
         const filteredLocations = await DKUApi.getFilteredLocations(
             filtering,
             settings.sampling
@@ -65,13 +60,18 @@ const actions = {
     },
     async getFilteredCustomers ({ commit, state, getters }) {
         const settings = state.generalSettings.customer.settings;
-        const filtering = settings.filtering;
+        let filtering = _.cloneDeep(settings.filtering[settings.activatedTab]);
         filtering.location_uuid = getters.getAllLocations.map((loc) => loc.location_uuid);
         filtering.isochrone_amplitude = getters.getActiveIsochrones.map((iso) => iso.value.isochrone_amplitude);
-        const filteredCustomers = await DKUApi.getFilteredCustomers(
-            filtering,
-            settings.sampling
-        );
+        let filteredCustomers;
+        if (filtering.location_uuid.length > 0) {
+            filteredCustomers = await DKUApi.getFilteredCustomers(
+                filtering,
+                settings.sampling
+            );
+        } else {
+            filteredCustomers = []
+        }
         commit('updateCustomers', { newCustomers: filteredCustomers });
     }
 }

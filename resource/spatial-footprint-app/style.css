@@ -430,3 +430,8 @@ hr {
 .open-icon-container {
     margin-top: -10px;
 }
+
+.isochrones-section .vs__search {
+    height: 0;
+    margin: 0;
+}

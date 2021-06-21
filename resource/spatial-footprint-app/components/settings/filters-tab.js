@@ -10,7 +10,7 @@ const FiltersTab = {
     },
     data() {
         return {
-            activatedTab: 'points_of_sales'
+            activatedTab: 'individuals'
         }
     },
     computed: {
@@ -49,16 +49,16 @@ const FiltersTab = {
                 </button>
             </div>
             <div class="filters-section" v-if="hasFilters">
-                <div class="filters-actions d-flex align-items-center justify-content-end">
-                    <a href="javascript:void(0);" class="filter-action-btn" @click="clearFilters">clear filters</a>
-                    <a href="javascript:void(0);" class="filter-action-btn ms-3" @click="showFilteringPanel">add filters</a>
-                </div>
                 <filtering-section
                     :settingsModule="settingsModule"
                     :selectable="false"
                     :features="Object.keys(this.getValidFilters)"
                     :showNames="true">
                 </filtering-section>
+                <div class="filters-actions d-flex align-items-center justify-content-around">
+                    <a href="javascript:void(0);" class="filter-action-btn ms-3" @click="showFilteringPanel"><i class="icon-plus-sign"></i> add filters</a>
+                    <a href="javascript:void(0);" class="filter-action-btn" @click="clearFilters">clear filters</a>
+                </div>
             </div>
             
         </div>`,
