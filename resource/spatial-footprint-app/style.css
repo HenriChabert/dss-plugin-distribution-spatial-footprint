@@ -138,8 +138,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .feature-select-content.full-height {
-    max-height: 100%;
-    margin-bottom: 20px;
+    max-height: 80%;
 }
 
 #filtering-section hr{
