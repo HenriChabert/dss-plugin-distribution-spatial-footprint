@@ -79,7 +79,6 @@ const SettingsPanel = {
             <div class="settings-panel" v-show="!isDropped"">
                 <div v-if="showFilteringPanel" key="filtering-panel" class="settings-padded">
                     <filtering-panel :settingsModule="getFilteringPanelModule"></filtering-panel>
-                    <button class="go-back-btn me-3" @click="hideFilteringPanel" v-if="showFilteringPanel"><i class="icon-arrow-left"></i> BACK</button>
                 </div>
                 <div v-show="!showFilteringPanel" key="common-settings">
                     <div class="settings-padded mb-3">

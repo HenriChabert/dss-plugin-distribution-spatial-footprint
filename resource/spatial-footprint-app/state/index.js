@@ -66,7 +66,8 @@ const actions = {
     async getFilteredCustomers ({ commit, state, getters }) {
         const settings = state.generalSettings.customer.settings;
         const filtering = settings.filtering;
-        filtering.location_uuid = getters.getAllLocations.map((loc) => loc.location_uuid)
+        filtering.location_uuid = getters.getAllLocations.map((loc) => loc.location_uuid);
+        filtering.isochrone_amplitude = getters.getActiveIsochrones.map((iso) => iso.value.isochrone_amplitude);
         const filteredCustomers = await DKUApi.getFilteredCustomers(
             filtering,
             settings.sampling

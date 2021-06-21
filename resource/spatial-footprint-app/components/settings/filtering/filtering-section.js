@@ -68,7 +68,6 @@ const FilteringSection = {
                     :showName="showNames"
                     v-on:update:featureVisibility="toggleFeatureVisibility(featureName)"
                     ></filtering-feature>
-                <hr>
             </div>
         </div>`
 };

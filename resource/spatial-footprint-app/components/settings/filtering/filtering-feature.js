@@ -47,6 +47,7 @@ const FilteringFeature = {
                 :label="label"
                 :settingsModule="settingsModule"
                 :selectable="selectable"></feature-select>
+            <hr>
         </div>`
 };
 
