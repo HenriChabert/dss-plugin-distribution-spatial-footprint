@@ -1,11 +1,11 @@
 import {DkuGeoJson} from "./dku-geo-json.js";
 import { InfoPopup } from './info-popup.js'
 
-const ZoneLayerGroup = {
-    name: "zone-layer-group",
+const LocationLayerGroup = {
+    name: "location-layer-group",
     props: {
         moduleName: String,
-        zone: Object,
+        location: Object,
     },
     data() {
         return {
@@ -14,7 +14,7 @@ const ZoneLayerGroup = {
     },
     computed: {
         ...Vuex.mapGetters([
-            'getZoneActiveIsochrones',
+            'getLocationActiveIsochrones',
             'getIsochronesColorMapping'
         ]),
         markerUrl() {
@@ -41,19 +41,20 @@ const ZoneLayerGroup = {
         },
     },
     template:`
-        <l-feature-group ref="zoneLayerGroup" :key="componentKey">
-            <l-marker :lat-lng="[zone.latitude, zone.longitude]">
+        <l-feature-group ref="locationLayerGroup" :key="componentKey">
+            <l-marker :lat-lng="[location.latitude, location.longitude]">
                 <l-icon
                     :icon-url="markerUrl.pin"
                     :shadow-url="markerUrl.shadow"
                 />
                 <info-popup
-                        :filteringFeatures="zone.filteringFeatures">
+                    :id="location.id"
+                    :filteringFeatures="location.filteringFeatures">
                 </info-popup>
             </l-marker>
-            <dku-geo-json v-for="iso in getZoneActiveIsochrones(zone.location_id, moduleName)"
+            <dku-geo-json v-for="iso in getLocationActiveIsochrones(location.location_uuid, moduleName)"
                 :key="iso.isochrone_id"
-                :zoneName="zone.filteringFeatures.location_identifier.toString()"
+                :locationName="location.id.toString()"
                 :iso="iso"
                 :color="getIsochroneColor(iso.isochrone_type)"
             >
@@ -72,4 +73,4 @@ const ZoneLayerGroup = {
     },
 }
 
-export {ZoneLayerGroup}
+export {LocationLayerGroup}

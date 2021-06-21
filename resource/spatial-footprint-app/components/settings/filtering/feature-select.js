@@ -4,9 +4,16 @@ const FeatureSelect = {
     name: "feature-select",
     props: {
         name: String,
+        label: String,
         items: Array,
         settingsModule: String,
-        selectable: Boolean
+        selectable: Boolean,
+        fullHeight: Boolean
+    },
+    data() {
+        return {
+            searchString: ""
+        }
     },
     components: {
         'v-select': VueSelect.VueSelect
@@ -57,6 +64,9 @@ const FeatureSelect = {
             }
             this.updateFilters(selectedFilters);
         },
+        clearFilter() {
+            this.updateFilters([]);
+        },
         selectOrDeselectAll() {
             const newSelectedItems = this.isAllSelected ? [] : _.cloneDeep(this.items);
             this.updateFilters(newSelectedItems);
@@ -65,8 +75,15 @@ const FeatureSelect = {
             return label.length >= MAX_LABEL_LENGTH ? `${label.slice(0, 30)}...` : label;
         },
         showFilteringPanelAndFocus(e) {
-            this.$store.commit('showFilteringPanelAndFocus', { moduleName: this.settingsModule, focusFeature: this.name });
+            this.$store.commit('showFilteringPanelAndFocus', {
+                moduleName: this.settingsModule,
+                focusFeatureName: this.name,
+                focusFeatureLabel: this.label
+            });
         },
+        isItemValid(item) {
+            return item.match(new RegExp(`(.*)${this.searchString}(.*)`, "i"))
+        }
     },
     // language=HTML
     template: `
@@ -75,7 +92,10 @@ const FeatureSelect = {
                 <v-select class="mb-2"
                     :options="items"
                     placeholder="Select an item..."
-                    @input="addFilter($event)">
+                    :noDrop="true"
+                    :clearSearchOnBlur="() => false"
+                    @input="addFilter($event)"
+                    v-on:search="test($event)">
                     <template slot="open-indicator">
                         <span><i class="icon-search"></i></span>
                     </template>
@@ -83,7 +103,7 @@ const FeatureSelect = {
                         {{ shortLabel(option.label) }}
                     </template>
                 </v-select>
-                <div class="feature-select-content" ref="featureSelectContent">
+                <div :class="['feature-select-content', fullHeight ? 'full-height' : '']" ref="featureSelectContent">
                     <div class="feature-select-item">
                         <input type="checkbox" value="select-all"
                         :checked="isAllSelected"
@@ -91,7 +111,7 @@ const FeatureSelect = {
                         @click="selectOrDeselectAll()">
                         <span>All</span>
                     </div>
-                    <div class="feature-select-item" v-for="it in items" :key="it">
+                    <div class="feature-select-item" v-for="it in items" v-if="isItemValid(it)" :key="it">
                         <input type="checkbox"
                         :value="it"
                         :checked="isItemSelected(it)"
@@ -100,15 +120,22 @@ const FeatureSelect = {
                     </div>
                 </div>
             </div>
-            <div v-else>
-                <v-select multiple class="filters-multi-list mb-2"
+            <div class="d-flex align-items-center" v-else>
+                <v-select multiple class="filters-multi-list mb-2 flex-grow-1"
                     placeholder="No filters selected"
                     :value="getShortFiltering"
                     @input="updateFilters($event)"
                     v-on:search:focus="showFilteringPanelAndFocus($event)"
                     :noDrop="true"
                     :searchable="false">
+                    
+                    <template slot="open-indicator">
+                        <span><i class="plus-sign"></i></span>
+                    </template>
                 </v-select>
+                <a href="javascript:void(0);" class="ms-2" v-on:click="clearFilter">
+                    <i class="icon-trash"></i>
+                </a>
             </div>
         </div>`
 };

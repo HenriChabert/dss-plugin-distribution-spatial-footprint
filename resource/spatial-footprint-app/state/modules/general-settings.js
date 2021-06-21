@@ -1,20 +1,23 @@
 import { DKUApi } from '../../dku-api.js'
 
-import location from './location.js'
+import basic from './basic.js'
 import customer from './customer.js'
 import competitor from './competitor.js'
 
 const state = () => ({
     webapp: {},
-    filteringPanelModule: null,
-    filteringPanelFocus: null,
     projectVariables: {},
+    filteringPanel: {
+        module: null,
+        focusFeature: null,
+        focusFeatureLabel: "filters"
+    },
     isochronesTypes: [],
     activeIsochrones: []
 })
 
 const modules = {
-    location,
+    basic,
     customer,
     competitor
 }
@@ -35,9 +38,13 @@ const getters = {
         }
         return isoColorMapping;
     },
-    showFilteringPanel: state => state.filteringPanelModule !== null,
-    getFilteringPanelModule: state => state.filteringPanelModule,
-    getFilteringPanelFocus: state => state.filteringPanelFocus
+    isIsochroneActive: (state, getters) => (isochroneType) => {
+        return !!getters.getActiveIsochrones.find((iso) => iso.value.isochrone_type === isochroneType);
+    },
+    showFilteringPanel: state => state.filteringPanel.module !== null,
+    getFilteringPanelModule: state => state.filteringPanel.module,
+    getFilteringPanelFocus: state => state.filteringPanel.focusFeature,
+    getFilteringPanelTitle: state => state.filteringPanel.focusFeatureLabel
 }
 
 const mutations = {
@@ -51,15 +58,17 @@ const mutations = {
         state.projectVariables = projectVariables;
     },
     showFilteringPanel(state, { moduleName }) {
-        state.filteringPanelModule = moduleName;
-        state.filteringPanelFocus = null;
+        state.filteringPanel.module = moduleName;
+        state.filteringPanel.focusFeature = null;
+        state.filteringPanel.focusFeatureLabel = "filters";
     },
-    showFilteringPanelAndFocus(state, { moduleName, focusFeature }) {
-        state.filteringPanelModule = moduleName;
-        state.filteringPanelFocus = focusFeature;
+    showFilteringPanelAndFocus(state, { moduleName, focusFeatureName, focusFeatureLabel }) {
+        state.filteringPanel.module = moduleName;
+        state.filteringPanel.focusFeature = focusFeatureName;
+        state.filteringPanel.focusFeatureLabel = focusFeatureLabel;
     },
     hideFilteringPanel(state) {
-        state.filteringPanelModule = null;
+        state.filteringPanel.module = null;
     }
 }
 

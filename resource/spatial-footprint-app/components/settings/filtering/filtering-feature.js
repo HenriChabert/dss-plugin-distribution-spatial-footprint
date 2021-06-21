@@ -4,10 +4,17 @@ const FilteringFeature = {
     name: "filtering-feature",
     props: {
         name: String,
+        label: {
+            type: String,
+            default: null
+        },
         items: Array,
         settingsModule: String,
         selectable: Boolean,
-        isVisible: Boolean
+        isVisible: Boolean,
+        showName: Boolean,
+        isLastItem: Boolean,
+        fullHeight: Boolean
     },
     computed: {
         filtersCount() {
@@ -30,18 +37,20 @@ const FilteringFeature = {
     },
     template: `
         <div class="filter-select">
-            <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature">
+            <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature" v-if="showName">
                 <i v-if="isVisible" class="icon-sort-down"></i>
                 <i v-else class="icon-sort-up"></i>
-                <span class="ml-3">{{ name }}</span>
-                <span class="ml-auto mr-2">{{ filtersCount(name) }}/{{ itemsCount }}</span>
+                <span class="ms-3"><b>{{ label || name }}</b></span>
+                <span class="ms-2 n-items-indicator-text">{{ filtersCount(name) }}/{{ itemsCount }}</span>
             </div>
             <feature-select class="container mb-4 mt-1" v-show="isVisible"
                 :items="items"
                 :name="name"
+                :label="label || name"
                 :settingsModule="settingsModule"
-                :selectable="selectable"></feature-select>
-            <hr>
+                :selectable="selectable"
+                :fullHeight="fullHeight"></feature-select>
+            <hr v-if="!isLastItem">
         </div>`
 };
 

@@ -25,10 +25,15 @@ def define_endpoints(app):
         req_data = request.get_json()
         return jsonify(data_handler.get_available_filtering_features(moduleName, req_data))
 
-    @app.route('/filtered-data/<moduleName>', methods=['POST'])
-    def get_filtered_zones(moduleName):
+    @app.route('/available-identifiers/<moduleName>', methods=['POST'])
+    def get_available_identifiers(moduleName):
         req_data = request.get_json()
-        data = jsonify(data_handler.filter_zones(moduleName, req_data))
+        return jsonify(data_handler.get_available_identifiers(moduleName, req_data))
+
+    @app.route('/filtered-data/<moduleName>', methods=['POST'])
+    def get_filtered_locations(moduleName):
+        req_data = request.get_json()
+        data = jsonify(data_handler.filter_locations(moduleName, req_data))
         return data
 
     @app.route('/available-isochrone-types', methods=['GET'])

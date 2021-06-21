@@ -1,6 +1,5 @@
-import { DKUApi } from '../../dku-api.js'
 import { DkuGeoJson } from "./dku-geo-json.js";
-import { ZoneLayerGroup } from "./zone-layer-group.js";
+import { LocationLayerGroup } from "./location-layer-group.js";
 import {CustomerPane} from "./customer-pane.js";
 
 const DEFAULT_BOUNDS = [[20.63698621180491, -52.20703125000001], [65.80461669092902, 74.35546875000001]]
@@ -9,7 +8,7 @@ const DkuMap = {
     name: "dku-map",
     computed: {
         ...Vuex.mapGetters([
-            'getZones',
+            'getLocations',
             'getCustomers',
             'getActiveIsochrones',
             'tileLayerUrl',
@@ -29,12 +28,12 @@ const DkuMap = {
         'l-feature-group': window.Vue2Leaflet.LFeatureGroup,
         'l-control': window.Vue2Leaflet.LControl,
         'dku-geo-json': DkuGeoJson,
-        'zone-layer-group': ZoneLayerGroup,
+        'location-layer-group': LocationLayerGroup,
         'customer-pane': CustomerPane
     },
     methods: {
-        updateZones(newZones) {
-            this.$store.commit('updateZones', newZones);
+        updateLocations(newLocations) {
+            this.$store.commit('updateLocations', newLocations);
         },
         fitBounds() {
             if (this.$refs.features.mapObject.getLayers().length) {
@@ -45,19 +44,30 @@ const DkuMap = {
     },
     mounted() {
         this.unsubscribe = this.$store.subscribe((mutation, state) => {
-            const location_updated = mutation.type.match(/(location|competitor)\/settings\/(.*)/);
+            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(.*)/);
             if (location_updated) {
-                this.$store.dispatch('getFilteredZones', location_updated[1]).then(() => {
+                this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
+                    this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
                     this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
-                    this.$store.dispatch('getFilteredCustomers');
+                    if (this.showCustomers) {
+                        this.$store.dispatch('getFilteredCustomers');
+                    }
                 });
+            }
+
+            if (mutation.type === "setActiveIsochrones") {
+                this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
+                this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
+                if (this.showCustomers) {
+                    this.$store.dispatch('getFilteredCustomers');
+                }
             }
 
             if (mutation.type.match(/customer\/settings\/(.*)/)) {
                 this.$store.dispatch('getFilteredCustomers');
             }
 
-            if (mutation.type.match(/(updateZones|updateCustomers)/)) {
+            if (mutation.type.match(/(updateLocations|updateCustomers)/)) {
                 this.$nextTick(function () {
                     this.fitBounds()
                 })
@@ -76,15 +86,15 @@ const DkuMap = {
                 <a href="javascript:void(0);" class="auto-scale-btn" title="Auto scale" role="button" aria-label="Auto scale" @click="fitBounds"><i class="icon-move"></i></a>
             </l-control>
             <l-feature-group ref="features">
-                <zone-layer-group v-for="zone in getZones('location')"
-                    :key="zone.location_id"
-                    :zone="zone"
-                    moduleName="location"></zone-layer-group>
-                <zone-layer-group v-if="showCompetitor"
-                    v-for="zone in getZones('competitor')"
-                    :key="zone.location_id + '_competitor'" 
-                    :zone="zone"
-                    moduleName="competitor"></zone-layer-group>
+                <location-layer-group v-for="location in getLocations('basic')"
+                    :key="location.uuid"
+                    :location="location"
+                    moduleName="basic"></location-layer-group>
+                <location-layer-group v-if="showCompetitor"
+                    v-for="location in getLocations('competitor')"
+                    :key="location.uuid + '_competitor'" 
+                    :location="location"
+                    moduleName="competitor"></location-layer-group>
                 <customer-pane v-if="showCustomers"
                     :customers="getCustomers"
                     :activeIsochrones="getActiveIsochrones"

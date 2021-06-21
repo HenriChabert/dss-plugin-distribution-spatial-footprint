@@ -4,8 +4,9 @@ CUSTOMERS_DATASET_NAME = "webapp_customers"
 
 
 CUSTOMERS_NO_FILTERING_COLUMNS = [
-    'location_identifier',
-    'location_id',
+    'id',
+    'customer_uuid',
+    'location_uuid',
     'isochrone_type',
     'distance_customer_location',
     'isochrone_id',
@@ -23,7 +24,8 @@ CUSTOMERS_NO_FILTERING_COLUMNS = [
 ]
 
 CUSTOMER_COLUMNS_TO_SEND = [
-    "customer_id_denormalized",
+    "id",
+    "customer_uuid",
     "isochrone_amplitude",
     "longitude",
     "latitude",
@@ -32,6 +34,7 @@ CUSTOMER_COLUMNS_TO_SEND = [
 
 LOCATIONS_NO_FILTERING_COLUMNS = [
     'address',
+    'id',
     'latitude',
     'longitude',
     'geo_point',
@@ -59,12 +62,12 @@ LOCATIONS_NO_FILTERING_COLUMNS = [
     'isochrone_60_min_total_pop',
     'isochrone_60_min_area',
     'isochrone_60_min_reachfactor',
-    'webapp_location_id',
-    'location_id'
+    'location_uuid'
 ]
 
 LOCATION_COLUMNS_TO_SEND = [
-    "location_id",
+    "id",
+    "location_uuid",
     "longitude",
     "latitude",
     "filteringFeatures",

@@ -19,13 +19,6 @@ class DataHandler:
         self.locations_df = dataiku.Dataset(constants.LOCATIONS_DATASET_NAME).get_dataframe().applymap(str)
         self.project_variables = dataiku.api_client().get_default_project().get_variables()
 
-    def preprocess_customers_df(self, customers_df):
-        return customers_df.loc[
-                    customers_df
-                    .groupby(['location_id', 'included_customer_id'])
-                    .isochrone_amplitude.idxmin()
-                ]
-
     def get_project_variables(self):
         return self.project_variables
 
@@ -45,6 +38,14 @@ class DataHandler:
             available_filtering_features[column] = df_to_handle[column].unique().tolist()
         return available_filtering_features
 
+    def get_available_identifiers(self, moduleName, settings):
+        df_to_handle = self.customers_df if moduleName == 'customer' else self.locations_df
+
+        if 'pre_filters' in settings:
+            df_to_handle = self.apply_filtering(df_to_handle, settings["pre_filters"])
+
+        return df_to_handle["id"].unique().tolist()
+
     def apply_filtering(self, df_to_filter, settings):
         filtering_query = True
         for (feature_column, feature_values) in settings.items():
@@ -52,7 +53,7 @@ class DataHandler:
                 feature_values = list(map(str, feature_values))
                 filtering_query = filtering_query & df_to_filter[feature_column].isin(feature_values)
         if filtering_query is True:
-            return pd.DataFrame()  # Return nothing if no filters have been set
+            return pd.DataFrame(columns=df_to_filter.columns)  # Return nothing if no filters have been set
         return df_to_filter[filtering_query]
 
     def apply_sampling(self, moduleName, df_to_sample, settings):
@@ -67,7 +68,7 @@ class DataHandler:
                     return df_to_sample
                 return df_to_sample.sample(int(settings["value"]))
             else:
-                return df_to_sample.groupby('location_id').apply(
+                return df_to_sample.groupby('location_uuid').apply(
                     lambda x: x.sample(n=min(len(x), sampling_val))
                 )
         elif settings["type"] == "noSampling":
@@ -86,20 +87,20 @@ class DataHandler:
         for i, rec in enumerate(dict_to_send):
             rec["filteringFeatures"] = filtering_features[i]
 
-        if moduleName == 'location':
+        if moduleName == "location":
             self.add_isochrones_to_locations(dict_to_send)
 
         return dict_to_send
 
     def add_isochrones_to_locations(self, locations):
         for location in locations:
-            locations_isochrones = self.isochrones_df[self.isochrones_df["location_id"] == location["location_id"]] \
+            locations_isochrones = self.isochrones_df[self.isochrones_df["location_uuid"] == location["location_uuid"]] \
                 .to_dict(orient="records")
             for iso in locations_isochrones:
                 iso["isochrone_data"] = json.loads(iso["isochrone_data"])
             location["isochrones"] = locations_isochrones
 
-    def filter_zones(self, moduleName, settings):
+    def filter_locations(self, moduleName, settings):
         df_to_handle = self.customers_df if moduleName == "customer" else self.locations_df
         filtered_df = self.apply_filtering(df_to_handle, settings["filtering"])
         sampled_df = self.apply_sampling(moduleName, filtered_df, settings["sampling"])
@@ -117,12 +118,14 @@ class DataHandler:
         return available_isochrones
 
 
+
+
 if __name__ == "__main__":
     import pdb
 
-    settings = {"filtering": {"location_id": ["0"]}, "sampling": {"type": "nRows", "value": 100}}
+    settings = {"filtering": {"location_uuid": ["0"]}, "sampling": {"type": "nRows", "value": 100}}
 
     data_handler = DataHandler()
-    isos = data_handler.filter_zones("customer", settings)
+    isos = data_handler.filter_locations("customer", settings)
     print(isos)
     print(len(isos))
