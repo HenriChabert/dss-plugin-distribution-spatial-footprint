@@ -37,9 +37,11 @@ const getters = {
         return state.activatedTab
     },
     getCustomersPreFilters: (state, getters, rootState, rootGetters) => {
+        const allAmplitudes = [5, 10, 15, 30, 45, 60];
+        const maxActiveAmplitude = Math.max(...rootGetters.getActiveIsochrones.map((iso) => iso.value.isochrone_amplitude));
         return {
             location_uuid: rootGetters.getAllLocations.map((l) => l.location_uuid),
-            isochrone_amplitude: rootGetters.getActiveIsochrones.map((iso) => iso.value.isochrone_amplitude)
+            isochrone_amplitude: allAmplitudes.filter((a) => a <= maxActiveAmplitude)
         }
     }
 }
