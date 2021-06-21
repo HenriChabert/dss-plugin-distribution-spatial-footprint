@@ -65,7 +65,6 @@ const actions = {
         const maxActiveAmplitude = Math.max(...getters.getActiveIsochrones.map((iso) => iso.value.isochrone_amplitude));
         filtering.location_uuid = getters.getAllLocations.map((loc) => loc.location_uuid);
         filtering.isochrone_amplitude = allAmplitudes.filter((a) => a <= maxActiveAmplitude);
-        console.log(filtering.isochrone_amplitude);
         let filteredCustomers;
         if (filtering.location_uuid.length > 0) {
             filteredCustomers = await DKUApi.getFilteredCustomers(
