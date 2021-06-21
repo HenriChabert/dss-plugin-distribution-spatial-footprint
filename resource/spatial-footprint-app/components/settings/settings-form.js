@@ -86,9 +86,15 @@ const SettingsForm = {
                 <span class="n-items-indicator-text" v-if="getOptions.isActivated">
                     {{ getNumberItemsShowed }}/{{ getNumberItemsTotal }} {{ identifierLabel }}
                 </span>
+                <div v-else class="ms-auto">
+                    <v-toggle
+                        :value="getOptions.isActivated"
+                        @input="setOption('isActivated', $event)"
+                        class="ms-3"></v-toggle>
+                </div>
             </div>
             <div class="settings-form-body container" v-show="isVisible">
-                <div v-if="showActivationToggle" class="d-flex mb-3">
+                <div v-if="showActivationToggle && getOptions.isActivated" class="d-flex mb-3">
                     <label>{{ activationToggleLabel }}</label>
                     <v-toggle
                         :value="getOptions.isActivated"
