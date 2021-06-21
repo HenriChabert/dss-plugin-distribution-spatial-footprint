@@ -7,7 +7,8 @@ const FeatureSelect = {
         label: String,
         items: Array,
         settingsModule: String,
-        selectable: Boolean
+        selectable: Boolean,
+        fullHeight: Boolean
     },
     data() {
         return {
@@ -102,7 +103,7 @@ const FeatureSelect = {
                         {{ shortLabel(option.label) }}
                     </template>
                 </v-select>
-                <div class="feature-select-content" ref="featureSelectContent">
+                <div :class="['feature-select-content', fullHeight ? 'full-height' : '']" ref="featureSelectContent">
                     <div class="feature-select-item">
                         <input type="checkbox" value="select-all"
                         :checked="isAllSelected"

@@ -27,6 +27,9 @@ const FilteringSection = {
                 featuresAndItems[f] = this.featureAvailableItems(f);
             })
             return featuresAndItems
+        },
+        isFullHeight() {
+            return this.features.length === 1;
         }
     },
     methods: {
@@ -67,6 +70,7 @@ const FilteringSection = {
                     :isVisible="isFeatureVisible(featureName)"
                     :showName="showNames"
                     :isLastItem="isLastItem(featureName)"
+                    :fullHeight="isFullHeight"
                     v-on:update:featureVisibility="toggleFeatureVisibility(featureName)"
                     ></filtering-feature>
             </div>

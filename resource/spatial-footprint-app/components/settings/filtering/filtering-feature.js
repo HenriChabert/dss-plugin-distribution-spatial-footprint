@@ -13,7 +13,8 @@ const FilteringFeature = {
         selectable: Boolean,
         isVisible: Boolean,
         showName: Boolean,
-        isLastItem: Boolean
+        isLastItem: Boolean,
+        fullHeight: Boolean
     },
     computed: {
         filtersCount() {
@@ -47,7 +48,8 @@ const FilteringFeature = {
                 :name="name"
                 :label="label || name"
                 :settingsModule="settingsModule"
-                :selectable="selectable"></feature-select>
+                :selectable="selectable"
+                :fullHeight="fullHeight"></feature-select>
             <hr v-if="!isLastItem">
         </div>`
 };

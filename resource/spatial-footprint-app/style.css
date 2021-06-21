@@ -137,6 +137,11 @@ input[type="color"]::-webkit-color-swatch {
     max-height: 150px;
 }
 
+.feature-select-content.full-height {
+    max-height: 100%;
+    margin-bottom: 20px;
+}
+
 #filtering-section hr{
     margin: 0;
 }
