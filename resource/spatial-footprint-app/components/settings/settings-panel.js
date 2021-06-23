@@ -31,7 +31,7 @@ const SettingsPanel = {
             const usedAPI = this.getProjectVariables.isochrones_api_to_use;
             const usedMeanOfTransportation = this.getProjectVariables[`transportation_mode_${usedAPI}`];
             const mappedMOT = _.pickBy(MEANS_OF_TRANSPORTATION, (v) => v.includes(usedMeanOfTransportation));
-            return `../../resource/spatial-footprint-app/img/svg/${Object.keys(mappedMOT)[0] || "foot"}.svg`;
+            return `../../resource/spatial-footprint-app/img/svg/${Object.keys(mappedMOT)[0]}.svg`;
         }
     },
     data() {
@@ -95,7 +95,7 @@ const SettingsPanel = {
                 <div v-show="!showFilteringPanel" key="common-settings">
                     <div class="isochrones-section settings-padded mb-3">
                         <span>
-                            <img :src="meanOfTransportationIcon" alt="mean of transportation" />
+                            <img :src="meanOfTransportationIcon" alt="mean of transportation" v-if="getProjectVariables.isochrones_api_to_use"/>
                             Isochrone(s) to focus on:</span>
                         <v-select v-if="getIsochronesTypes"
                             :options="getIsochronesTypes"
