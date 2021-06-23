@@ -31,7 +31,7 @@ const SettingsPanel = {
             const usedAPI = this.getProjectVariables.isochrones_api_to_use;
             const usedMeanOfTransportation = this.getProjectVariables[`transportation_mode_${usedAPI}`];
             const mappedMOT = _.pickBy(MEANS_OF_TRANSPORTATION, (v) => v.includes(usedMeanOfTransportation));
-            return `../../resource/spatial-footprint-app/img/svg/${/*Object.keys(mappedMOT)[0] || */"foot"}.svg`;
+            return `../../resource/spatial-footprint-app/img/svg/${Object.keys(mappedMOT)[0] || "foot"}.svg`;
         }
     },
     data() {
