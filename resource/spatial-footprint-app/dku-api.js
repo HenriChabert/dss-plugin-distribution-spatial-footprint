@@ -34,7 +34,5 @@ export let DKUApi = {
     },
     getProjectVariables: () => {
         return axios.get('project-variables');
-}
-
-
+    }
 };

@@ -28,7 +28,6 @@ export default new Vue({
             }
             APIErrors.push(newError);
         }
-
     },
     template:`
         <div class="main">

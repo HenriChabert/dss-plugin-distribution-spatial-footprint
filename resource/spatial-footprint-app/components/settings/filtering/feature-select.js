@@ -95,7 +95,7 @@ const FeatureSelect = {
                     :noDrop="true"
                     :clearSearchOnBlur="() => false"
                     @input="addFilter($event)"
-                    v-on:search="test($event)">
+                    v-on:search="searchString = $event">
                     <template slot="open-indicator">
                         <span><i class="icon-search"></i></span>
                     </template>
