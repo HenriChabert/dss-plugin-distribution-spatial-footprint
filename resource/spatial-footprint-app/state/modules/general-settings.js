@@ -25,6 +25,7 @@ const modules = {
 // getters
 const getters = {
     getWebAppSettings: state => state.webapp,
+    getProjectVariables: state => state.projectVariables,
     getModuleGetter: (state, getters, rootState, rootGetters) => (moduleName, getter) => {
         return rootGetters[`${moduleName}/${getter}`];
     },
