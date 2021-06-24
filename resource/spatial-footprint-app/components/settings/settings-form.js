@@ -59,7 +59,7 @@ const SettingsForm = {
             this.$store.commit(`${this.settingsModule}/setOption`, {optionName, optionValue: e});
         },
         toggle() {
-            this.$store.commit(`${this.settingsModule}/${this.showCustomers ? "deactivate" : "activate"}`);
+            this.$store.commit(`${this.settingsModule}/${this.getOptions.isActivated ? "deactivate" : "activate"}`);
         },
         setActivatedTab(newActivatedTab) {
             this.$store.commit(`${this.settingsModule}/settings/setActivatedTab`, {newActivatedTab});
