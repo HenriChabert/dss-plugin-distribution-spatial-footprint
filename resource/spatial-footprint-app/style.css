@@ -444,3 +444,10 @@ hr {
 .clickable {
     cursor: pointer;
 }
+
+.v-spinner {
+    z-index: 1000;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}

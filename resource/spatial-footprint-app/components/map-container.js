@@ -5,11 +5,18 @@ const MapContainer = {
     name: "map-container",
     components: {
         'settings-panel': SettingsPanel,
-        'dku-map': DkuMap
+        'dku-map': DkuMap,
+        'ring-loader': window.VueSpinner.RingLoader
+    },
+    data() {
+        return {
+            isLoading: false
+        }
     },
     template:`
     <div class="map-container">
-        <dku-map></dku-map>
+        <dku-map :isLoading.sync="isLoading"></dku-map>
+        <ring-loader :loading="isLoading" color="#509af5"></ring-loader>
         <settings-panel></settings-panel>
     </div>
     `
