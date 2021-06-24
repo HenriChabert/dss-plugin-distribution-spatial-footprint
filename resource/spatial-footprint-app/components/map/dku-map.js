@@ -92,12 +92,12 @@ const DkuMap = {
             </l-control>
             <l-feature-group ref="features">
                 <location-layer-group v-for="location in getLocations('basic')"
-                    :key="location.uuid"
+                    :key="location.location_uuid"
                     :location="location"
                     moduleName="basic"></location-layer-group>
                 <location-layer-group v-if="showCompetitor"
                     v-for="location in getLocations('competitor')"
-                    :key="location.uuid + '_competitor'" 
+                    :key="location.location_uuid + '_competitor'" 
                     :location="location"
                     moduleName="competitor"></location-layer-group>
                 <customer-pane v-if="showCustomers"
