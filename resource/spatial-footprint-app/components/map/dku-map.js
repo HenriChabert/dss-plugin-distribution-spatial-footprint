@@ -49,7 +49,7 @@ const DkuMap = {
     },
     mounted() {
         this.unsubscribe = this.$store.subscribe((mutation, state) => {
-            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(setFilteringFeature|setSamplingValue)/);
+            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(setFilteringFeature|setSamplingValue|setActivatedTab)/);
             if (location_updated) {
                 this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
                     if (this.showCustomers) {

@@ -62,7 +62,9 @@ const SettingsForm = {
             this.$store.commit(`${this.settingsModule}/${this.getOptions.isActivated ? "deactivate" : "activate"}`);
         },
         setActivatedTab(newActivatedTab) {
-            this.$store.commit(`${this.settingsModule}/settings/setActivatedTab`, {newActivatedTab});
+            if (this.getActivatedTab !== newActivatedTab){
+                this.$store.commit(`${this.settingsModule}/settings/setActivatedTab`, {newActivatedTab});
+            }
         }
     },
     components: {
