@@ -58,6 +58,9 @@ const SettingsForm = {
         setOption (optionName, e) {
             this.$store.commit(`${this.settingsModule}/setOption`, {optionName, optionValue: e});
         },
+        toggle() {
+            this.$store.commit(`${this.settingsModule}/${this.showCustomers ? "deactivate" : "activate"}`);
+        },
         setActivatedTab(newActivatedTab) {
             this.$store.commit(`${this.settingsModule}/settings/setActivatedTab`, {newActivatedTab});
         }
@@ -91,7 +94,7 @@ const SettingsForm = {
                 <div v-else class="ms-auto">
                     <v-toggle
                         :value="getOptions.isActivated"
-                        @input="setOption('isActivated', $event)"
+                        @input="toggle()"
                         class="ms-3"></v-toggle>
                 </div>
             </div>
@@ -100,7 +103,7 @@ const SettingsForm = {
                     <label>{{ activationToggleLabel }}</label>
                     <v-toggle
                         :value="getOptions.isActivated"
-                        @input="setOption('isActivated', $event)"
+                        @input="toggle()"
                         class="ms-3"></v-toggle>
                 </div>
                 <div v-show="getOptions.isActivated" class="p-4">

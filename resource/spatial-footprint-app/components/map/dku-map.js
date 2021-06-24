@@ -40,30 +40,35 @@ const DkuMap = {
                 this.bounds = this.$refs.features.mapObject.getBounds();
                 this.$refs.map.mapObject.fitBounds(this.bounds);
             }
+        },
+        updateCustomers() {
+            this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
+            this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
+            this.$store.dispatch('getFilteredCustomers');
         }
     },
     mounted() {
         this.unsubscribe = this.$store.subscribe((mutation, state) => {
-            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(.*)/);
+            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(setFilteringFeature|setSamplingValue)/);
             if (location_updated) {
                 this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
-                    this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
-                    this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
                     if (this.showCustomers) {
-                        this.$store.dispatch('getFilteredCustomers');
+                        this.updateCustomers();
                     }
                 });
             }
 
             if (mutation.type === "setActiveIsochrones") {
-                this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
-                this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
                 if (this.showCustomers) {
-                    this.$store.dispatch('getFilteredCustomers');
+                    this.updateCustomers();
                 }
             }
 
-            if (mutation.type.match(/customer\/settings\/(.*)/)) {
+            if (mutation.type === "customer/activate") {
+                    this.updateCustomers();
+            }
+
+            if (mutation.type.match(/customer\/settings\/(setFilteringFeature|setSamplingValue)/)) {
                 this.$store.dispatch('getFilteredCustomers');
             }
 

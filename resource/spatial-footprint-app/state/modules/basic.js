@@ -1,7 +1,7 @@
 import settings from './settings.js'
 
 const state = () => ({
-    colorsPalette: [],
+    colorsPalette: []
 })
 
 const modules = {
