@@ -26,7 +26,9 @@ const FilteringFeature = {
     },
     methods: {
         toggleFilteringFeature() {
-            this.$emit("update:featureVisibility");
+            if (!this.fullHeight) {
+                this.$emit("update:featureVisibility");
+            }
         },
         getModuleGetter(getter) {
             return this.$store.getters.getModuleGetter(this.settingsModule, getter);
@@ -37,9 +39,12 @@ const FilteringFeature = {
     },
     template: `
         <div class="filter-select">
-            <div class="filter-select-header d-flex" v-on:click="toggleFilteringFeature" v-if="showName">
-                <i v-if="isVisible" class="icon-sort-down"></i>
-                <i v-else class="icon-sort-up"></i>
+            <div :class="['filter-select-header', 'd-flex', fullHeight ? 'clickable' : '']"
+                v-on:click="toggleFilteringFeature" v-if="showName">
+                <div v-if="!fullHeight">
+                    <i v-if="isVisible" class="icon-sort-down"></i>
+                    <i v-else class="icon-sort-up"></i>
+                </div>
                 <span class="ms-3"><b>{{ label || name }}</b></span>
                 <span class="ms-2 n-items-indicator-text">{{ filtersCount(name) }}/{{ itemsCount }}</span>
             </div>
