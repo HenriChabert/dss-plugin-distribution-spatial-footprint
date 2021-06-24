@@ -26,7 +26,12 @@ const FeatureSelect = {
             return this.getModuleGetter('settings/getFiltering')[this.name];
         },
         getShortFiltering() {
-            return this.getFiltering?.map((v) => this.shortLabel(v)) || [];
+            return this.getFiltering?.map((v) => {
+                return {
+                    label: this.shortLabel(v),
+                    value: v
+                }
+            }) || [];
         }
     },
     methods: {
@@ -124,7 +129,7 @@ const FeatureSelect = {
                 <v-select multiple class="filters-multi-list mb-2 flex-grow-1"
                     placeholder="No filters selected"
                     :value="getShortFiltering"
-                    @input="updateFilters($event)"
+                    @input="updateFilters($event.map(f => f.value))"
                     v-on:search:focus="showFilteringPanelAndFocus($event)"
                     :noDrop="true"
                     :searchable="false">
