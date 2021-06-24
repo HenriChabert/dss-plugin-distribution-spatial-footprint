@@ -39,7 +39,7 @@ const FilteringFeature = {
     },
     template: `
         <div class="filter-select">
-            <div :class="['filter-select-header', 'd-flex', fullHeight ? 'clickable' : '']"
+            <div :class="['filter-select-header', 'd-flex', !fullHeight ? 'clickable' : '']"
                 v-on:click="toggleFilteringFeature" v-if="showName">
                 <div v-if="!fullHeight">
                     <i v-if="isVisible" class="icon-sort-down"></i>

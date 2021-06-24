@@ -48,6 +48,9 @@ const getters = {
 
 // mutations
 const mutations = {
+    setFilteringFilters(state, { newFilters }) {
+        state.filtering.filters = newFilters;
+    },
     setFilteringFeature(state, { featureName, filters }) {
         if (featureName === "id") {
             Vue.set(state.filtering.individuals, featureName, filters)

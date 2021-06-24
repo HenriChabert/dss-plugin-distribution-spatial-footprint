@@ -41,6 +41,7 @@ const DkuMap = {
         fitBounds() {
             if (this.$refs.features.mapObject.getLayers().length) {
                 this.bounds = this.$refs.features.mapObject.getBounds();
+                console.log(this.bounds);
                 this.$refs.map.mapObject.fitBounds(this.bounds);
             }
         },
@@ -55,7 +56,7 @@ const DkuMap = {
     },
     mounted() {
         this.unsubscribe = this.$store.subscribe((mutation, state) => {
-            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(setFilteringFeature|setSamplingValue|setActivatedTab)/);
+            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(setFilteringFeature|setSamplingValue|setActivatedTab|setFilteringFilters)/);
             if (location_updated) {
                 this.$emit("update:isLoading", true);
                 this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {

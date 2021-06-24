@@ -30,9 +30,7 @@ const FiltersTab = {
             return this.$store.getters.getModuleGetter(this.settingsModule, getter);
         },
         clearFilters() {
-            for (const [featureName, featureItems] of Object.entries(this.getAvailableFilteringFeatures)) {
-                this.$store.commit(`${this.settingsModule}/settings/setFilteringFeature`, { featureName, filters: [] });
-            }
+            this.$store.commit(`${this.settingsModule}/settings/setFilteringFilters`, { newFilters: {} });
         },
         showFilteringPanel() {
             this.$store.commit('showFilteringPanel', {
