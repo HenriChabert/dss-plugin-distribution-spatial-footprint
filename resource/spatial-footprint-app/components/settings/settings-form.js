@@ -85,7 +85,7 @@ const SettingsForm = {
             <div class="settings-form-header d-flex justify-content-between" v-on:click="toggleSettingsForm">
                 <h4 class="d-flex align-items-center">
                     <div class="me-2">
-                        <i v-if="isVisible" class="icon-sort-down"></i>
+                        <i v-if="isVisible && getOptions.isActivated" class="icon-sort-down"></i>
                         <i v-else class="icon-sort-up"></i>
                     </div>
                     {{ moduleName }}
