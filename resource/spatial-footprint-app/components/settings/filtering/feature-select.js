@@ -19,6 +19,9 @@ const FeatureSelect = {
         'v-select': VueSelect.VueSelect
     },
     computed: {
+        sortedItems() {
+            return [...this.items].sort();
+        },
         isAllSelected() {
             return _.isEqual(this.filterWithSearchString(this.getFiltering || []), this.filterWithSearchString(this.items));
         },
@@ -124,7 +127,7 @@ const FeatureSelect = {
                         @click="selectOrDeselectAll()">
                         <span>All</span>
                     </div>
-                    <div class="feature-select-item" v-for="it in items" v-if="isItemValid(it)" :key="it">
+                    <div class="feature-select-item" v-for="it in sortedItems" v-if="isItemValid(it)" :key="it">
                         <input type="checkbox"
                         :value="it"
                         :checked="isItemSelected(it)"
