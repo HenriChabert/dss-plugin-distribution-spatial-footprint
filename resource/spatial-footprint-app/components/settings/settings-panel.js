@@ -2,10 +2,10 @@ import { SettingsForm } from './settings-form.js'
 import {FilteringPanel} from "./filtering/filtering-panel.js";
 
 const MEANS_OF_TRANSPORTATION = {
-    "car": ["driving-car"],
-    "trunk": ["driving-hgv"],
-    "cycling": ["cycling-regular", "cycling-road", "cycling-mountain", "cycling-electric"],
-    "foot": ["foot-walking", "foot-hiking"]
+    "car": ["driving-car", "driving-hgv"],
+    "hiking": ["foot-hiking"],
+    "bike": ["cycling-regular", "cycling-road", "cycling-mountain", "cycling-electric"],
+    "walking": ["foot-walking"]
 }
 
 const SettingsPanel = {
@@ -21,16 +21,14 @@ const SettingsPanel = {
             'getFilteringPanelModule',
             'showFilteringPanel',
             'getFilteringPanelTitle',
-            'getProjectVariables'
+            'getProjectVariables',
+            'getMeanOfTransportation'
         ]),
         panelTitle() {
             return this.showFilteringPanel ? _.capitalize(this.getFilteringPanelTitle) : "Settings";
         },
         meanOfTransportationIcon() {
-            const usedAPI = this.getProjectVariables.isochrones_api_to_use;
-            const usedMeanOfTransportation = this.getProjectVariables[`transportation_mode_${usedAPI}`];
-            const mappedMOT = _.pickBy(MEANS_OF_TRANSPORTATION, (v) => v.includes(usedMeanOfTransportation));
-            return `../../resource/spatial-footprint-app/img/svg/${Object.keys(mappedMOT)[0]}.svg`;
+            return `../../resource/spatial-footprint-app/img/svg/icon-dku-${this.getMeanOfTransportation}.svg`;
         }
     },
     data() {
@@ -67,14 +65,20 @@ const SettingsPanel = {
         },
         focusOnModule(moduleName) {
             this.visibleModules = this.isModuleVisible(moduleName) ? [] : [moduleName];
-        }
+        },
+        setMeanOfTransportation() {
+            const usedAPI = this.getProjectVariables.isochrones_api_to_use;
+            const usedMeanOfTransportation = this.getProjectVariables[`transportation_mode_${usedAPI}`];
+            const mappedMOT = _.pickBy(MEANS_OF_TRANSPORTATION, (v) => v.includes(usedMeanOfTransportation));
+            this.$store.commit('setMeanOfTransportation', { newMeanOfTransportation: Object.keys(mappedMOT)[0] })
+        },
     },
     mounted() {
         this.setActiveIsochrones(this.getIsochronesTypes);
-        this.$store.dispatch('fetchProjectVariables');
-    },
-    created () {
         this.$store.dispatch('fetchIsochronesTypes');
+        this.$store.dispatch('fetchProjectVariables').then(() => {
+            this.setMeanOfTransportation();
+        });
     },
     // language=HTML
     template: `
@@ -94,7 +98,7 @@ const SettingsPanel = {
                 <div v-show="!showFilteringPanel" key="common-settings">
                     <div class="isochrones-section settings-padded mb-3">
                         <span>
-                            <img :src="meanOfTransportationIcon" alt="mean of transportation" v-if="getProjectVariables.isochrones_api_to_use"/>
+                            <img :src="meanOfTransportationIcon" alt="mean of transportation" v-if="getProjectVariables.isochrones_api_to_use" class="me-2" width="14px" height="14px"/>
                             Isochrone(s) to focus on:</span>
                         <v-select v-if="getIsochronesTypes"
                             :options="getIsochronesTypes"
