@@ -337,10 +337,6 @@ hr {
     padding-top: 9px;
 }
 
-.popup-list li:first-child {
-    font-weight: bold;
-}
-
 .filters-multi-list input{
     cursor: pointer;
 }
