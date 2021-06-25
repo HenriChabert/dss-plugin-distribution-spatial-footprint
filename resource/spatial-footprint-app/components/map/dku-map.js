@@ -41,14 +41,16 @@ const DkuMap = {
         fitBounds() {
             if (this.$refs.features.mapObject.getLayers().length) {
                 this.bounds = this.$refs.features.mapObject.getBounds();
-                console.log(this.bounds);
                 this.$refs.map.mapObject.fitBounds(this.bounds);
             }
         },
         updateCustomers() {
+            this.$emit("update:isLoading", true);
             this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
             this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
-            this.$store.dispatch('getFilteredCustomers');
+            this.$store.dispatch('getFilteredCustomers').then(() => {
+                this.$emit("update:isLoading", false);
+            });
         },
         getModuleGetter(module, getter) {
             return this.$store.getters.getModuleGetter(module, getter);
@@ -66,11 +68,14 @@ const DkuMap = {
                     }
                 }
                 if (updateLocations) {
+                    this.$emit("update:isLoading", true);
                     this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
                         this.$store.commit('updateCustomers', { newCustomers: [] });
                         if (this.showCustomers) {
                             this.updateCustomers();
                         }
+                    }).then(() => {
+                        this.$emit("update:isLoading", false);
                     });
                 }
             }
@@ -89,7 +94,10 @@ const DkuMap = {
             }
 
             if (mutation.type.match(/customer\/settings\/(setFilteringFeature|setSamplingValue)/)) {
-                this.$store.dispatch('getFilteredCustomers');
+                this.$emit("update:isLoading", true);
+                this.$store.dispatch('getFilteredCustomers').then(() => {
+                    this.$emit("update:isLoading", false);
+                });
             }
 
             if (mutation.type.match(/(updateLocations|updateCustomers)/)) {
