@@ -9,7 +9,9 @@ const state = {
         basic: [],
         competitor: []
     },
-    customers: []
+    customers: [],
+    meanOfTransportation: null
+
 }
 
 const modules = {
@@ -36,7 +38,8 @@ const getters = {
     },
     showCustomers: (state, getters, rootState, rootGetters) => {
         return rootGetters['customer/showCustomers']
-    }
+    },
+    getMeanOfTransportation: (state) => state.meanOfTransportation
 }
 
 const mutations = {
@@ -46,6 +49,9 @@ const mutations = {
     updateCustomers(state, { newCustomers }) {
         state.customers = newCustomers;
     },
+    setMeanOfTransportation(state, { newMeanOfTransportation }) {
+        state.meanOfTransportation = newMeanOfTransportation;
+    }
 }
 
 const actions = {

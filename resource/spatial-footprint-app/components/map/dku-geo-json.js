@@ -22,6 +22,10 @@ const DkuGeoJson = {
         'customer-pane': CustomerPane
     },
     computed: {
+        ...Vuex.mapGetters([
+            'getProjectVariables',
+            'getMeanOfTransportation'
+        ]),
         optionsStyle() {
             return {
                 color: this.color,
@@ -29,13 +33,19 @@ const DkuGeoJson = {
                 opacity: ISOCHRONE_OPACITY
             }
         },
+        meanOfTransportationIcon() {
+            return `../../resource/spatial-footprint-app/img/svg/icon-dku-${this.getMeanOfTransportation}.svg`;
+        },
+        meanOfTransportationFromAPI() {
+            return this.getProjectVariables[`transportation_mode_${this.getProjectVariables.isochrones_api_to_use}`];
+        },
         popupContent() {
             const properties = this.iso.isochrone_data.properties;
             return `
             <div>
                 <ul class="popup-list">
                     <li><img src="../../resource/spatial-footprint-app/img/custom-marker.png" alt="custom marker" /> ${this.locationName}</li>
-                    <li><img src="../../resource/spatial-footprint-app/img/iso-thumb.png" alt="Iso Thumbnail" /> Isochrone ${this.iso.isochrone_amplitude} min</li>
+                    <li><img src="${this.meanOfTransportationIcon}" alt="Mean of transportation" width="15px" height="15px"/> Isochrone ${this.iso.isochrone_amplitude} min (with ${this.meanOfTransportationFromAPI})</li>
                 </ul>
             </div>`
         },

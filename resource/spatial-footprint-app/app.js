@@ -5,6 +5,29 @@ import {APIErrors} from "./dku-api.js";
 
 Vue.use(Vuex)
 
+// Hack found here: https://github.com/sagalbot/vue-select/issues/1311
+Vue.component('v-select', {
+  extends: VueSelect.VueSelect,
+  methods:{
+      toggleDropdown(event) {
+        const targetIsNotSearch = event.target !== this.searchEl;
+        if (targetIsNotSearch) {
+          event.preventDefault();
+        }
+        if (event.target.closest('.vs__deselect, .vs__clear')) {
+          event.preventDefault();
+          return;
+        }
+        if (this.open && targetIsNotSearch) {
+          this.searchEl.blur();
+        } else if (!this.disabled) {
+          this.open = true;
+          this.searchEl.focus();
+        }
+      }
+  }
+});
+
 export default new Vue({
     el: '#app',
     store,

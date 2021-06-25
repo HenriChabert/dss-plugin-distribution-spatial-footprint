@@ -58,8 +58,13 @@ const SettingsForm = {
         setOption (optionName, e) {
             this.$store.commit(`${this.settingsModule}/setOption`, {optionName, optionValue: e});
         },
+        toggle() {
+            this.$store.commit(`${this.settingsModule}/${this.getOptions.isActivated ? "deactivate" : "activate"}`);
+        },
         setActivatedTab(newActivatedTab) {
-            this.$store.commit(`${this.settingsModule}/settings/setActivatedTab`, {newActivatedTab});
+            if (this.getActivatedTab !== newActivatedTab){
+                this.$store.commit(`${this.settingsModule}/settings/setActivatedTab`, {newActivatedTab});
+            }
         }
     },
     components: {
@@ -80,7 +85,7 @@ const SettingsForm = {
             <div class="settings-form-header d-flex justify-content-between" v-on:click="toggleSettingsForm">
                 <h4 class="d-flex align-items-center">
                     <div class="me-2">
-                        <i v-if="isVisible" class="icon-sort-down"></i>
+                        <i v-if="isVisible && getOptions.isActivated" class="icon-sort-down"></i>
                         <i v-else class="icon-sort-up"></i>
                     </div>
                     {{ moduleName }}
@@ -91,7 +96,7 @@ const SettingsForm = {
                 <div v-else class="ms-auto">
                     <v-toggle
                         :value="getOptions.isActivated"
-                        @input="setOption('isActivated', $event)"
+                        @input="toggle()"
                         class="ms-3"></v-toggle>
                 </div>
             </div>
@@ -100,7 +105,7 @@ const SettingsForm = {
                     <label>{{ activationToggleLabel }}</label>
                     <v-toggle
                         :value="getOptions.isActivated"
-                        @input="setOption('isActivated', $event)"
+                        @input="toggle()"
                         class="ms-3"></v-toggle>
                 </div>
                 <div v-show="getOptions.isActivated" class="p-4">

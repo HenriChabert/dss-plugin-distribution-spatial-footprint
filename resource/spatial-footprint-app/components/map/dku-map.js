@@ -16,9 +16,12 @@ const DkuMap = {
             'showCustomers'
         ]),
     },
+    props: {
+        isLoading: Boolean
+    },
     data() {
         return {
-            bounds: DEFAULT_BOUNDS
+            bounds: DEFAULT_BOUNDS,
         }
     },
     components: {
@@ -40,31 +43,61 @@ const DkuMap = {
                 this.bounds = this.$refs.features.mapObject.getBounds();
                 this.$refs.map.mapObject.fitBounds(this.bounds);
             }
-        }
+        },
+        updateCustomers() {
+            this.$emit("update:isLoading", true);
+            this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
+            this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
+            this.$store.dispatch('getFilteredCustomers').then(() => {
+                this.$emit("update:isLoading", false);
+            });
+        },
+        getModuleGetter(module, getter) {
+            return this.$store.getters.getModuleGetter(module, getter);
+        },
     },
     mounted() {
         this.unsubscribe = this.$store.subscribe((mutation, state) => {
-            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(.*)/);
+            const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(setFilteringFeature|setSamplingValue|setActivatedTab|setFilteringFilters)/);
             if (location_updated) {
-                this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
-                    this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
-                    this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
-                    if (this.showCustomers) {
-                        this.$store.dispatch('getFilteredCustomers');
+                let updateLocations = true;
+                if (location_updated[2] === "setFilteringFeature") {
+                    const activeTab = this.getModuleGetter(location_updated[1], "settings/getActivatedTab");
+                    if ((mutation.payload.featureName === "id" && activeTab === "filters") || (mutation.payload.featureName !== "id" && activeTab === "individuals")) {
+                        updateLocations = false;
                     }
-                });
-            }
-
-            if (mutation.type === "setActiveIsochrones") {
-                this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
-                this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
-                if (this.showCustomers) {
-                    this.$store.dispatch('getFilteredCustomers');
+                }
+                if (updateLocations) {
+                    this.$emit("update:isLoading", true);
+                    this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
+                        this.$store.commit('updateCustomers', { newCustomers: [] });
+                        if (this.showCustomers) {
+                            this.updateCustomers();
+                        }
+                    }).then(() => {
+                        this.$emit("update:isLoading", false);
+                    });
                 }
             }
 
-            if (mutation.type.match(/customer\/settings\/(.*)/)) {
-                this.$store.dispatch('getFilteredCustomers');
+            if (mutation.type === "setActiveIsochrones") {
+                this.$store.commit('updateCustomers', { newCustomers: [] });
+                if (this.showCustomers) {
+                    this.updateCustomers();
+                }
+            }
+
+            if (mutation.type === "customer/activate") {
+                if (this.getCustomers.length === 0) {
+                    this.updateCustomers();
+                }
+            }
+
+            if (mutation.type.match(/customer\/settings\/(setFilteringFeature|setSamplingValue)/)) {
+                this.$emit("update:isLoading", true);
+                this.$store.dispatch('getFilteredCustomers').then(() => {
+                    this.$emit("update:isLoading", false);
+                });
             }
 
             if (mutation.type.match(/(updateLocations|updateCustomers)/)) {
@@ -87,12 +120,12 @@ const DkuMap = {
             </l-control>
             <l-feature-group ref="features">
                 <location-layer-group v-for="location in getLocations('basic')"
-                    :key="location.uuid"
+                    :key="location.location_uuid"
                     :location="location"
                     moduleName="basic"></location-layer-group>
                 <location-layer-group v-if="showCompetitor"
                     v-for="location in getLocations('competitor')"
-                    :key="location.uuid + '_competitor'" 
+                    :key="location.location_uuid + '_competitor'" 
                     :location="location"
                     moduleName="competitor"></location-layer-group>
                 <customer-pane v-if="showCustomers"

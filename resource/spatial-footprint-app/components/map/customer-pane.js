@@ -44,7 +44,8 @@ const CustomerPane = {
                             className="customer-marker-icon"></l-icon>
                     <info-popup
                         :id="customer.id"
-                        :filteringFeatures="customer.filteringFeatures">
+                        :filteringFeatures="customer.filteringFeatures"
+                        moduleName="customer">
                     </info-popup>
                 </l-marker>
             </marker-cluster>

@@ -14,8 +14,7 @@ const FilteringSection = {
         }
     },
     components: {
-        'filtering-feature': FilteringFeature,
-        'v-select': VueSelect.VueSelect
+        'filtering-feature': FilteringFeature
     },
     computed: {
         hasFeatures() {

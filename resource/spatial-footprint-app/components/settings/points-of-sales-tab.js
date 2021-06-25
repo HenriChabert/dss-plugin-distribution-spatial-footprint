@@ -30,7 +30,8 @@ const PointsOfSalesTab = {
                 :showName="true"
                 :settingsModule="settingsModule"
                 :selectable="false"
-                :isVisible="true">
+                :isVisible="true"
+                :fullHeight="true">
             </filtering-feature>
         </div>`,
 };

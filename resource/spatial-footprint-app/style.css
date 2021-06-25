@@ -57,6 +57,11 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 14px;
 }
 
+.no-filtering-panel {
+    height: auto;
+    padding-bottom: 14px;
+}
+
 .settings-padded {
     padding: 0 17px;
 }
@@ -147,10 +152,6 @@ input[type="color"]::-webkit-color-swatch {
 
 #filtering-section,.filtering-features hr{
     margin: 0;
-}
-
-.filter-select-header {
-    cursor: pointer;
 }
 
 label {
@@ -336,10 +337,6 @@ hr {
     padding-top: 9px;
 }
 
-.popup-list li:first-child {
-    font-weight: bold;
-}
-
 .filters-multi-list input{
     cursor: pointer;
 }
@@ -399,15 +396,15 @@ hr {
     padding: 3px 8px;
     line-height: 1.4;
     background-color: #ffffff;
-    color: #3B99FC;
+    color: #3B99FC !important;
     border: 1px solid #3B99FC;
     border-radius: 0 !important;
 }
 
-.filter-action-btn,.filter-action-btn:hover {
+.action-btn,.action-btn:hover {
     text-decoration: none;
     text-transform: uppercase;
-    color: #3B99FC
+    color: #3B99FC !important;
 }
 
 .icon-trash {
@@ -438,4 +435,15 @@ hr {
 .isochrones-section .vs__search {
     height: 0;
     margin: 0;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.v-spinner {
+    z-index: 1000;
+    position: absolute;
+    left: 50%;
+    top: 50%;
 }

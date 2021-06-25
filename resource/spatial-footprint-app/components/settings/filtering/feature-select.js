@@ -15,18 +15,23 @@ const FeatureSelect = {
             searchString: ""
         }
     },
-    components: {
-        'v-select': VueSelect.VueSelect
-    },
     computed: {
+        sortedItems() {
+            return [...this.items].sort();
+        },
         isAllSelected() {
-            return _.isEqual(this.getFiltering, this.items);
+            return _.isEqual(this.filterWithSearchString(this.getFiltering || []), this.filterWithSearchString(this.items));
         },
         getFiltering() {
             return this.getModuleGetter('settings/getFiltering')[this.name];
         },
         getShortFiltering() {
-            return this.getFiltering?.map((v) => this.shortLabel(v)) || [];
+            return this.getFiltering?.map((v) => {
+                return {
+                    label: this.shortLabel(v),
+                    value: v
+                }
+            }) || [];
         }
     },
     methods: {
@@ -68,7 +73,12 @@ const FeatureSelect = {
             this.updateFilters([]);
         },
         selectOrDeselectAll() {
-            const newSelectedItems = this.isAllSelected ? [] : _.cloneDeep(this.items);
+            let newSelectedItems;
+            if (this.isAllSelected) {
+                newSelectedItems = this.getAllSelectedFilters().filter((f) => !this.isItemValid(f));
+            } else {
+                newSelectedItems = _.union(this.getAllSelectedFilters(), this.filterWithSearchString(this.items));
+            }
             this.updateFilters(newSelectedItems);
         },
         shortLabel(label) {
@@ -83,6 +93,9 @@ const FeatureSelect = {
         },
         isItemValid(item) {
             return item.match(new RegExp(`(.*)${this.searchString}(.*)`, "i"))
+        },
+        filterWithSearchString(items) {
+            return items.filter((it) => this.isItemValid(it));
         }
     },
     // language=HTML
@@ -111,7 +124,7 @@ const FeatureSelect = {
                         @click="selectOrDeselectAll()">
                         <span>All</span>
                     </div>
-                    <div class="feature-select-item" v-for="it in items" v-if="isItemValid(it)" :key="it">
+                    <div class="feature-select-item" v-for="it in sortedItems" v-if="isItemValid(it)" :key="it">
                         <input type="checkbox"
                         :value="it"
                         :checked="isItemSelected(it)"
@@ -124,7 +137,7 @@ const FeatureSelect = {
                 <v-select multiple class="filters-multi-list mb-2 flex-grow-1"
                     placeholder="No filters selected"
                     :value="getShortFiltering"
-                    @input="updateFilters($event)"
+                    @input="updateFilters($event.map(f => f.value))"
                     v-on:search:focus="showFilteringPanelAndFocus($event)"
                     :noDrop="true"
                     :searchable="false">

@@ -19,6 +19,8 @@ const getters = {
 }
 
 const mutations = {
+    activate: state => state.isActivated = true,
+    deactivate: state => state.isActivated = false,
     setOption(state, { optionName, optionValue }) {
         Vue.set(state, optionName, optionValue);
     },
