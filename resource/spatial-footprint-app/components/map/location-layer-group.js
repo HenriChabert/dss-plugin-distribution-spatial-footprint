@@ -50,7 +50,7 @@ const LocationLayerGroup = {
                 <info-popup
                     :id="location.id"
                     :filteringFeatures="location.filteringFeatures"
-                    :isCustomer="false">
+                    :moduleName="moduleName">
                 </info-popup>
             </l-marker>
             <dku-geo-json v-for="iso in getLocationActiveIsochrones(location.location_uuid, moduleName)"

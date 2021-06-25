@@ -45,7 +45,7 @@ const CustomerPane = {
                     <info-popup
                         :id="customer.id"
                         :filteringFeatures="customer.filteringFeatures"
-                        :isCustomer="true">
+                        moduleName="customer">
                     </info-popup>
                 </l-marker>
             </marker-cluster>

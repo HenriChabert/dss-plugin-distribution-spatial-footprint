@@ -396,15 +396,15 @@ hr {
     padding: 3px 8px;
     line-height: 1.4;
     background-color: #ffffff;
-    color: #3B99FC;
+    color: #3B99FC !important;
     border: 1px solid #3B99FC;
     border-radius: 0 !important;
 }
 
-.filter-action-btn,.filter-action-btn:hover {
+.action-btn,.action-btn:hover {
     text-decoration: none;
     text-transform: uppercase;
-    color: #3B99FC
+    color: #3B99FC !important;
 }
 
 .icon-trash {

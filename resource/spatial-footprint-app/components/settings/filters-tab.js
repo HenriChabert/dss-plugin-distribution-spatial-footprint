@@ -54,8 +54,8 @@ const FiltersTab = {
                     :showNames="true">
                 </filtering-section>
                 <div class="filters-actions d-flex align-items-center justify-content-around mt-3">
-                    <a href="javascript:void(0);" class="filter-action-btn ms-3" @click="showFilteringPanel"><i class="icon-plus-sign"></i> add filters</a>
-                    <a href="javascript:void(0);" class="filter-action-btn" @click="clearFilters">clear filters</a>
+                    <a href="javascript:void(0);" class="action-btn ms-3" @click="showFilteringPanel"><i class="icon-plus-sign"></i> add filters</a>
+                    <a href="javascript:void(0);" class="action-btn" @click="clearFilters">clear filters</a>
                 </div>
             </div>
             

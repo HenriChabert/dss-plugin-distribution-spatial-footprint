@@ -41,31 +41,38 @@ const DkuMap = {
         fitBounds() {
             if (this.$refs.features.mapObject.getLayers().length) {
                 this.bounds = this.$refs.features.mapObject.getBounds();
+                console.log(this.bounds);
                 this.$refs.map.mapObject.fitBounds(this.bounds);
             }
         },
         updateCustomers() {
-            this.$emit("update:isLoading", true);
             this.$store.dispatch(`customer/settings/fetchAvailableIdentifiers`, "customer");
             this.$store.dispatch('customer/settings/fetchAvailableFilteringFeatures', "customer");
-            this.$store.dispatch('getFilteredCustomers').then(() => {
-                this.$emit("update:isLoading", false);
-            });
-        }
+            this.$store.dispatch('getFilteredCustomers');
+        },
+        getModuleGetter(module, getter) {
+            return this.$store.getters.getModuleGetter(module, getter);
+        },
     },
     mounted() {
         this.unsubscribe = this.$store.subscribe((mutation, state) => {
             const location_updated = mutation.type.match(/(basic|competitor)\/settings\/(setFilteringFeature|setSamplingValue|setActivatedTab|setFilteringFilters)/);
             if (location_updated) {
-                this.$emit("update:isLoading", true);
-                this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
-                    this.$store.commit('updateCustomers', { newCustomers: [] });
-                    if (this.showCustomers) {
-                        this.updateCustomers();
+                let updateLocations = true;
+                if (location_updated[2] === "setFilteringFeature") {
+                    const activeTab = this.getModuleGetter(location_updated[1], "settings/getActivatedTab");
+                    if ((mutation.payload.featureName === "id" && activeTab === "filters") || (mutation.payload.featureName !== "id" && activeTab === "individuals")) {
+                        updateLocations = false;
                     }
-                }).then(() => {
-                    this.$emit("update:isLoading", false);
-                });
+                }
+                if (updateLocations) {
+                    this.$store.dispatch('getFilteredLocations', location_updated[1]).then(() => {
+                        this.$store.commit('updateCustomers', { newCustomers: [] });
+                        if (this.showCustomers) {
+                            this.updateCustomers();
+                        }
+                    });
+                }
             }
 
             if (mutation.type === "setActiveIsochrones") {
@@ -82,10 +89,7 @@ const DkuMap = {
             }
 
             if (mutation.type.match(/customer\/settings\/(setFilteringFeature|setSamplingValue)/)) {
-                this.$emit("update:isLoading", true);
-                this.$store.dispatch('getFilteredCustomers').then(() => {
-                    this.$emit("update:isLoading", false);
-                });
+                this.$store.dispatch('getFilteredCustomers');
             }
 
             if (mutation.type.match(/(updateLocations|updateCustomers)/)) {
