@@ -41,7 +41,6 @@ const DkuMap = {
         fitBounds() {
             if (this.$refs.features.mapObject.getLayers().length) {
                 this.bounds = this.$refs.features.mapObject.getBounds();
-                console.log(this.bounds);
                 this.$refs.map.mapObject.fitBounds(this.bounds);
             }
         },
