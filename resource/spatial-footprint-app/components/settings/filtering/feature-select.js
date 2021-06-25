@@ -15,9 +15,6 @@ const FeatureSelect = {
             searchString: ""
         }
     },
-    components: {
-        'v-select': VueSelect.VueSelect
-    },
     computed: {
         sortedItems() {
             return [...this.items].sort();

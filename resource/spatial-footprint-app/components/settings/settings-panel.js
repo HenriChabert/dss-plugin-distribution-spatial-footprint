@@ -12,7 +12,6 @@ const SettingsPanel = {
     name: "settings-panel",
     components: {
         'settings-form': SettingsForm,
-        'v-select': VueSelect.VueSelect,
         'filtering-panel': FilteringPanel
     },
     computed: {
@@ -109,18 +108,19 @@ const SettingsPanel = {
                             >
                             
                             <template #selected-option-container="{ option, deselect }">
-                              <div class="vs__selected">
-                                  {{ option.label }}
-                                  <button type="button"
-                                          :title="'Deselect ' + option.label"
-                                          :aria-label="'Deselect ' + option.label"
-                                          class="vs__deselect"
-                                          v-on:click="deselect(option)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" viewBox="0 0 7 7" fill="none">
-                                        <path d="M7 0.579687L6.42031 0L3.5 2.92031L0.579687 0L0 0.579687L2.92031 3.5L0 6.42031L0.579687 7L3.5 4.07969L6.42031 7L7 6.42031L4.07969 3.5L7 0.579687Z" fill="#222222"/>
-                                    </svg>
-                                  </button>
-                              </div>
+                                <span class="vs__selected">
+                                    {{ option.label }}
+                                    <button type="button"
+                                        :title="'Deselect ' + option.label"
+                                        :aria-label="'Deselect ' + option.label"
+                                        class="vs__deselect"
+                                        @click="deselect(option)"
+                                        ref="deselectButtons">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="7" viewBox="0 0 7 7" fill="none">
+                                            <path d="M7 0.579687L6.42031 0L3.5 2.92031L0.579687 0L0 0.579687L2.92031 3.5L0 6.42031L0.579687 7L3.5 4.07969L6.42031 7L7 6.42031L4.07969 3.5L7 0.579687Z" fill="#222222"/>
+                                        </svg>
+                                    </button>
+                                </span>
                             </template>
                             <template slot="open-indicator">
                                 <span><i class="icon-sort-down"></i></span>

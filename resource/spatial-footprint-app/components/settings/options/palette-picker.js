@@ -10,9 +10,6 @@ const PalettePicker = {
     props: {
         settingsModule: String
     },
-    components: {
-        'v-select': VueSelect.VueSelect
-    },
     methods: {
         getFirstColors(colors) {
             return colors.slice(0, 6);
