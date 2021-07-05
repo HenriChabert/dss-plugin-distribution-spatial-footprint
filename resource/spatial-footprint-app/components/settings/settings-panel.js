@@ -1,12 +1,5 @@
 import { SettingsForm } from './settings-form.js'
-import {FilteringPanel} from "./filtering/filtering-panel.js";
-
-const MEANS_OF_TRANSPORTATION = {
-    "car": ["driving-car", "driving-hgv"],
-    "hiking": ["foot-hiking"],
-    "bike": ["cycling-regular", "cycling-road", "cycling-mountain", "cycling-electric"],
-    "walking": ["foot-walking"]
-}
+import { FilteringPanel } from "./filtering/filtering-panel.js";
 
 const SettingsPanel = {
     name: "settings-panel",
@@ -67,10 +60,8 @@ const SettingsPanel = {
             this.visibleModules = this.isModuleVisible(moduleName) ? [] : [moduleName];
         },
         setMeanOfTransportation() {
-            const usedAPI = this.getProjectVariables.isochrones_api_to_use;
-            const usedMeanOfTransportation = this.getProjectVariables[`transportation_mode_${usedAPI}`];
-            const mappedMOT = _.pickBy(MEANS_OF_TRANSPORTATION, (v) => v.includes(usedMeanOfTransportation));
-            this.$store.commit('setMeanOfTransportation', { newMeanOfTransportation: Object.keys(mappedMOT)[0] })
+            const usedMeanOfTransportation = this.getProjectVariables["main_transportation_mode"];
+            this.$store.commit('setMeanOfTransportation', { newMeanOfTransportation: _.lowerCase(usedMeanOfTransportation) })
         },
     },
     mounted() {
