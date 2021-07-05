@@ -18,7 +18,7 @@ class DataHandler:
             self.customers_df = dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe().applymap(str)
         except Exception as err:
             self.customers_df = None
-        self.project_variables = dataiku.api_client().get_default_project().get_variables()["local"]
+        self.project_variables = dataiku.api_client().get_default_project().get_variables()["global"]
 
     def get_project_variables(self):
         return self.project_variables
