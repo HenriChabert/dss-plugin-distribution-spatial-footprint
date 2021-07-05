@@ -51,7 +51,8 @@ const SettingsForm = {
         },
         getModuleToggleTitle() {
             if (this.isDisabled) {
-                return `You must upload a dataset containing customers to use this functionality`
+                return `You must use customers locations data from the customers_dataset in order to use this functionality.
+Please upload it and process it through the Dataiku application menu.`
             } else if (this.getOptions.isActivated) {
                 return `Deactivate ${_.capitalize(this.moduleName)} feature`
             } else {
