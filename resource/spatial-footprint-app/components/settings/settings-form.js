@@ -16,7 +16,8 @@ const SettingsForm = {
     computed: {
         ...Vuex.mapGetters([
             'getLocations',
-            'getCustomers'
+            'getCustomers',
+            'hasCustomerDataset'
         ]),
         getOptions() {
             return this.getModuleGetter('getOptions');
@@ -44,6 +45,18 @@ const SettingsForm = {
         },
         getNumberItemsTotal() {
             return this.getModuleGetter("settings/getAvailableIdentifiers").length;
+        },
+        isDisabled() {
+            return this.isCustomerModule && !this.hasCustomerDataset;
+        },
+        getModuleToggleTitle() {
+            if (this.isDisabled) {
+                return `You must upload a dataset containing customers to use this functionality`
+            } else if (this.getOptions.isActivated) {
+                return `Deactivate ${_.capitalize(this.moduleName)} feature`
+            } else {
+                return `Activate ${_.capitalize(this.moduleName)} feature`
+            }
         }
     },
     methods: {
@@ -51,15 +64,17 @@ const SettingsForm = {
             return this.$store.getters.getModuleGetter(this.settingsModule, getter);
         },
         toggleSettingsForm() {
-            if (this.getOptions.isActivated) {
-            this.$emit("update:moduleVisibility");
+            if (this.getOptions.isActivated && !this.isDisabled) {
+                this.$emit("update:moduleVisibility");
             }
         },
         setOption (optionName, e) {
             this.$store.commit(`${this.settingsModule}/setOption`, {optionName, optionValue: e});
         },
         toggle() {
-            this.$store.commit(`${this.settingsModule}/${this.getOptions.isActivated ? "deactivate" : "activate"}`);
+            if (!this.isDisabled) {
+                this.$store.commit(`${this.settingsModule}/${this.getOptions.isActivated ? "deactivate" : "activate"}`);
+            }
         },
         setActivatedTab(newActivatedTab) {
             if (this.getActivatedTab !== newActivatedTab){
@@ -83,7 +98,7 @@ const SettingsForm = {
     template: `
         <div id="settings-form">
             <div class="settings-form-header d-flex justify-content-between" v-on:click="toggleSettingsForm">
-                <h4 class="d-flex align-items-center">
+                <h4 :class="['d-flex', 'align-items-center', { 'disabled-module': isDisabled }]">
                     <div class="me-2">
                         <i v-if="isVisible && getOptions.isActivated" class="icon-sort-down"></i>
                         <i v-else class="icon-sort-up"></i>
@@ -96,8 +111,10 @@ const SettingsForm = {
                 <div v-else class="ms-auto">
                     <v-toggle
                         :value="getOptions.isActivated"
+                        :disabled="isDisabled"
                         @input="toggle()"
-                        class="ms-3"></v-toggle>
+                        class="ms-3"
+                        :title="getModuleToggleTitle"></v-toggle>
                 </div>
             </div>
             <div class="settings-form-body container" v-show="isVisible">

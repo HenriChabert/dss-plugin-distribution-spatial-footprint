@@ -229,11 +229,11 @@ input[type="number"] {
 }
 
 .toggle-on{
-    background-color: #519AF5;
+    background-color: #3b99fc;
 }
 
 .toggle-off{
-    background-color: #CCCCCC;
+    background-color: #bbbbbb;
 }
 
 .toggle-wrapper {
@@ -247,6 +247,11 @@ input[type="number"] {
 
 .toggle-wrapper:focus {
     outline: 0;
+}
+
+.toggle-wrapper.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .toggle-background {
@@ -268,6 +273,11 @@ input[type="number"] {
     border-radius: 9999px;
     box-shadow:  0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform .4s ease;
+}
+
+.disabled-module {
+    color: #bbbbbb;
+    cursor: not-allowed;
 }
 
 #palette-picker .vs__dropdown-menu {

@@ -1,9 +1,14 @@
 const VToggle = {
     props: {
-        value:{
+        value: {
             type: Boolean,
             required: true
-        }
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        title: String
     },
     computed: {
         backgroundStyles() {
@@ -24,21 +29,19 @@ const VToggle = {
     template: `
         <div>
             <span
-                class="toggle-wrapper"
+                :class="['toggle-wrapper', { disabled }]"
                 role="checkbox"
                 :aria-checked="value.toString()"
                 tabindex="0"
                 @click="toggle"
                 @keydown.space.prevent="toggle"
-            >
-            <span
-                class="toggle-background"
-                :class="backgroundStyles"
-            />
-            <span
-                class="toggle-indicator"
-                :style="indicatorStyles" 
-            />
+                :title="title">
+                <span
+                    class="toggle-background"
+                    :class="backgroundStyles"/>
+                <span
+                    class="toggle-indicator"
+                    :style="indicatorStyles"/>
             </span>
         </div>
     `

@@ -39,6 +39,9 @@ const getters = {
     showCustomers: (state, getters, rootState, rootGetters) => {
         return rootGetters['customer/showCustomers']
     },
+    hasCustomerDataset: (state, getters, rootState, rootGetters) => {
+        return rootGetters['customer/settings/getAvailableFilteringFeatures'] !== null;
+    },
     getMeanOfTransportation: (state) => state.meanOfTransportation
 }
 

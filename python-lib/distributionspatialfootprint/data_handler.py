@@ -13,8 +13,11 @@ class DataHandler:
 
     def load_data(self):
         self.isochrones_df = dataiku.Dataset(constants.ISOCHRONES_DATASET_NAME).get_dataframe().applymap(str)
-        self.customers_df = dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe().applymap(str)
         self.locations_df = dataiku.Dataset(constants.LOCATIONS_DATASET_NAME).get_dataframe().applymap(str)
+        try:
+            self.customers_df = dataiku.Dataset(constants.CUSTOMERS_DATASET_NAME).get_dataframe().applymap(str)
+        except Exception as err:
+            self.customers_df = None
         self.project_variables = dataiku.api_client().get_default_project().get_variables()["local"]
 
     def get_project_variables(self):
@@ -28,6 +31,9 @@ class DataHandler:
         else:
             df_to_handle = self.locations_df
             no_filtering_columns = constants.LOCATIONS_NO_FILTERING_COLUMNS
+
+        if df_to_handle is None:
+            return None
 
         if 'pre_filters' in settings:
             df_to_handle = self.apply_filtering(df_to_handle, settings["pre_filters"])
@@ -114,7 +120,6 @@ class DataHandler:
             }
         } for isochrone in isochrones_df_unique.to_dict(orient='records')]
         return available_isochrones
-
 
 
 
