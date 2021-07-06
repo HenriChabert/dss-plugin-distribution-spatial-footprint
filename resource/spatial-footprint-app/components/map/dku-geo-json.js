@@ -36,16 +36,13 @@ const DkuGeoJson = {
         meanOfTransportationIcon() {
             return `../../resource/spatial-footprint-app/img/svg/icon-dku-${this.getMeanOfTransportation}.svg`;
         },
-        meanOfTransportationFromAPI() {
-            return this.getProjectVariables[`transportation_mode_${this.getProjectVariables.isochrones_api_to_use}`];
-        },
         popupContent() {
             const properties = this.iso.isochrone_data.properties;
             return `
             <div>
                 <ul class="popup-list">
                     <li><img src="../../resource/spatial-footprint-app/img/custom-marker.png" alt="custom marker" /> ${this.locationName}</li>
-                    <li><img src="${this.meanOfTransportationIcon}" alt="Mean of transportation" width="15px" height="15px"/> Isochrone ${this.iso.isochrone_amplitude} min (with ${this.meanOfTransportationFromAPI})</li>
+                    <li><img src="${this.meanOfTransportationIcon}" alt="Mean of transportation" width="15px" height="15px"/> Isochrone ${this.iso.isochrone_amplitude} min (${this.getMeanOfTransportation})</li>
                 </ul>
             </div>`
         },
