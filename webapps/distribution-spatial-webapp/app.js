@@ -1,0 +1,1 @@
+import "../../resource/spatial-footprint-app/app.js";

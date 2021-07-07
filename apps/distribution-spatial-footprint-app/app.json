@@ -1,0 +1,8 @@
+{
+    "meta": {
+        "label": "Distribution Spatial Footprint",
+        "description": "Distribution Spatial Footprint Dataiku App",
+        "icon": "icon-globe"
+    },
+    "appImageFilename": "img/dku-app-image.png"
+}
