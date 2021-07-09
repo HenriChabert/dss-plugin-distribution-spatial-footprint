@@ -29,7 +29,7 @@ const SettingsForm = {
             return this.settingsModule === "customer";
         },
         activationToggleLabel() {
-            return this.settingsModule === 'competitor' ? "Add competitor / other" : "Show customers";
+            return this.settingsModule === 'competitor' ? "Add comparator / other" : "Show customers";
         },
         showActivationToggle() {
             return this.settingsModule !== "basic";
